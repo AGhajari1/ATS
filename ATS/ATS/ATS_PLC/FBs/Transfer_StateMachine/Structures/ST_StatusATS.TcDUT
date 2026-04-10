@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <DUT Name="ST_StatusATS" Id="{d5c057e3-4410-4f65-ab19-3ec03c1e06ac}">
+    <Declaration><![CDATA[TYPE ST_StatusATS :
+STRUCT
+	OnGen				: BOOL := FALSE;
+	OnLine				: BOOL := FALSE;
+	OFF					: BOOL := FALSE;
+	Error				: BOOL := FALSE;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

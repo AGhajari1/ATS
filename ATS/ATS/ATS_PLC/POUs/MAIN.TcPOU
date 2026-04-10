@@ -3,11 +3,37 @@
   <POU Name="MAIN" Id="{405df66f-219d-4974-b981-37f47313f99f}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	Transfer_SM					: FB_Transfer;
+	INIT 						: BOOL:=TRUE;
+	ATS							: FB_Transfer;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Transfer_SM();]]></ST>
+      <ST><![CDATA[M_Definition();
+
+ATS();
+
+INIT:= FALSE;]]></ST>
     </Implementation>
+    <Method Name="M_Definition" Id="{a4727d6c-1b20-48b4-a9a9-be093d4163fe}">
+      <Declaration><![CDATA[METHOD M_Definition
+VAR_INPUT
+END_VAR
+
+VAR
+	INIT: BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF INIT THEN
+	ATS.P_Definition.Name				:= 'ATS';
+	ATS.P_Definition.Description		:= 'Automatic Transfer switch';
+	ATS.P_Definition.Location			:= '';
+	ATS.P_Definition.Tag				:= 'ATS01';
+	ATS.P_Definition.Rating_V			:= '600 V';
+	ATS.P_Definition.Rating_In			:= '3000 A';
+	ATS.P_Definition.Rating_kA			:= '50 kA';
+	ATS.P_Definition.Rating_If			:= '3200 A';
+END_IF]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>

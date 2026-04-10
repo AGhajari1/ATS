@@ -63,6 +63,18 @@
     <Compile Include="FBs\Transfer_StateMachine\FB_Transfer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FBs\Transfer_StateMachine\Structures\ST_CommandsATS.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs\Transfer_StateMachine\Structures\ST_ConfigATS.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs\Transfer_StateMachine\Structures\ST_DefinitionATS.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs\Transfer_StateMachine\Structures\ST_StatusATS.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
@@ -81,6 +93,7 @@
     <Folder Include="FBs\Breaker" />
     <Folder Include="FBs\Transfer_StateMachine" />
     <Folder Include="FBs\Transfer_StateMachine\ENUM" />
+    <Folder Include="FBs\Transfer_StateMachine\Structures" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>

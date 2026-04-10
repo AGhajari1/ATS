@@ -4,23 +4,29 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Transfer
 VAR
 	INIT									: BOOL := TRUE;
+	Definition								: ST_DefinitionATS;
+	Config									: ST_ConfigATS;
+	Status	 								: ST_StatusATS;
+	
 	MCM_Voltmeter							: FB_MCM_VoltMeter;	
 	GenCB									: FB_EmaxBreakerBase;
 	LineCB									: FB_EmaxBreakerBase;
+	
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[_M_LineCB();
-_M_GenCB();
-_M_MCM_Voltmeter();
+      <ST><![CDATA[M_LineCB();
+M_GenCB();
+M_MCM_Voltmeter();
 
-
+M_StateMachine();
 
 INIT:= FALSE;]]></ST>
     </Implementation>
     <Folder Name="Devices" Id="{0f8978a1-dd06-4f57-828d-45828f0df427}" />
-    <Method Name="_M_GenCB" Id="{1b42c6b1-77a5-4799-a20f-060ab13156d7}" FolderPath="Devices\">
-      <Declaration><![CDATA[METHOD PRIVATE _M_GenCB
+    <Method Name="M_GenCB" Id="{1b42c6b1-77a5-4799-a20f-060ab13156d7}" FolderPath="Devices\">
+      <Declaration><![CDATA[METHOD PRIVATE M_GenCB
 
 ]]></Declaration>
       <Implementation>
@@ -41,8 +47,8 @@ END_IF
 GenCB();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="_M_LineCB" Id="{d32d701a-8eee-4a2f-92c1-00a9f6395687}" FolderPath="Devices\">
-      <Declaration><![CDATA[METHOD PRIVATE _M_LineCB
+    <Method Name="M_LineCB" Id="{d32d701a-8eee-4a2f-92c1-00a9f6395687}" FolderPath="Devices\">
+      <Declaration><![CDATA[METHOD PRIVATE M_LineCB
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -64,8 +70,8 @@ END_IF
 LineCB();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="_M_MCM_Voltmeter" Id="{1c308eb5-3302-48f4-893e-e4854e19c19f}" FolderPath="Devices\">
-      <Declaration><![CDATA[METHOD PRIVATE _M_MCM_Voltmeter
+    <Method Name="M_MCM_Voltmeter" Id="{1c308eb5-3302-48f4-893e-e4854e19c19f}" FolderPath="Devices\">
+      <Declaration><![CDATA[METHOD PRIVATE M_MCM_Voltmeter
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -77,5 +83,48 @@ END_IF
 MCM_Voltmeter();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_StateMachine" Id="{7309beaf-6981-4895-822f-b929ea1bb9d2}">
+      <Declaration><![CDATA[METHOD PRIVATE M_StateMachine
+VAR
+	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Config" Id="{c80d9a0c-3599-4a11-9022-6117c18866c2}">
+      <Declaration><![CDATA[PROPERTY P_Config : Reference to ST_ConfigATS]]></Declaration>
+      <Get Name="Get" Id="{5778912d-d3ee-48e9-b67c-82bcd998eec8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Config REF= Config;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Definition" Id="{7f2795b3-2ccd-4ff9-b3a8-aad7c0820849}">
+      <Declaration><![CDATA[PROPERTY P_Definition : Reference to St_DefinitionATS]]></Declaration>
+      <Get Name="Get" Id="{5a9443a8-a762-474f-b3e3-dc764f4fdfd6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Definition REF= Definition;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Status" Id="{e3785303-aa6f-4f89-a6c6-9dbd315bb014}">
+      <Declaration><![CDATA[PROPERTY P_Status : Reference to St_StatusATS]]></Declaration>
+      <Get Name="Get" Id="{ee383ea1-55b9-4c62-aae0-d4a4cbc1ce48}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Status REF= Status;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
   </POU>
 </TcPlcObject>

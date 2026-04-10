@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <DUT Name="ST_DefinitionATS" Id="{48415e7a-df13-4c3d-89fb-ec3830f71716}">
+    <Declaration><![CDATA[TYPE ST_DefinitionATS :
+STRUCT
+	Name						: STRING := '';
+	Description					: STRING := '';
+	Tag							: STRING := 'CBXXX';
+	Location					: STRING := 'DPXXX';
+	Rating_V					: STRING := 'XXXXV';
+	Rating_In					: STRING := 'XXXXA';
+	Rating_If					: STRING := 'XXXXA';
+	Rating_kA					: STRING := 'XXkA';
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
