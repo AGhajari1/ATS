@@ -8,6 +8,12 @@ STRUCT
 	GenReadyDelay			    : TIME := T#5S;
 	AutoReturnToLine			: BOOL := TRUE;
 	Automatic					: BOOL := TRUE;
+
+	OffTransitionTime		    : TIME := T#1S;
+	ToGenTransitionTime		    : TIME := T#1S;
+	ToLineTransitionTime	    : TIME := T#1S;
+	
+
 END_STRUCT
 END_TYPE
 ]]></Declaration>

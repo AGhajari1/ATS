@@ -4,11 +4,15 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	INIT 						: BOOL:=TRUE;
+	SystemTimeString			: STRING(255):='';
 	ATS							: FB_Transfer;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[M_Definition();
+      <ST><![CDATA[
+M_SystemTime();
+
+M_Definition();
 
 ATS();
 
@@ -32,7 +36,28 @@ END_VAR]]></Declaration>
 	ATS.P_Definition.Rating_In			:= '3000 A';
 	ATS.P_Definition.Rating_kA			:= '50 kA';
 	ATS.P_Definition.Rating_If			:= '3200 A';
+	
+	
+	ATS.P_Config.Automatic				:= TRUE;
+	ATS.P_Config.AutoReturnToLine		:= TRUE;
+	ATS.P_Config.GenReadyDelay			:= T#10S;
+	ATS.P_Config.GenStartDelay			:= T#10S;
+	ATS.P_Config.ReturnToLineDelay		:= T#10S;
+	ATS.P_Config.ToGenTransitionTime	:= T#2S;
+	ATS.P_Config.ToGenTransitionTime	:= T#2S;
+	ATS.P_Config.OffTransitionTime		:= T#2S;
+	
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_SystemTime" Id="{5c1f662a-5f9e-490e-a302-abc18b658aff}">
+      <Declaration><![CDATA[METHOD M_SystemTime
+VAR_INST
+	fbTime   					: FB_LocalSystemTime;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbTime( bEnable := TRUE, dwCycle := 1);
+SystemTimeString:= SYSTEMTIME_TO_STRING(fbTime.systemTime);]]></ST>
       </Implementation>
     </Method>
   </POU>

@@ -11,10 +11,13 @@ VAR
 	MCM_Voltmeter							: FB_MCM_VoltMeter;	
 	GenCB									: FB_EmaxBreakerBase;
 	LineCB									: FB_EmaxBreakerBase;
-	
-	
+		
 END_VAR
-]]></Declaration>
+
+VAR PERSISTENT
+	CurrentState							: E_TransferState := E_TransferState.ATS_OFF;
+	Error									: ST_Error;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[M_LineCB();
 M_GenCB();
@@ -90,7 +93,14 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[CASE CurrentState OF
+	E_TransferState.ATS_OFF:
+		//
+	E_TransferState.ATS_ON_GEN:
+		//
+	E_TransferState.ATS_ON_LINE:
+		//
+END_CASE]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Config" Id="{c80d9a0c-3599-4a11-9022-6117c18866c2}">

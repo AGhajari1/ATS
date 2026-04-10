@@ -6,9 +6,9 @@
 {attribute 'to_string'}
 TYPE E_TransferState :
 (
-	OFF 	:= 0,
-	GEN 	:= 10,
-	LINE	:= 20
+	ATS_OFF 	:= 0,
+	ATS_ON_GEN 	:= 10,
+	ATS_ON_LINE	:= 20
 );
 END_TYPE
 ]]></Declaration>

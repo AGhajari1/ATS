@@ -12,6 +12,9 @@ VAR
 	Opening_Timer						: TON;
 	Closing_Timer						: TON;
 	
+	CloseCommand						: BOOL:= TRUE;
+	OpenCommand							: BOOL:= TRUE;
+	
 	Reset								: BOOL:= FALSE;
 END_VAR
 ]]></Declaration>
@@ -19,9 +22,33 @@ END_VAR
       <ST><![CDATA[M_IO();
 M_Errors();
 
+IF CloseCommand THEN
+	IF NOT status.Error.Error AND Status.CB_Ready.P_Status.P_Value AND NOT Status.CB_Closed.P_Status.P_Value AND NOT Status.CB_Tripped.P_Status.P_Value THEN
+		Commands.Close.ON();
+		Commands.Open();
+	END_IF
+	Closecommand:= FALSE;
+END_IF
+
+IF OpenCommand THEN
+	IF NOT status.Error.Error AND Status.CB_Ready.P_Status.P_Value AND NOT Status.CB_Open.P_Status.P_Value AND NOT Status.CB_Tripped.P_Status.P_Value THEN
+		Commands.Close.OFF();
+		Commands.Open.ON();
+	END_IF
+	Opencommand:= FALSE;
+END_IF
+
+
 INIT:= FALSE;]]></ST>
     </Implementation>
     <Folder Name="Public" Id="{26453177-e044-4ad9-8017-93c69d1c2b3c}" />
+    <Method Name="M_Close" Id="{bbca56a3-dcd7-4448-a86e-11a8b1266cee}" FolderPath="Public\">
+      <Declaration><![CDATA[METHOD PUBLIC M_Close
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CloseCommand:= TRUE;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_Errors" Id="{81017dd7-180d-47a4-b8d1-3bc45cf65e22}">
       <Declaration><![CDATA[METHOD PRIVATE M_Errors
 ]]></Declaration>
@@ -32,7 +59,8 @@ Opening_Timer.IN:= Commands.Open.P_Status.P_Value;
 Opening_Timer();
 
 IF Opening_Timer.Q AND status.CB_Open.P_Status.P_Value THEN
-	status.Error:= TRUE;
+	status.Error.Error:= TRUE;
+	Status.Error.Reason:= 'CB Opening Timeout';
 END_IF
 
 //closing time out
@@ -41,17 +69,26 @@ Closing_Timer.IN:= Commands.Close.P_Status.P_Value;
 Closing_Timer();
 
 IF Closing_Timer.Q AND status.CB_Closed.P_Status.P_Value THEN
-	status.Error:= TRUE;
+	status.Error.Error:= TRUE;
+	Status.Error.Reason:= 'CB Closing Timeout';
 END_IF
 
 //Breaker fault input
 IF Status.CB_Fault.P_Status.P_Value THEN
-	Status.Error:=TRUE;
+	Status.Error.Error:=TRUE;
+	Status.Error.Reason:= 'CB Faulted';
+END_IF
+
+//Breaker Tripped
+IF Status.CB_Tripped.P_Status.P_Value THEN
+	Status.Error.Error:=TRUE;
+	Status.Error.Reason:= 'CB Tripped';
 END_IF
 
 //Global reset
 IF Reset  THEN
-	status.Error:= FALSE;
+	status.Error.Error:= FALSE;
+	status.Error.Reason:= '';
 	Reset:= FALSE;
 END_IF]]></ST>
       </Implementation>
@@ -82,6 +119,14 @@ Status.CB_Fault();
 Status.CB_Open();
 Status.CB_Ready();
 Status.CB_Tripped();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Open" Id="{1f976e73-2ab5-4c28-a52a-ef8fd3e28a84}" FolderPath="Public\">
+      <Declaration><![CDATA[METHOD PUBLIC M_Open
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[OpenCommand:= TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Reset" Id="{abc78dea-68b8-4b62-92d7-bbad0facc7de}" FolderPath="Public\">

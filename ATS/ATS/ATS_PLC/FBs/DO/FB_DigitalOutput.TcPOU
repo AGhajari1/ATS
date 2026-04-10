@@ -15,6 +15,21 @@ END_VAR
 
 INIT:= FALSE;]]></ST>
     </Implementation>
+    <Folder Name="Public" Id="{fea2f1da-774f-4ab8-8cc6-9a4a7ebd4e17}" />
+    <Method Name="OFF" Id="{e8bb67f4-9088-4436-a165-7b49b14ebab5}" FolderPath="Public\">
+      <Declaration><![CDATA[METHOD PUBLIC OFF
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[P_Status.P_Value:=FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ON" Id="{77e17cb1-d36c-4b5d-bae2-34ab2deaa5df}" FolderPath="Public\">
+      <Declaration><![CDATA[METHOD PUBLIC ON
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[status.P_Value:=TRUE;]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="P_Definition" Id="{0140cc2b-c530-4d22-8af4-5137be78274d}">
       <Declaration><![CDATA[PROPERTY P_Definition : REFERENCE TO St_DefinitionDO
 ]]></Declaration>
