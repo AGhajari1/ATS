@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <POU Name="Transfer" Id="{80f70b09-74c0-4147-96f3-c563c02f3aad}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Transfer
+VAR
+	MCM_Voltmeter							: MCM_Voltmeter;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[MCM_Voltmeter();]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
