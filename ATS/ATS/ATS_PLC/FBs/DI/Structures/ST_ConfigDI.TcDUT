@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <DUT Name="ST_ConfigDI" Id="{d46b92af-20d1-42ec-a8a7-0be72c9616ed}">
+    <Declaration><![CDATA[TYPE ST_ConfigDI :
+STRUCT
+	DebounceON_Duration			: TIME := T#100MS;
+	DebounceOFF_Duration		: TIME := T#100ms;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

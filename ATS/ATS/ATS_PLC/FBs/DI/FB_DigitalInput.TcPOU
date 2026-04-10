@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <POU Name="FB_DigitalInput" Id="{e63caefc-c06f-42b4-b727-3669fb887886}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_DigitalInput
+VAR
+	INIT						: BOOL:= TRUE;
+	HardwareLink		AT%I*	: BOOL;
+	
+	Definition					: ST_DefinitionDI;
+	Config						: ST_ConfigDI;
+	Status						: ST_StatusDI;
+	
+	DebounceOn_Timer			: TON;
+	DebounceOff_timer			: TON;
+	RawValue					: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[status.RawValue:= HardwareLink;
+
+M_Debounce();
+
+IF DebounceOn_Timer.Q THEN
+	Status.P_Value:= TRUE;
+END_IF
+
+
+IF DebounceOff_Timer.Q THEN
+	Status.P_Value:= FALSE;
+END_IF
+
+INIT:= FALSE;]]></ST>
+    </Implementation>
+    <Method Name="M_Debounce" Id="{75fb7180-bbb1-4f51-92de-684c31a84209}">
+      <Declaration><![CDATA[METHOD PRIVATE M_Debounce
+VAR
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[DebounceOn_Timer.PT := config.DebounceON_Duration;
+DebounceOn_Timer.IN := Status.RawValue;
+DebounceOn_Timer();
+
+DebounceOff_Timer.PT := config.DebounceOff_Duration;
+DebounceOff_Timer.IN := NOT Status.RawValue;
+DebounceOff_Timer();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="P_Config" Id="{e675c2c9-476e-4d90-80f8-c43aa3a67a84}">
+      <Declaration><![CDATA[PROPERTY P_Config : Reference to ST_ConfigDI]]></Declaration>
+      <Get Name="Get" Id="{80965f65-aa8f-494b-afff-15eb9bf6c4d5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Config REF= Config;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Definition" Id="{e2c54b50-256e-401a-bd18-e487750899f9}">
+      <Declaration><![CDATA[PROPERTY P_Definition : Reference to St_DefinitionDI]]></Declaration>
+      <Get Name="Get" Id="{5d95952f-9bed-4b06-95e7-2f5fb23b5199}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Definition REF= Definition;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Status" Id="{517b8492-3adc-45ea-a4c5-c087777c1863}">
+      <Declaration><![CDATA[PROPERTY P_Status : Reference to St_StatusDI]]></Declaration>
+      <Get Name="Get" Id="{e31f02e9-57cf-4666-8cd1-937b3d771bb3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Status REF= Status;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

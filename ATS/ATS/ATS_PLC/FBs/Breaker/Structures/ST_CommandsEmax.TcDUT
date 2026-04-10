@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <DUT Name="ST_CommandsEmax" Id="{8275fa10-84a5-448a-97ff-d9718f09df9d}">
+    <Declaration><![CDATA[TYPE ST_CommandsEmax :
+STRUCT
+	Open				: FB_DigitalOutput;
+	Close				: FB_DigitalOutput;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

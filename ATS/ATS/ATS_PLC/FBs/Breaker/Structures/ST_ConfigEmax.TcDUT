@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <DUT Name="ST_ConfigEmax" Id="{1220d300-332e-48ef-992d-e9563d86920e}">
+    <Declaration><![CDATA[TYPE ST_ConfigEmax :
+STRUCT
+	Opening_Duration			: TIME := T#500MS;
+	Closing_Duration		    : TIME := T#500MS;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

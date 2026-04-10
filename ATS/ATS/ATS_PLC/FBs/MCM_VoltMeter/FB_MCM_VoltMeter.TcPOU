@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
-  <POU Name="MCM_VoltMeter" Id="{1ca84450-dc7b-43bd-b6b9-283fa8345226}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MCM_VoltMeter
+  <POU Name="FB_MCM_VoltMeter" Id="{1ca84450-dc7b-43bd-b6b9-283fa8345226}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MCM_VoltMeter
 VAR
 	INIT						: BOOL:=TRUE;
 END_VAR

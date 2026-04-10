@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <POU Name="FB_Transfer" Id="{80f70b09-74c0-4147-96f3-c563c02f3aad}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Transfer
+VAR
+	INIT									: BOOL := TRUE;
+	MCM_Voltmeter							: FB_MCM_VoltMeter;	
+	GenCB									: FB_EmaxBreakerBase;
+	LineCB									: FB_EmaxBreakerBase;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[_M_LineCB();
+_M_GenCB();
+_M_MCM_Voltmeter();
+
+
+
+INIT:= FALSE;]]></ST>
+    </Implementation>
+    <Folder Name="Devices" Id="{0f8978a1-dd06-4f57-828d-45828f0df427}" />
+    <Method Name="_M_GenCB" Id="{1b42c6b1-77a5-4799-a20f-060ab13156d7}" FolderPath="Devices\">
+      <Declaration><![CDATA[METHOD PRIVATE _M_GenCB
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF INIT THEN
+	GenCB.P_Definition.Name					:= 'Gen CB';
+	GenCB.P_Definition.Description			:= 'Generator Circuit Breaker';
+	GenCB.P_Definition.Location				:= 'ATS';
+	GenCB.P_Definition.Tag					:= 'CB_GEN';
+	GenCB.P_Definition.Rating_V				:= '600 V';
+	GenCB.P_Definition.Rating_In			:= '3000 A';
+	GenCB.P_Definition.Rating_If			:= '3200 A';
+	GenCB.P_Definition.Rating_kA			:= '50 kA';
+	
+	GenCB.P_Config.Opening_Duration			:= T#100MS;
+	GenCB.P_Config.Closing_Duration			:= T#100MS;
+END_IF
+
+GenCB();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="_M_LineCB" Id="{d32d701a-8eee-4a2f-92c1-00a9f6395687}" FolderPath="Devices\">
+      <Declaration><![CDATA[METHOD PRIVATE _M_LineCB
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF INIT THEN
+	LineCB.P_Definition.Name					:= 'Line CB';
+	LineCB.P_Definition.Description				:= 'Line Circuit Breaker';
+	LineCB.P_Definition.Location				:= 'ATS';
+	LineCB.P_Definition.Tag						:= 'CB_LINE';
+	LineCB.P_Definition.Rating_V				:= '600 V';
+	LineCB.P_Definition.Rating_In				:= '3000 A';
+	LineCB.P_Definition.Rating_If				:= '3200 A';
+	LineCB.P_Definition.Rating_kA				:= '50 kA';
+	
+	LineCB.P_Config.Opening_Duration			:= T#100MS;
+	LineCB.P_Config.Closing_Duration			:= T#100MS;
+END_IF
+
+LineCB();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="_M_MCM_Voltmeter" Id="{1c308eb5-3302-48f4-893e-e4854e19c19f}" FolderPath="Devices\">
+      <Declaration><![CDATA[METHOD PRIVATE _M_MCM_Voltmeter
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF INIT THEN
+	//def
+END_IF
+
+MCM_Voltmeter();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

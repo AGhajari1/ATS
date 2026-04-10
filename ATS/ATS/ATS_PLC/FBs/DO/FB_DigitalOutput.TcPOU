@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <POU Name="FB_DigitalOutput" Id="{5afefc1b-465d-4bfa-a457-68d6759d7fe7}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_DigitalOutput
+VAR
+	INIT						: BOOL:= TRUE;
+	HardwareLink		AT%Q*	: BOOL;
+	
+	Definition					: ST_DefinitionDO;
+	Status						: ST_StatusDO;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[HardwareLink:= Status.P_Value;
+
+INIT:= FALSE;]]></ST>
+    </Implementation>
+    <Property Name="P_Definition" Id="{0140cc2b-c530-4d22-8af4-5137be78274d}">
+      <Declaration><![CDATA[PROPERTY P_Definition : REFERENCE TO St_DefinitionDO
+]]></Declaration>
+      <Get Name="Get" Id="{ab157408-f664-484e-9933-a35c9c915a9d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Definition REF= Definition;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Status" Id="{ac5f0ed0-3079-4f2b-8dfd-4571930b44d3}">
+      <Declaration><![CDATA[PROPERTY P_Status : REFERENCE TO St_StatusDO
+]]></Declaration>
+      <Get Name="Get" Id="{bb85993c-2c57-444b-bbc1-5216b43e516e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Status REF= Status;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

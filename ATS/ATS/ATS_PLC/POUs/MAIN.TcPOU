@@ -3,11 +3,11 @@
   <POU Name="MAIN" Id="{405df66f-219d-4974-b981-37f47313f99f}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	Transfer					: Transfer;
+	Transfer_SM					: FB_Transfer;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Transfer();]]></ST>
+      <ST><![CDATA[Transfer_SM();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

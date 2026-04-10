@@ -1,5 +1,6 @@
 # =============================================================
-#  TwinCAT 4026 .gitignore
+#  TwinCAT 4026 .gitignore  (extension-based, folder-safe)
+#  Any folder you create will be tracked by Git.
 # =============================================================
 
 # ---------------------------------------------------------------
@@ -12,45 +13,27 @@
 *.sln.docstates
 
 # ---------------------------------------------------------------
-# TwinCAT Build Output
+# TwinCAT compiled / auto-generated files (safe to exclude)
 # ---------------------------------------------------------------
-_Boot/
-_CompileInfo/
-_Libraries/
-_ModuleInstances/
-
-# TwinCAT compiled object files
 *.compiled-library
 *.compileinfo
 *.tpzip
-
-# ---------------------------------------------------------------
-# TwinCAT Temp / Auto-generated files
-# ---------------------------------------------------------------
-# ATS (Azure Test Store / VS File Content Index)
-ATS/
-.vs/ATS/
-
-# Project auto-generated files
 *.tpy
 *.tmc
 *.tmx
-
-# TwinCAT target system files (generated on deploy)
-Port_*/
 *.sdb
 
 # ---------------------------------------------------------------
-# PLC Backup / Archive files
+# TwinCAT backup files
 # ---------------------------------------------------------------
 *.PLCbackup
-*.tpzip
+*.tsproj.bak
+*.plcproj.bak
 *.zip.bak
 
 # ---------------------------------------------------------------
-# TwinCAT HMI (TE2000) build output
+# TwinCAT HMI (TE2000)
 # ---------------------------------------------------------------
-BinHmi/
 *.tchmi-theme-cache
 
 # ---------------------------------------------------------------
@@ -58,19 +41,6 @@ BinHmi/
 # ---------------------------------------------------------------
 *.svdx
 *.svd
-
-# ---------------------------------------------------------------
-# TwinCAT Analytics (TE3500)
-# ---------------------------------------------------------------
-*.ta-cache
-
-# ---------------------------------------------------------------
-# TwinCAT Source Control specifics
-# ---------------------------------------------------------------
-# Exclude auto-generated GUID/version info that changes on every build
-# (keep .tsproj and .plcproj tracked)
-*.tsproj.bak
-*.plcproj.bak
 
 # ---------------------------------------------------------------
 # OS / General
