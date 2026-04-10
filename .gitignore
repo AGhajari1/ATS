@@ -1,0 +1,83 @@
+# =============================================================
+#  TwinCAT 4026 .gitignore
+# =============================================================
+
+# ---------------------------------------------------------------
+# Visual Studio / IDE local settings
+# ---------------------------------------------------------------
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ---------------------------------------------------------------
+# TwinCAT Build Output
+# ---------------------------------------------------------------
+_Boot/
+_CompileInfo/
+_Libraries/
+_ModuleInstances/
+
+# TwinCAT compiled object files
+*.compiled-library
+*.compileinfo
+*.tpzip
+
+# ---------------------------------------------------------------
+# TwinCAT Temp / Auto-generated files
+# ---------------------------------------------------------------
+# ATS (Azure Test Store / VS File Content Index)
+ATS/
+.vs/ATS/
+
+# Project auto-generated files
+*.tpy
+*.tmc
+*.tmx
+
+# TwinCAT target system files (generated on deploy)
+Port_*/
+*.sdb
+
+# ---------------------------------------------------------------
+# PLC Backup / Archive files
+# ---------------------------------------------------------------
+*.PLCbackup
+*.tpzip
+*.zip.bak
+
+# ---------------------------------------------------------------
+# TwinCAT HMI (TE2000) build output
+# ---------------------------------------------------------------
+BinHmi/
+*.tchmi-theme-cache
+
+# ---------------------------------------------------------------
+# TwinCAT Scope (TE1300) recordings
+# ---------------------------------------------------------------
+*.svdx
+*.svd
+
+# ---------------------------------------------------------------
+# TwinCAT Analytics (TE3500)
+# ---------------------------------------------------------------
+*.ta-cache
+
+# ---------------------------------------------------------------
+# TwinCAT Source Control specifics
+# ---------------------------------------------------------------
+# Exclude auto-generated GUID/version info that changes on every build
+# (keep .tsproj and .plcproj tracked)
+*.tsproj.bak
+*.plcproj.bak
+
+# ---------------------------------------------------------------
+# OS / General
+# ---------------------------------------------------------------
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.log
+*.tmp
+*~
