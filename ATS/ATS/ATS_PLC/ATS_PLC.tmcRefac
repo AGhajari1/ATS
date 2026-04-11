@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedSymbol>
+      <Type guid="b84595d3-9f58-46c1-ac2e-e1607073fc55">WordsToReal</Type>
+      <From>wHigh</From>
+      <To>High</To>
+    </RenamedSymbol>
+    <RenamedSymbol>
+      <Type guid="b84595d3-9f58-46c1-ac2e-e1607073fc55">WordsToReal</Type>
+      <From>wLow</From>
+      <To>Low</To>
+    </RenamedSymbol>
+    <RenamedSymbol>
+      <Type guid="39cee267-2750-4bcd-8e56-1fd13e05b748">UNION_DWORD_REAL</Type>
+      <From>dwValue</From>
+      <To>Value_Word</To>
+    </RenamedSymbol>
+    <RenamedSymbol>
+      <Type guid="39cee267-2750-4bcd-8e56-1fd13e05b748">UNION_DWORD_REAL</Type>
+      <From>fValue</From>
+      <To>Value_Real</To>
+    </RenamedSymbol>
+    <RenamedSymbol>
+      <Type guid="b84595d3-9f58-46c1-ac2e-e1607073fc55">WordsToReal</Type>
+      <From>u</From>
+      <To>DataUnion</To>
+    </RenamedSymbol>
+  </Renames>
+</Refactors>

@@ -28,14 +28,14 @@ END_VAR]]></Declaration>
       <ST><![CDATA[M_LineCB();
 M_GenCB();
 MCM_Line(
-    bEnable    := ReadlineMCM,
-    nSlaveAddr := 1,
-    tTimeout   := T#1S
+    Enable    := ReadlineMCM,
+    SlaveAddr := 1,
+    Timeout   := T#1S
 );
 MCM_Gen(
-    bEnable    := ReadGenMCM,
-    nSlaveAddr := 1,
-    tTimeout   := T#1S
+    Enable    := ReadGenMCM,
+    SlaveAddr := 1,
+    Timeout   := T#1S
 );
 
 M_StateMachine();
