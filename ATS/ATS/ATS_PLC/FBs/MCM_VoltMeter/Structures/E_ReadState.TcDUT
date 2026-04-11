@@ -6,17 +6,12 @@
 {attribute 'to_string'}
 TYPE E_ReadState :
 (
-	Idle        := 0,
-    ReadBankA   := 1,
-    WaitBankA   := 2,
-    ResetBankB  := 3,    
-    ReadBankB   := 4,
-    WaitBankB   := 5,
-    ResetBankC  := 6,  
-    ReadBankC   := 7,
-    WaitBankC   := 8,
-    ParseAll    := 9,
-    ErrorDelay  := 10
+	Idle        	:= 0,
+    ReadData   		:= 1,
+    WaitForData   	:= 2,
+	ResetRead		:= 3,
+    ParseAll    	:= 9,
+    ErrorDelay  	:= 10
 );
 END_TYPE]]></Declaration>
   </DUT>

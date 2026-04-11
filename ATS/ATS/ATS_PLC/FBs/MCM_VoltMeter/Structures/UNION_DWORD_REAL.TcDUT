@@ -3,7 +3,7 @@
   <DUT Name="UNION_DWORD_REAL" Id="{39cee267-2750-4bcd-8e56-1fd13e05b748}">
     <Declaration><![CDATA[TYPE UNION_DWORD_REAL :
 UNION
-    Value_Word : DWORD;
+    Value_Word 	: DWORD;
     Value_Real  : REAL;
 END_UNION
 END_TYPE]]></Declaration>
