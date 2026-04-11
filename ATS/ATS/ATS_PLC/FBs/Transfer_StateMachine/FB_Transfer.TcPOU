@@ -10,10 +10,8 @@ VAR
 	
 	MCM_Line								: FB_MCM_V_Mx_ModbusRTU;
 	MCM_Gen									: FB_MCM_V_Mx_ModbusRTU;
-	ReadGenMCM								: BOOL;	
-	ReadlineMCM								: BOOL;	
-
-	
+	ReadGenMCM								: BOOL := TRUE;	
+	ReadlineMCM								: BOOL := TRUE;	
 	
 	GenCB									: FB_EmaxBreakerBase;
 	LineCB									: FB_EmaxBreakerBase;
@@ -27,16 +25,7 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[M_LineCB();
 M_GenCB();
-MCM_Line(
-    Enable    := ReadlineMCM,
-    SlaveAddr := 1,
-    Timeout   := T#1S
-);
-MCM_Gen(
-    Enable    := ReadGenMCM,
-    SlaveAddr := 1,
-    Timeout   := T#1S
-);
+M_MCM_Voltmeter();
 
 M_StateMachine();
 
@@ -90,15 +79,34 @@ LineCB();]]></ST>
     </Method>
     <Method Name="M_MCM_Voltmeter" Id="{1c308eb5-3302-48f4-893e-e4854e19c19f}" FolderPath="Devices\">
       <Declaration><![CDATA[METHOD PRIVATE M_MCM_Voltmeter
-VAR_INPUT
-END_VAR
-]]></Declaration>
+VAR_INST
+	LastLineDataCount	: UDINT;
+	LastGenDataCount	: UDINT;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF INIT THEN
-	//def
+	MCM_Line.P_Definition.Name			:= 'MCM-V-Mx 1';
+	MCM_Line.P_Definition.Description	:= 'Line Side Voltage Meter';
+	MCM_Line.P_Definition.Tag			:= 'PT01';
+	MCM_Line.P_Config.RetryTime			:= T#3000MS;
+	MCM_Line.P_Config.SlaveAddr			:= 1;
+	MCM_Line.P_Config.Timeout			:= T#100MS;
+	MCM_Line.P_Config.SampleTime		:= T#200MS;
+	
+	MCM_Gen.P_Definition.Name			:= 'MCM-V-Mx 2';
+	MCM_Gen.P_Definition.Description	:= 'Generator Side Voltage Meter';
+	MCM_Gen.P_Definition.Tag			:= 'PT02';
+	MCM_Gen.P_Config.RetryTime			:= T#3000MS;
+	MCM_Gen.P_Config.SlaveAddr			:= 2;
+	MCM_Gen.P_Config.Timeout			:= T#100MS;
+	MCM_Gen.P_Config.SampleTime			:= T#200MS;
 END_IF
 
-MCM_Line();]]></ST>
+MCM_Line.P_Config.Enable:= ReadlineMCM;
+MCM_Gen.P_Config.Enable:= ReadGenMCM;
+
+MCM_Line();
+MCM_Gen();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_StateMachine" Id="{7309beaf-6981-4895-822f-b929ea1bb9d2}">
@@ -119,7 +127,8 @@ END_CASE]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Config" Id="{c80d9a0c-3599-4a11-9022-6117c18866c2}">
-      <Declaration><![CDATA[PROPERTY P_Config : Reference to ST_ConfigATS]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Config : Reference to ST_ConfigATS]]></Declaration>
       <Get Name="Get" Id="{5778912d-d3ee-48e9-b67c-82bcd998eec8}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -130,7 +139,8 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Definition" Id="{7f2795b3-2ccd-4ff9-b3a8-aad7c0820849}">
-      <Declaration><![CDATA[PROPERTY P_Definition : Reference to St_DefinitionATS]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Definition : Reference to St_DefinitionATS]]></Declaration>
       <Get Name="Get" Id="{5a9443a8-a762-474f-b3e3-dc764f4fdfd6}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -141,7 +151,8 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Status" Id="{e3785303-aa6f-4f89-a6c6-9dbd315bb014}">
-      <Declaration><![CDATA[PROPERTY P_Status : Reference to St_StatusATS]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Status : Reference to St_StatusATS]]></Declaration>
       <Get Name="Get" Id="{ee383ea1-55b9-4c62-aae0-d4a4cbc1ce48}">
         <Declaration><![CDATA[VAR
 END_VAR

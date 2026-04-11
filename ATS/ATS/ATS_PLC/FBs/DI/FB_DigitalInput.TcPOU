@@ -47,7 +47,8 @@ DebounceOff_Timer();]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Config" Id="{e675c2c9-476e-4d90-80f8-c43aa3a67a84}">
-      <Declaration><![CDATA[PROPERTY P_Config : Reference to ST_ConfigDI]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Config : REFERENCE TO ST_ConfigDI]]></Declaration>
       <Get Name="Get" Id="{80965f65-aa8f-494b-afff-15eb9bf6c4d5}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -58,7 +59,8 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Definition" Id="{e2c54b50-256e-401a-bd18-e487750899f9}">
-      <Declaration><![CDATA[PROPERTY P_Definition : Reference to St_DefinitionDI]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Definition : Reference to St_DefinitionDI]]></Declaration>
       <Get Name="Get" Id="{5d95952f-9bed-4b06-95e7-2f5fb23b5199}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -69,7 +71,8 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Status" Id="{517b8492-3adc-45ea-a4c5-c087777c1863}">
-      <Declaration><![CDATA[PROPERTY P_Status : Reference to St_StatusDI]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Status : Reference to St_StatusDI]]></Declaration>
       <Get Name="Get" Id="{e31f02e9-57cf-4666-8cd1-937b3d771bb3}">
         <Declaration><![CDATA[VAR
 END_VAR

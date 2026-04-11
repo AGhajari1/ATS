@@ -31,7 +31,8 @@ INIT:= FALSE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Definition" Id="{0140cc2b-c530-4d22-8af4-5137be78274d}">
-      <Declaration><![CDATA[PROPERTY P_Definition : REFERENCE TO St_DefinitionDO
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Definition : REFERENCE TO St_DefinitionDO
 ]]></Declaration>
       <Get Name="Get" Id="{ab157408-f664-484e-9933-a35c9c915a9d}">
         <Declaration><![CDATA[VAR
@@ -43,7 +44,8 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Status" Id="{ac5f0ed0-3079-4f2b-8dfd-4571930b44d3}">
-      <Declaration><![CDATA[PROPERTY P_Status : REFERENCE TO St_StatusDO
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Status : REFERENCE TO St_StatusDO
 ]]></Declaration>
       <Get Name="Get" Id="{bb85993c-2c57-444b-bbc1-5216b43e516e}">
         <Declaration><![CDATA[VAR

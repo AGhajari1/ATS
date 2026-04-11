@@ -60,6 +60,15 @@
     <Compile Include="FBs\MCM_VoltMeter\Structures\E_ReadState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FBs\MCM_VoltMeter\Structures\ST_MCM_Config.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs\MCM_VoltMeter\Structures\ST_MCM_Data.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs\MCM_VoltMeter\Structures\ST_MCM_Definition.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FBs\MCM_VoltMeter\Structures\UNION_DWORD_REAL.TcDUT">
       <SubType>Code</SubType>
     </Compile>

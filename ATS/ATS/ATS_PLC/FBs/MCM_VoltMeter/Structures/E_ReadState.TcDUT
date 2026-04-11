@@ -6,12 +6,11 @@
 {attribute 'to_string'}
 TYPE E_ReadState :
 (
-	Idle        	:= 0,
-    ReadData   		:= 1,
-    WaitForData   	:= 2,
-	ResetRead		:= 3,
-    ParseAll    	:= 9,
-    ErrorDelay  	:= 10
+    Idle        := 0,
+    ReadData    := 1,
+    WaitForData := 3,
+    ParseAll    := 5,
+    ErrorDelay  := 6
 );
 END_TYPE]]></Declaration>
   </DUT>

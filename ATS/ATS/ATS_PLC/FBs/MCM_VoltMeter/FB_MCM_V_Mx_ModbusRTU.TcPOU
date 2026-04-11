@@ -2,238 +2,189 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
   <POU Name="FB_MCM_V_Mx_ModbusRTU" Id="{1ca84450-dc7b-43bd-b6b9-283fa8345226}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_MCM_V_Mx_ModbusRTU
-VAR_INPUT
-    Enable         : BOOL;
-    SlaveAddr      : BYTE := 1;
-    Timeout        : TIME := T#1S;
-END_VAR
-VAR_OUTPUT
-    (* ── Bank A: 16-bit integers ── *)
-    DeviceID       : INT;
-    VA_16          : REAL;
-    VB_16          : REAL;
-    VC_16          : REAL;
-    VAvg_16        : REAL;
-    VAB_16         : REAL;
-    VBC_16         : REAL;
-    VCA_16         : REAL;
-    VLLAvg_16      : REAL;
-    AngAB_16       : REAL;
-    AngBC_16       : REAL;
-    AngAC_16       : REAL;
-    Freq_16        : REAL;
-    Overflow       : WORD;
- 
-    (* ── Bank B: 32-bit floats ── *)
-    VoltageA       : REAL;
-    fVoltageB       : REAL;
-    VoltageC       : REAL;
-    VoltageAvg     : REAL;
-    VoltageAB      : REAL;
-    VoltageBC      : REAL;
-    VoltageCA      : REAL;
-    VoltageLLAvg   : REAL;
-    AngleAB        : REAL;
-    AngleBC        : REAL;
-    AngleAC        : REAL;
-    Frequency      : REAL;
- 
-    (* ── Bank C: config / info ── *)
-    PT_Pri_All     : WORD;
-    PT_Sec_All     : WORD;
-    PT_Pri_A       : WORD;
-    PT_Sec_A       : WORD;
-    PT_Pri_B       : WORD;
-    PT_Sec_B       : WORD;
-    PT_Pri_C       : WORD;
-    PT_Sec_C       : WORD;
-    Debug16        : INT;
-    Debug32        : UDINT;
-    DebugFloat     : REAL;
-    Uptime         : UDINT;
-    LittleEndian   : BOOL;
-    VoltLEDThr     : INT;
-    SerialNum     : UDINT;
-    HWVersion      : WORD;
-    FWVersion      : WORD;
-    BLVersion      : WORD;
-    ModelNumber    : WORD;
-    InputConfig    : WORD;
-    LockState      : WORD;
-    AutoFreqCh     : BOOL;
-    FreqChannel    : WORD;
- 
-    (* ── Status ── *)
-    Busy           : BOOL;
-    Error          : BOOL;
-    ErrorId        : MODBUS_ERRORS;
-    NewData        : BOOL;
-END_VAR
 VAR
-    (* Link this instance to the EL6022 in the I/O tree *)
-    Modbus         : ModbusRtuMasterV2_KL6x22B;
- 
-    RawData        : ARRAY[0..76] OF WORD;  
- 
-    State          : E_ReadState := E_ReadState.Idle;
-    Execute        : BOOL;
-    Retry          : TON;
+    Modbus         	: ModbusRtuMasterV2_KL6x22B;
+	Definition		: ST_MCM_Definition;
+ 	Config			: ST_MCM_Config;
+    RawData        	: ARRAY[0..76] OF WORD;  
+ 	DataOut		   	: ST_MCM_Data;
+ 	
+    State          	: E_ReadState := E_ReadState.Idle;
+    Execute        	: BOOL;
+    RetryTimer    	: TON;
+	NextReadTimer	: TON;
+	
+	Busy           	: BOOL;
+    Error          	: BOOL;
+    ErrorCode      	: MODBUS_ERRORS;
+    NewData        	: BOOL;
 END_VAR
 VAR CONSTANT
     REG_START       : UINT := 0;
     REG_COUNT       : UINT := 77;
-    RETRY_TIME    	: TIME := T#500MS;
 END_VAR
  ]]></Declaration>
     <Implementation>
       <ST><![CDATA[NewData := FALSE;
- 
-IF NOT Enable THEN
+
+IF NOT Config.Enable THEN
     State   := E_ReadState.Idle;
-    Busy    := FALSE;
-    Execute := FALSE;
 END_IF
- 
+
 CASE State OF
- 
     E_ReadState.Idle:
-        Busy    := FALSE;
         Execute := FALSE;
-        IF Enable THEN
+		ErrorCode:= MODBUSERROR_NO_ERROR;
+        IF Config.Enable THEN
             State := E_ReadState.ReadData;
         END_IF
- 
-    (* ══════════════════════════════════════════════════════
-       BANK A — FC03, regs 40001-40014
-       ══════════════════════════════════════════════════════ *)
+
     E_ReadState.ReadData:
-        Busy    := TRUE;
-        Error   := FALSE;
         Execute := TRUE;
-        Modbus.ReadRegs(
-            UnitID      := SlaveAddr,
-            Quantity    := REG_COUNT,
-            MBAddr      := REG_START,
-            cbLength    := SIZEOF(RawData),
-            pMemoryAddr := ADR(RawData),
-            Execute     := Execute,
-            Timeout     := Timeout
-        );
-        State := E_ReadState.WaitForData;
- 
+		State   := E_ReadState.WaitForData;
+
     E_ReadState.WaitForData:
-        Modbus.ReadRegs(
-            UnitID      := SlaveAddr,
-            Quantity    := REG_COUNT,
-            MBAddr      := REG_START,
-            cbLength    := SIZEOF(RawData),
-            pMemoryAddr := ADR(RawData),
-            Execute     := Execute,
-            Timeout     := Timeout
-        );
-        IF NOT Modbus.Busy THEN
-            Execute := FALSE;
-			Modbus.ReadRegs();
-            IF Modbus.Error THEN
-                ErrorId := Modbus.ErrorId;
-                Error   := TRUE;
-                State   := E_ReadState.ErrorDelay;
+        IF NOT Busy THEN
+			Execute   := FALSE;
+            IF Error THEN
+                State     := E_ReadState.ErrorDelay;
             ELSE
-                State := E_ReadState.ResetRead;
+                State     := E_ReadState.ParseAll;
             END_IF
         END_IF
-	E_ReadState.ResetRead:
-		Execute := FALSE;
-		Modbus.ReadRegs(
-			UnitID      := SlaveAddr,
-			Quantity    := REG_COUNT,
-			MBAddr      := REG_START,
-			cbLength    := SIZEOF(RawData),
-			pMemoryAddr := ADR(RawData),
-			Execute     := Execute,
-			Timeout     := Timeout
-		);
-		State := E_ReadState.ParseAll;
-    (* ══════════════════════════════════════════════════════
-       PARSE
-       ══════════════════════════════════════════════════════ *)
+
     E_ReadState.ParseAll:
- 
-        (* Bank A — 16-bit signed, scale ÷10 volts/angles, ÷100 freq *)
-        DeviceID   := WORD_TO_INT(RawData[0]);
-        VA_16      := INT_TO_REAL(WORD_TO_INT(RawData[1]))  / 10.0;
-        VB_16      := INT_TO_REAL(WORD_TO_INT(RawData[2]))  / 10.0;
-        VC_16      := INT_TO_REAL(WORD_TO_INT(RawData[3]))  / 10.0;
-        VAvg_16    := INT_TO_REAL(WORD_TO_INT(RawData[4]))  / 10.0;
-        VAB_16     := INT_TO_REAL(WORD_TO_INT(RawData[5]))  / 10.0;
-        VBC_16     := INT_TO_REAL(WORD_TO_INT(RawData[6]))  / 10.0;
-        VCA_16     := INT_TO_REAL(WORD_TO_INT(RawData[7]))  / 10.0;
-        VLLAvg_16  := INT_TO_REAL(WORD_TO_INT(RawData[8]))  / 10.0;
-        AngAB_16   := INT_TO_REAL(WORD_TO_INT(RawData[9]))  / 10.0;
-        AngBC_16   := INT_TO_REAL(WORD_TO_INT(RawData[10])) / 10.0;
-        AngAC_16   := INT_TO_REAL(WORD_TO_INT(RawData[11])) / 10.0;
-        Freq_16    := INT_TO_REAL(WORD_TO_INT(RawData[12])) / 100.0;
-        Overflow   := RawData[13];
-        (* Overflow bits: 0=VA, 1=VB, 2=VC, 3=VAvg, 4=VAB, 5=VBC, 6=VCA,
-                          7=VLLAvg, 8=AngAB, 9=AngBC, 10=AngAC, 11=Freq *)
- 
-        (* Bank B — 32-bit floats, big-endian word order *)
-        VoltageA     := WordsToReal(RawData[16],  RawData[17]);
-        fVoltageB    := WordsToReal(RawData[18],  RawData[19]);
-        VoltageC     := WordsToReal(RawData[20],  RawData[21]);
-        VoltageAvg   := WordsToReal(RawData[22],  RawData[23]);
-        VoltageAB    := WordsToReal(RawData[24],  RawData[25]);
-        VoltageBC    := WordsToReal(RawData[26], RawData[27]);
-        VoltageCA    := WordsToReal(RawData[28], RawData[29]);
-        AngleAB      := WordsToReal(RawData[30], RawData[31]);
-        AngleBC      := WordsToReal(RawData[32], RawData[33]);
-        AngleAC      := WordsToReal(RawData[34], RawData[35]);
-        VoltageLLAvg := WordsToReal(RawData[36], RawData[37]);
-        Frequency    := WordsToReal(RawData[38], RawData[39]);
- 
-        (* Bank C — config / info *)
-        PT_Pri_All   := RawData[48];
-        PT_Sec_All   := RawData[49];
-        PT_Pri_A     := RawData[50];
-        PT_Sec_A     := RawData[51];
-        PT_Pri_B     := RawData[52];
-        PT_Sec_B     := RawData[53];
-        PT_Pri_C     := RawData[54];
-        PT_Sec_C     := RawData[55];
-        Debug16      := WORD_TO_INT(RawData[56]);
-        Debug32     := SHL(WORD_TO_DWORD(RawData[57]),  16) OR WORD_TO_DWORD(RawData[58]);
-        DebugFloat   := WordsToReal(RawData[59], RawData[60]);
-        Uptime      := SHL(WORD_TO_DWORD(RawData[61]), 16) OR WORD_TO_DWORD(RawData[62]);
-        LittleEndian := RawData[63] <> 0;
-        VoltLEDThr   := WORD_TO_INT(RawData[64]);
-        SerialNum   := SHL(WORD_TO_DWORD(RawData[65]), 16) OR WORD_TO_DWORD(RawData[66]);
-        HWVersion    := RawData[67];
-        FWVersion    := RawData[68];
-        BLVersion    := RawData[69];
-        ModelNumber  := RawData[70];
-        InputConfig  := RawData[71];
-        (* awRawC[72..73] = Passcode — skipped *)
-        LockState    := RawData[74];
-        AutoFreqCh   := RawData[75] <> 0;
-        FreqChannel  := RawData[76];
- 
+        ParseData();
         NewData := TRUE;
-        Busy    := FALSE;
-        State   := E_ReadState.Idle;
- 
-    (* ══════════════════════════════════════════════════════
-       ERROR DELAY — wait before retrying
-       ══════════════════════════════════════════════════════ *)
+		NextReadTimer.IN:= TRUE;
+		IF NextReadTimer.Q THEN
+			State   := E_ReadState.Idle;
+			NextReadTimer.IN:= FALSE;
+		END_IF
+
     E_ReadState.ErrorDelay:
-        Retry(IN := TRUE, PT := RETRY_TIME);
-        IF Retry.Q THEN
-            Retry(IN := FALSE);
+        RetryTimer.IN := TRUE;
+        IF RetryTimer.Q THEN
+            RetryTimer.IN := FALSE;
             State := E_ReadState.Idle;
         END_IF
- 
 END_CASE
- ]]></ST>
+
+RetryTimer(PT := Config.RetryTime);
+NextReadTimer(PT:=Config.SampleTime);
+
+Modbus.ReadRegs(
+    UnitID      := Config.SlaveAddr,
+    Quantity    := REG_COUNT,
+    MBAddr      := REG_START,
+    cbLength    := SIZEOF(RawData),
+    pMemoryAddr := ADR(RawData[0]),
+    Execute     := Execute,
+    Timeout     := Config.Timeout,
+	Busy		=>busy,
+	Error		=>Error,
+	Errorid		=>ErrorCode
+);
+]]></ST>
     </Implementation>
+    <Property Name="P_Config" Id="{d3f163c3-9fce-47dc-8111-cfee114bcdd0}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Config : REFERENCE TO ST_MCM_Config]]></Declaration>
+      <Get Name="Get" Id="{270f21f6-cdbc-4953-86f7-d95a0ac1e89b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Config REF= Config;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_DataOut" Id="{ac05f09d-9c25-4927-a6ab-e35d8d1ab68e}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_DataOut : REFERENCE TO ST_MCM_Data]]></Declaration>
+      <Get Name="Get" Id="{db726667-b38d-4df4-bc57-a5ee952316ce}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_DataOut REF=DataOut;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="P_Definition" Id="{9963e80f-4edd-40e8-90cb-d70be22009de}">
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Definition : REFERENCE TO ST_MCM_Definition]]></Declaration>
+      <Get Name="Get" Id="{bd2c45ac-da66-4942-a0a1-16ac5c0ab3cb}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[P_Definition REF= Definition;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="ParseData" Id="{c46f2e3a-5ebe-4375-846b-87cb1bc0b137}">
+      <Declaration><![CDATA[METHOD PRIVATE ParseData]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Dataout.DataCount:=Dataout.DataCount+1;
+IF Dataout.Datacount >= 1000000 THEN
+	Dataout.Datacount := 0;
+END_IF
+(* Bank A — 16-bit signed, scale ÷10 volts/angles, ÷100 freq *)
+DataOut.DeviceID   := WORD_TO_INT(RawData[0]);
+DataOut.VA_16      := INT_TO_REAL(WORD_TO_INT(RawData[1]))  / 10.0;
+DataOut.VB_16      := INT_TO_REAL(WORD_TO_INT(RawData[2]))  / 10.0;
+DataOut.VC_16      := INT_TO_REAL(WORD_TO_INT(RawData[3]))  / 10.0;
+DataOut.VAvg_16    := INT_TO_REAL(WORD_TO_INT(RawData[4]))  / 10.0;
+DataOut.VAB_16     := INT_TO_REAL(WORD_TO_INT(RawData[5]))  / 10.0;
+DataOut.VBC_16     := INT_TO_REAL(WORD_TO_INT(RawData[6]))  / 10.0;
+DataOut.VCA_16     := INT_TO_REAL(WORD_TO_INT(RawData[7]))  / 10.0;
+DataOut.VLLAvg_16  := INT_TO_REAL(WORD_TO_INT(RawData[8]))  / 10.0;
+DataOut.AngAB_16   := INT_TO_REAL(WORD_TO_INT(RawData[9]))  / 10.0;
+DataOut.AngBC_16   := INT_TO_REAL(WORD_TO_INT(RawData[10])) / 10.0;
+DataOut.AngAC_16   := INT_TO_REAL(WORD_TO_INT(RawData[11])) / 10.0;
+DataOut.Freq_16    := INT_TO_REAL(WORD_TO_INT(RawData[12])) / 100.0;
+DataOut.Overflow   := RawData[13];
+(* Overflow bits: 0=VA, 1=VB, 2=VC, 3=VAvg, 4=VAB, 5=VBC, 6=VCA,
+				  7=VLLAvg, 8=AngAB, 9=AngBC, 10=AngAC, 11=Freq *)
+
+(* Bank B — 32-bit floats, big-endian word order *)
+DataOut.VoltageA     := WordsToReal(RawData[16],  RawData[17]);
+DataOut.VoltageB    := WordsToReal(RawData[18],  RawData[19]);
+DataOut.VoltageC     := WordsToReal(RawData[20],  RawData[21]);
+DataOut.VoltageAvg   := WordsToReal(RawData[22],  RawData[23]);
+DataOut.VoltageAB    := WordsToReal(RawData[24],  RawData[25]);
+DataOut.VoltageBC    := WordsToReal(RawData[26], RawData[27]);
+DataOut.VoltageCA    := WordsToReal(RawData[28], RawData[29]);
+DataOut.AngleAB      := WordsToReal(RawData[30], RawData[31]);
+DataOut.AngleBC      := WordsToReal(RawData[32], RawData[33]);
+DataOut.AngleAC      := WordsToReal(RawData[34], RawData[35]);
+DataOut.VoltageLLAvg := WordsToReal(RawData[36], RawData[37]);
+DataOut.Frequency    := WordsToReal(RawData[38], RawData[39]);
+
+(* Bank C — config / info *)
+DataOut.PT_Pri_All   := RawData[48];
+DataOut.PT_Sec_All   := RawData[49];
+DataOut.PT_Pri_A     := RawData[50];
+DataOut.PT_Sec_A     := RawData[51];
+DataOut.PT_Pri_B     := RawData[52];
+DataOut.PT_Sec_B     := RawData[53];
+DataOut.PT_Pri_C     := RawData[54];
+DataOut.PT_Sec_C     := RawData[55];
+DataOut.Debug16      := WORD_TO_INT(RawData[56]);
+DataOut.Debug32     := SHL(WORD_TO_DWORD(RawData[57]),  16) OR WORD_TO_DWORD(RawData[58]);
+DataOut.DebugFloat   := WordsToReal(RawData[59], RawData[60]);
+DataOut.Uptime      := SHL(WORD_TO_DWORD(RawData[61]), 16) OR WORD_TO_DWORD(RawData[62]);
+DataOut.LittleEndian := RawData[63] <> 0;
+DataOut.VoltLEDThr   := WORD_TO_INT(RawData[64]);
+DataOut.SerialNum   := SHL(WORD_TO_DWORD(RawData[65]), 16) OR WORD_TO_DWORD(RawData[66]);
+DataOut.HWVersion    := RawData[67];
+DataOut.FWVersion    := RawData[68];
+DataOut.BLVersion    := RawData[69];
+DataOut.ModelNumber  := RawData[70];
+DataOut.InputConfig  := RawData[71];
+(* awRawC[72..73] = Passcode — skipped *)
+DataOut.LockState    := RawData[74];
+DataOut.AutoFreqCh   := RawData[75] <> 0;
+DataOut.FreqChannel  := RawData[76];]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="WordsToReal" Id="{b84595d3-9f58-46c1-ac2e-e1607073fc55}">
       <Declaration><![CDATA[METHOD PRIVATE WordsToReal : REAL
 VAR_INPUT

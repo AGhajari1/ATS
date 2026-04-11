@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <DUT Name="ST_MCM_Data" Id="{ce71fe79-5554-4f99-a355-10a4d04d2121}">
+    <Declaration><![CDATA[TYPE ST_MCM_Data :
+STRUCT
+	DataCount	   : UDINT;
+
+    DeviceID       : INT;
+    VA_16          : REAL;
+    VB_16          : REAL;
+    VC_16          : REAL;
+    VAvg_16        : REAL;
+    VAB_16         : REAL;
+    VBC_16         : REAL;
+    VCA_16         : REAL;
+    VLLAvg_16      : REAL;
+    AngAB_16       : REAL;
+    AngBC_16       : REAL;
+    AngAC_16       : REAL;
+    Freq_16        : REAL;
+    Overflow       : WORD;
+ 
+    VoltageA       : REAL;
+    VoltageB       : REAL;
+    VoltageC       : REAL;
+    VoltageAvg     : REAL;
+    VoltageAB      : REAL;
+    VoltageBC      : REAL;
+    VoltageCA      : REAL;
+    VoltageLLAvg   : REAL;
+    AngleAB        : REAL;
+    AngleBC        : REAL;
+    AngleAC        : REAL;
+    Frequency      : REAL;
+
+    PT_Pri_All     : WORD;
+    PT_Sec_All     : WORD;
+    PT_Pri_A       : WORD;
+    PT_Sec_A       : WORD;
+    PT_Pri_B       : WORD;
+    PT_Sec_B       : WORD;
+    PT_Pri_C       : WORD;
+    PT_Sec_C       : WORD;
+    Debug16        : INT;
+    Debug32        : UDINT;
+    DebugFloat     : REAL;
+    Uptime         : UDINT;
+    LittleEndian   : BOOL;
+    VoltLEDThr     : INT;
+    SerialNum     : UDINT;
+    HWVersion      : WORD;
+    FWVersion      : WORD;
+    BLVersion      : WORD;
+    ModelNumber    : WORD;
+    InputConfig    : WORD;
+    LockState      : WORD;
+    AutoFreqCh     : BOOL;
+    FreqChannel    : WORD;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

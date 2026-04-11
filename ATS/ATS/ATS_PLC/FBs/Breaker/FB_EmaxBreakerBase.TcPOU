@@ -137,7 +137,8 @@ Status.CB_Tripped();]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Config" Id="{b9505af7-f8bb-4689-ab40-5bdbaabd5633}">
-      <Declaration><![CDATA[PROPERTY P_Config : Reference to ST_ConfigEmax]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Config : Reference to ST_ConfigEmax]]></Declaration>
       <Get Name="Get" Id="{5ea6b4a6-44ee-4111-b44e-7242d15e03af}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -148,7 +149,8 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Definition" Id="{44b322d1-7a8b-4688-8af9-900f67952615}">
-      <Declaration><![CDATA[PROPERTY P_Definition : Reference to St_DefinitionEmax]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Definition : Reference to St_DefinitionEmax]]></Declaration>
       <Get Name="Get" Id="{2a13c1ff-6559-46aa-8158-5ff7ab17437b}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -159,7 +161,8 @@ END_VAR
       </Get>
     </Property>
     <Property Name="P_Status" Id="{2bd95a9f-4586-4b3b-b753-1377a440625a}">
-      <Declaration><![CDATA[PROPERTY P_Status : Reference to St_StatusEmax]]></Declaration>
+      <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
+PROPERTY P_Status : REFERENCE TO St_StatusEmax]]></Declaration>
       <Get Name="Get" Id="{c18cc30d-f93c-49c7-8df8-b6a52d777f05}">
         <Declaration><![CDATA[VAR
 END_VAR
