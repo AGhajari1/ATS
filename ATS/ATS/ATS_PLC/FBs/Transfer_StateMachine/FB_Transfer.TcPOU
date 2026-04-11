@@ -8,7 +8,15 @@ VAR
 	Config									: ST_ConfigATS;
 	Status	 								: ST_StatusATS;
 	
-	MCM_Voltmeter							: FB_MCM_VoltMeter;	
+	MCM_Voltmeter							: FB_MCM_V_Mx_ModbusRTU;
+	Enable									: BOOL;	
+    fVA    									: REAL;
+    fVB    									: REAL;
+    fVC    									: REAL;
+    fFreq  									: REAL;
+    bErr   									: BOOL;
+	
+	
 	GenCB									: FB_EmaxBreakerBase;
 	LineCB									: FB_EmaxBreakerBase;
 		
@@ -21,7 +29,16 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[M_LineCB();
 M_GenCB();
-M_MCM_Voltmeter();
+MCM_Voltmeter(
+    bEnable    := Enable,
+    nSlaveAddr := 1,
+    tTimeout   := T#1S
+);
+fVA   := MCM_Voltmeter.fVoltageA;
+fVB   := MCM_Voltmeter.fVoltageB;
+fVC   := MCM_Voltmeter.fVoltageC;
+fFreq := MCM_Voltmeter.fFrequency;
+bErr  := MCM_Voltmeter.bError;
 
 M_StateMachine();
 

@@ -54,7 +54,13 @@
     <Compile Include="FBs\DO\Structures\ST_StatusDO.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FBs\MCM_VoltMeter\FB_MCM_VoltMeter.TcPOU">
+    <Compile Include="FBs\MCM_VoltMeter\FB_MCM_V_Mx_ModbusRTU.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs\MCM_VoltMeter\Structures\E_ReadState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs\MCM_VoltMeter\Structures\UNION_DWORD_REAL.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FBs\Transfer_StateMachine\ENUM\E_TransferState.TcDUT">
@@ -75,10 +81,10 @@
     <Compile Include="FBs\Transfer_StateMachine\Structures\ST_StatusATS.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PlcTask.TcTTO">
+    <Compile Include="MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\MAIN.TcPOU">
+    <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Structures\ST_Error.TcDUT">
@@ -94,14 +100,18 @@
     <Folder Include="FBs\DI" />
     <Folder Include="FBs\DO" />
     <Folder Include="FBs\Breaker" />
+    <Folder Include="FBs\MCM_VoltMeter\Structures" />
     <Folder Include="FBs\Transfer_StateMachine" />
     <Folder Include="FBs\Transfer_StateMachine\ENUM" />
     <Folder Include="FBs\Transfer_StateMachine\Structures" />
     <Folder Include="Structures" />
     <Folder Include="VISUs" />
-    <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="Tc2_ModbusRTU">
+      <DefaultResolution>Tc2_ModbusRTU, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_ModbusRTU</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
