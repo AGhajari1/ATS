@@ -8,13 +8,11 @@ VAR
 	Config									: ST_ConfigATS;
 	Status	 								: ST_StatusATS;
 	
-	MCM_Voltmeter							: FB_MCM_V_Mx_ModbusRTU;
-	Enable									: BOOL;	
-    fVA    									: REAL;
-    fVB    									: REAL;
-    fVC    									: REAL;
-    fFreq  									: REAL;
-    bErr   									: BOOL;
+	MCM_Line								: FB_MCM_V_Mx_ModbusRTU;
+	MCM_Gen									: FB_MCM_V_Mx_ModbusRTU;
+	ReadGenMCM								: BOOL;	
+	ReadlineMCM								: BOOL;	
+
 	
 	
 	GenCB									: FB_EmaxBreakerBase;
@@ -29,16 +27,16 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[M_LineCB();
 M_GenCB();
-MCM_Voltmeter(
-    bEnable    := Enable,
+MCM_Line(
+    bEnable    := ReadlineMCM,
     nSlaveAddr := 1,
     tTimeout   := T#1S
 );
-fVA   := MCM_Voltmeter.fVoltageA;
-fVB   := MCM_Voltmeter.fVoltageB;
-fVC   := MCM_Voltmeter.fVoltageC;
-fFreq := MCM_Voltmeter.fFrequency;
-bErr  := MCM_Voltmeter.bError;
+MCM_Gen(
+    bEnable    := ReadGenMCM,
+    nSlaveAddr := 1,
+    tTimeout   := T#1S
+);
 
 M_StateMachine();
 
@@ -100,7 +98,7 @@ END_VAR
 	//def
 END_IF
 
-MCM_Voltmeter();]]></ST>
+MCM_Line();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_StateMachine" Id="{7309beaf-6981-4895-822f-b929ea1bb9d2}">
