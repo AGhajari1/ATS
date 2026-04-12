@@ -3,12 +3,13 @@
   <POU Name="FB_MCM_V_Mx_ModbusRTU" Id="{1ca84450-dc7b-43bd-b6b9-283fa8345226}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_MCM_V_Mx_ModbusRTU
 VAR
-    Modbus         	: ModbusRtuMasterV2_KL6x22B;
+	INIT	AT%Q*	: BIT;
+    Modbus         	: ModbusRtuMasterV2_KL6x22B; 
 	Definition		: ST_MCM_Definition;
  	Config			: ST_MCM_Config;
-    RawData        	: ARRAY[0..76] OF WORD;  
+    RawData        	: ARRAY[0..76] OF WORD; 
  	DataOut		   	: ST_MCM_Data;
- 	
+	
     State          	: E_ReadState := E_ReadState.Idle;
     Execute        	: BOOL;
     RetryTimer    	: TON;
@@ -17,6 +18,7 @@ VAR
 	Busy           	: BOOL;
     Error          	: BOOL;
     ErrorCode      	: MODBUS_ERRORS;
+	
     NewData        	: BOOL;
 END_VAR
 VAR CONSTANT
@@ -28,21 +30,29 @@ END_VAR
       <ST><![CDATA[NewData := FALSE;
 
 IF NOT Config.Enable THEN
+	
     State   := E_ReadState.Idle;
 END_IF
 
 CASE State OF
     E_ReadState.Idle:
+		INIT:= FALSE;
         Execute := FALSE;
-		ErrorCode:= MODBUSERROR_NO_ERROR;
-        IF Config.Enable THEN
-            State := E_ReadState.ReadData;
-        END_IF
-
+		NextReadTimer.IN:= TRUE;
+		IF Config.Enable AND NextReadTimer.Q THEN
+			State   := E_ReadState.ReadData;
+			NextReadTimer.IN:= FALSE;
+		END_IF
+		
     E_ReadState.ReadData:
         Execute := TRUE;
-		State   := E_ReadState.WaitForData;
-
+		IF Busy THEN
+			State   := E_ReadState.WaitForData;
+		ELSIF Error THEN
+			 State     := E_ReadState.ErrorDelay;
+		END_IF
+		
+		
     E_ReadState.WaitForData:
         IF NOT Busy THEN
 			Execute   := FALSE;
@@ -56,13 +66,11 @@ CASE State OF
     E_ReadState.ParseAll:
         ParseData();
         NewData := TRUE;
-		NextReadTimer.IN:= TRUE;
-		IF NextReadTimer.Q THEN
-			State   := E_ReadState.Idle;
-			NextReadTimer.IN:= FALSE;
-		END_IF
+		State     := E_ReadState.Idle;
 
     E_ReadState.ErrorDelay:
+		INIT:= TRUE;
+	 	Execute := FALSE;
         RetryTimer.IN := TRUE;
         IF RetryTimer.Q THEN
             RetryTimer.IN := FALSE;
@@ -70,7 +78,7 @@ CASE State OF
         END_IF
 END_CASE
 
-RetryTimer(PT := Config.RetryTime);
+RetryTimer(PT:=Config.RetryTime);
 NextReadTimer(PT:=Config.SampleTime);
 
 Modbus.ReadRegs(
@@ -85,6 +93,7 @@ Modbus.ReadRegs(
 	Error		=>Error,
 	Errorid		=>ErrorCode
 );
+
 ]]></ST>
     </Implementation>
     <Property Name="P_Config" Id="{d3f163c3-9fce-47dc-8111-cfee114bcdd0}">
@@ -146,7 +155,7 @@ DataOut.Overflow   := RawData[13];
 
 (* Bank B — 32-bit floats, big-endian word order *)
 DataOut.VoltageA     := WordsToReal(RawData[16],  RawData[17]);
-DataOut.VoltageB    := WordsToReal(RawData[18],  RawData[19]);
+DataOut.VoltageB     := WordsToReal(RawData[18],  RawData[19]);
 DataOut.VoltageC     := WordsToReal(RawData[20],  RawData[21]);
 DataOut.VoltageAvg   := WordsToReal(RawData[22],  RawData[23]);
 DataOut.VoltageAB    := WordsToReal(RawData[24],  RawData[25]);
@@ -168,12 +177,12 @@ DataOut.PT_Sec_B     := RawData[53];
 DataOut.PT_Pri_C     := RawData[54];
 DataOut.PT_Sec_C     := RawData[55];
 DataOut.Debug16      := WORD_TO_INT(RawData[56]);
-DataOut.Debug32     := SHL(WORD_TO_DWORD(RawData[57]),  16) OR WORD_TO_DWORD(RawData[58]);
+DataOut.Debug32      := SHL(WORD_TO_DWORD(RawData[57]),  16) OR WORD_TO_DWORD(RawData[58]);
 DataOut.DebugFloat   := WordsToReal(RawData[59], RawData[60]);
-DataOut.Uptime      := SHL(WORD_TO_DWORD(RawData[61]), 16) OR WORD_TO_DWORD(RawData[62]);
+DataOut.Uptime       := SHL(WORD_TO_DWORD(RawData[61]), 16) OR WORD_TO_DWORD(RawData[62]);
 DataOut.LittleEndian := RawData[63] <> 0;
 DataOut.VoltLEDThr   := WORD_TO_INT(RawData[64]);
-DataOut.SerialNum   := SHL(WORD_TO_DWORD(RawData[65]), 16) OR WORD_TO_DWORD(RawData[66]);
+DataOut.SerialNum    := SHL(WORD_TO_DWORD(RawData[65]), 16) OR WORD_TO_DWORD(RawData[66]);
 DataOut.HWVersion    := RawData[67];
 DataOut.FWVersion    := RawData[68];
 DataOut.BLVersion    := RawData[69];

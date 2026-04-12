@@ -8,14 +8,10 @@ VAR
 	Config									: ST_ConfigATS;
 	Status	 								: ST_StatusATS;
 	
-	MCM_Line								: FB_MCM_V_Mx_ModbusRTU;
-	MCM_Gen									: FB_MCM_V_Mx_ModbusRTU;
-	ReadGenMCM								: BOOL := TRUE;	
-	ReadlineMCM								: BOOL := TRUE;	
-	
 	GenCB									: FB_EmaxBreakerBase;
 	LineCB									: FB_EmaxBreakerBase;
-		
+	MCM_Line								: FB_MCM_V_Mx_ModbusRTU;
+	MCM_Gen									: FB_MCM_V_Mx_ModbusRTU;	
 END_VAR
 
 VAR PERSISTENT
@@ -88,7 +84,7 @@ END_VAR]]></Declaration>
 	MCM_Line.P_Definition.Name			:= 'MCM-V-Mx 1';
 	MCM_Line.P_Definition.Description	:= 'Line Side Voltage Meter';
 	MCM_Line.P_Definition.Tag			:= 'PT01';
-	MCM_Line.P_Config.RetryTime			:= T#3000MS;
+	MCM_Line.P_Config.RetryTime			:= T#1000MS;
 	MCM_Line.P_Config.SlaveAddr			:= 1;
 	MCM_Line.P_Config.Timeout			:= T#100MS;
 	MCM_Line.P_Config.SampleTime		:= T#200MS;
@@ -96,17 +92,22 @@ END_VAR]]></Declaration>
 	MCM_Gen.P_Definition.Name			:= 'MCM-V-Mx 2';
 	MCM_Gen.P_Definition.Description	:= 'Generator Side Voltage Meter';
 	MCM_Gen.P_Definition.Tag			:= 'PT02';
-	MCM_Gen.P_Config.RetryTime			:= T#3000MS;
+	MCM_Gen.P_Config.RetryTime			:= T#1000MS;
 	MCM_Gen.P_Config.SlaveAddr			:= 2;
 	MCM_Gen.P_Config.Timeout			:= T#100MS;
 	MCM_Gen.P_Config.SampleTime			:= T#200MS;
 END_IF
 
-MCM_Line.P_Config.Enable:= ReadlineMCM;
-MCM_Gen.P_Config.Enable:= ReadGenMCM;
+
+
+
 
 MCM_Line();
-MCM_Gen();]]></ST>
+MCM_Gen();
+
+MCM_Line.P_Config.Enable:=TRUE;
+MCM_Gen.P_Config.Enable:=TRUE;
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_StateMachine" Id="{7309beaf-6981-4895-822f-b929ea1bb9d2}">
@@ -123,7 +124,10 @@ END_VAR
 		//
 	E_TransferState.ATS_ON_LINE:
 		//
-END_CASE]]></ST>
+END_CASE
+
+
+]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Config" Id="{c80d9a0c-3599-4a11-9022-6117c18866c2}">

@@ -6,6 +6,7 @@ VAR
 	INIT 						: BOOL:=TRUE;
 	SystemTimeString			: STRING(255):='';
 	ATS							: FB_Transfer;
+	DelayStart					: TON;
 END_VAR
 ]]></Declaration>
     <Implementation>
