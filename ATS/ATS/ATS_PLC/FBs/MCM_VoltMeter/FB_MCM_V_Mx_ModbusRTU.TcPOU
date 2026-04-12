@@ -9,11 +9,14 @@ VAR
  	Config			: ST_MCM_Config;
     RawData        	: ARRAY[0..76] OF WORD; 
  	DataOut		   	: ST_MCM_Data;
+	CommInitRequest	: BYTE; //not used  TESTING ONLY
+	CommCtrl 		: POINTER TO BYTE; //not used  TESTING ONLY
 	
     State          	: E_ReadState := E_ReadState.Idle;
     Execute        	: BOOL;
     RetryTimer    	: TON;
 	NextReadTimer	: TON;
+	ScanDelay		: INT :=0;
 	
 	Busy           	: BOOL;
     Error          	: BOOL;
@@ -28,15 +31,16 @@ END_VAR
  ]]></Declaration>
     <Implementation>
       <ST><![CDATA[NewData := FALSE;
-
+CommCtrl  := ADR(Modbus.OutData.Ctrl); // DO NOT USE OR MANIPULATE TESTING ONLY
+CommInitRequest := CommCtrl^; // DO NOT USE OR MANIPULATE TESTING ONLY
 IF NOT Config.Enable THEN
-	
     State   := E_ReadState.Idle;
 END_IF
 
 CASE State OF
     E_ReadState.Idle:
 		INIT:= FALSE;
+		//CommCtrl^ := CommCtrl^ AND NOT 16#04; // Clear bit 2 — Init request OFF   TESTING ONLY
         Execute := FALSE;
 		NextReadTimer.IN:= TRUE;
 		IF Config.Enable AND NextReadTimer.Q THEN
@@ -45,11 +49,14 @@ CASE State OF
 		END_IF
 		
     E_ReadState.ReadData:
-        Execute := TRUE;
-		IF Busy THEN
-			State   := E_ReadState.WaitForData;
-		ELSIF Error THEN
-			 State     := E_ReadState.ErrorDelay;
+		Execute := TRUE;
+		ScanDelay:=ScanDelay+1;
+		IF ScanDelay >=2 THEN
+			Execute := FALSE;
+		END_IF
+		IF ScanDelay>=5 THEN
+			ScanDelay := 0;
+			State     := E_ReadState.WaitForData;
 		END_IF
 		
 		
@@ -70,6 +77,7 @@ CASE State OF
 
     E_ReadState.ErrorDelay:
 		INIT:= TRUE;
+		//CommCtrl^ := CommCtrl^ OR 16#04; //Set bit 2 — Init request ON  TESTING ONLY
 	 	Execute := FALSE;
         RetryTimer.IN := TRUE;
         IF RetryTimer.Q THEN
@@ -93,7 +101,6 @@ Modbus.ReadRegs(
 	Error		=>Error,
 	Errorid		=>ErrorCode
 );
-
 ]]></ST>
     </Implementation>
     <Property Name="P_Config" Id="{d3f163c3-9fce-47dc-8111-cfee114bcdd0}">
