@@ -384,6 +384,23 @@
     "SOCKET_TIMEOUT": "PT10S",
     "SUBSCRIPTION_FLOODPROTECTION": 100,
     "SYMBOLS": {
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VA_16": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Line::DataOut::VA_16",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/REAL"
+                    },
+                    {
+                        "propertyOrder": 3
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.M_SystemTime.fbTime.systemTime": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -3937,6 +3954,7 @@
             },
             "SYMBOLACCESS": 0,
             "SYMBOLS": {
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VA_16": 3,
                 "ADS.ATS_PLC.MAIN.M_SystemTime.fbTime.systemTime": 3,
                 "ADS.ATS_PLC.MAIN.SystemTimeString": 3,
                 "ADS.AdsSyncReadDeviceInfoReq": 3,

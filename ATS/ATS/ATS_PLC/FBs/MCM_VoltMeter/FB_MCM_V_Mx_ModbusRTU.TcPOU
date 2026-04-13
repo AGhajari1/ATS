@@ -3,7 +3,7 @@
   <POU Name="FB_MCM_V_Mx_ModbusRTU" Id="{1ca84450-dc7b-43bd-b6b9-283fa8345226}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_MCM_V_Mx_ModbusRTU
 VAR
-	INIT	AT%Q*	: BIT;
+	INIT			: BIT;
     ModbusFB        : ModbusRtuMasterV2_KL6x22B; 
 	Definition		: ST_MCM_Definition;
  	Config			: ST_MCM_Config;
