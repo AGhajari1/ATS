@@ -56,8 +56,8 @@ STRUCT
     LockState      : WORD;
     AutoFreqCh     : BOOL;
     FreqChannel    : WORD;
-		
-	VLL				: E_Voltage;
+	
+	VoltageStabilized : BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

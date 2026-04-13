@@ -3,11 +3,18 @@
   <DUT Name="ST_MCM_Config" Id="{e6499e8b-8bd5-490e-8d3c-cca11f448a98}">
     <Declaration><![CDATA[TYPE ST_MCM_Config :
 STRUCT
-	Enable         	: BOOL	:= FALSE;
-    SlaveAddr      	: BYTE 	:= 1;
-    Timeout        	: TIME 	:= T#1S;
-    RetryTime    	: TIME 	:= T#2000MS;
-	SampleTime		: TIME 	:= T#200MS;
+	Enable         		: BOOL	:= FALSE;
+    SlaveAddr      		: BYTE 	:= 1;
+    Timeout        		: TIME 	:= T#1S;
+    RetryTime    		: TIME 	:= T#2000MS;
+	SampleTime			: TIME 	:= T#200MS;
+	
+	NominalVoltage 		: REAL := 600.0;
+	VoltageTolerance	: REAL := 0.10;   
+	NominalFrequency	: REAL := 60.0;    
+	FrequencyTolerance  : REAL := 0.3;    
+	AngleTolerance  	: REAL := 10.0;   
+	StableTime		 	: TIME := T#10S; 
 END_STRUCT
 END_TYPE
 ]]></Declaration>

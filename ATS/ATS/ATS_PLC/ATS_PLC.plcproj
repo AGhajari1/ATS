@@ -57,9 +57,6 @@
     <Compile Include="FBs\MCM_VoltMeter\Enums\E_ReadState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FBs\MCM_VoltMeter\Enums\E_Voltage.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="FBs\MCM_VoltMeter\FB_MCM_V_Mx_ModbusRTU.TcPOU">
       <SubType>Code</SubType>
     </Compile>

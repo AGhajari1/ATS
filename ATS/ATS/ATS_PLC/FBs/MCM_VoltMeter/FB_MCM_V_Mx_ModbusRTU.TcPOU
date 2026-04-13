@@ -23,22 +23,16 @@ VAR
     ErrorCode      	: MODBUS_ERRORS;
 	
     NewData        	: BOOL;
+  
 END_VAR
 VAR CONSTANT
     REG_START       : UINT := 0;
     REG_COUNT       : UINT := 77;
 	
-	//limits for each voltage system
-	VLL208_LOW		: INT := 150;
-	VLL208_HIGH		: INT := 250;
-	VLL480_LOW		: INT := 420;
-	VLL480_HIGH		: INT := 520;
-	VLL600_LOW		: INT := 550;
-	VLL600_HIGH		: INT := 690;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[ModBusSequencer();
-VoltageDetection();]]></ST>
+VoltageCheck();]]></ST>
     </Implementation>
     <Folder Name="Helper" Id="{69e57e93-eff8-46b3-bf6f-b9d144193202}" />
     <Method Name="ModBusSequencer" Id="{aa86de4e-15b4-4d52-9414-eef997b69729}">
@@ -217,29 +211,39 @@ DataOut.AutoFreqCh   := RawData[75] <> 0;
 DataOut.FreqChannel  := RawData[76];]]></ST>
       </Implementation>
     </Method>
-    <Method Name="VoltageDetection" Id="{d12d065a-8f72-408c-9921-036420f737d9}">
-      <Declaration><![CDATA[METHOD PRIVATE VoltageDetection
-]]></Declaration>
+    <Method Name="VoltageCheck" Id="{d12d065a-8f72-408c-9921-036420f737d9}">
+      <Declaration><![CDATA[METHOD PRIVATE VoltageCheck
+VAR_INST
+	AverageVoltage	: REAL;
+	VoltageOK       : BOOL;
+	FrequencyOK		: BOOL;
+	PhaseAngleAB_OK	: BOOL;
+	PhaseAngleBC_OK	: BOOL;
+	PhaseAngleCA_OK	: BOOL;
+	StabilityTimer 	: TON;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//Voltage Range Detection	
-IF	 	Dataout.VoltageAB <= VLL208_HIGH AND DataOut.VoltageAB >= VLL208_LOW AND
-		DataOut.VoltageBC <= VLL208_HIGH AND P_DataOut.VoltageAB >= VLL208_LOW AND
-		DataOut.VoltageCA <= VLL208_HIGH AND P_DataOut.VoltageAB >= VLL208_LOW
-THEN
-	DataOut.VLL:= E_Voltage.VLL208;	
-ELSIF 	DataOut.VoltageAB <= VLL480_HIGH AND DataOut.VoltageAB >= VLL480_LOW AND
-		DataOut.VoltageBC <= VLL480_HIGH AND DataOut.VoltageAB >= VLL480_LOW AND
-		DataOut.VoltageCA <= VLL480_HIGH AND DataOut.VoltageAB >= VLL480_LOW
-THEN
-	DataOut.VLL:= E_Voltage.VLL480;	
-ELSIF 	DataOut.VoltageAB <= VLL600_HIGH AND DataOut.VoltageAB >= VLL600_LOW AND
-		DataOut.VoltageBC <= VLL600_HIGH AND DataOut.VoltageAB >= VLL600_LOW AND
-		DataOut.VoltageCA <= VLL600_HIGH AND DataOut.VoltageAB >= VLL600_LOW
-THEN
-	DataOut.VLL:= E_Voltage.VLL600;	
-ELSE
-	DataOut.VLL:= E_Voltage.UNKNOWN;
-END_IF]]></ST>
+        <ST><![CDATA[//VOLTAGE CHECK
+AverageVoltage := (DataOut.VAB_16 + DataOut.VBC_16 + DataOut.VCA_16) / 3.0;
+
+VoltageOK := (AverageVoltage >= Config.NominalVoltage * (1.0 - Config.VoltageTolerance)) AND
+             (AverageVoltage <= Config.NominalVoltage * (1.0 + Config.VoltageTolerance));
+
+
+//FREQUENCY CHECK
+FrequencyOK := (DataOut.Frequency >= Config.NominalFrequency - Config.FrequencyTolerance) AND
+               (DataOut.Frequency <= Config.NominalFrequency + Config.FrequencyTolerance);
+
+//PHASE ANGLE CHECKS
+PhaseAngleAB_OK := ABS(DataOut.AngAB_16 - 0.0)   <= Config.AngleTolerance OR ABS(DataOut.AngAB_16 - 360.0)   <= Config.AngleTolerance;
+PhaseAngleBC_OK := ABS(DataOut.AngBC_16 - 120.0)  <= Config.AngleTolerance;
+PhaseAngleCA_OK := ABS(DataOut.AngAC_16 - 240.0)  <= Config.AngleTolerance;
+
+//WAIT TO STABLIZE
+StabilityTimer (IN  := VoltageOK AND FrequencyOK AND PhaseAngleAB_OK AND PhaseAngleBC_OK AND PhaseAngleCA_OK,
+           		PT  := Config.StableTime);
+
+DataOut.VoltageStabilized := StabilityTimer .Q;]]></ST>
       </Implementation>
     </Method>
     <Method Name="WordsToReal" Id="{b84595d3-9f58-46c1-ac2e-e1607073fc55}" FolderPath="Helper\">
