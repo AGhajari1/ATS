@@ -6,9 +6,16 @@
 {attribute 'to_string'}
 TYPE E_TransferState :
 (
-	ATS_OFF 	:= 0,
-	ATS_ON_GEN 	:= 10,
-	ATS_ON_LINE	:= 20
+	IDLE				:=0,
+    LINE_NORMAL			:=1,
+    LINE_LOST			:=2,
+    OPENING_LINE_CB		:=3,
+    WAITING_TRANSITION	:=4,
+    CLOSING_GEN_CB		:=5,
+    ON_GENERATOR		:=6,
+    OPENING_GEN_CB		:=7,
+    CLOSING_LINE_CB		:=8,
+    RETRANSFER			:=9
 );
 END_TYPE
 ]]></Declaration>

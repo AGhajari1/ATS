@@ -3,10 +3,11 @@
   <DUT Name="ST_StatusATS" Id="{d5c057e3-4410-4f65-ab19-3ec03c1e06ac}">
     <Declaration><![CDATA[TYPE ST_StatusATS :
 STRUCT
-	OnGen				: BOOL := FALSE;
-	OnLine				: BOOL := FALSE;
-	OFF					: BOOL := FALSE;
-	Error				: BOOL := FALSE;
+	OnGenerator     : BOOL;     
+	OnLine          : BOOL;     
+	BothOpen        : BOOL;     
+	BothClosed      : BOOL;    
+	TransferFault   : BOOL;  
 END_STRUCT
 END_TYPE
 ]]></Declaration>

@@ -3,19 +3,25 @@
   <POU Name="FB_Transfer" Id="{80f70b09-74c0-4147-96f3-c563c02f3aad}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Transfer
 VAR
-	INIT									: BOOL := TRUE;
-	Definition								: ST_DefinitionATS;
-	Config									: ST_ConfigATS;
-	Status	 								: ST_StatusATS;
+	INIT				: BOOL := TRUE;
+	Definition			: ST_DefinitionATS;
+	Config				: ST_ConfigATS;
+	Status	 			: ST_StatusATS;
+	                    
+	GenCB				: FB_EmaxBreakerBase;
+	LineCB				: FB_EmaxBreakerBase;
+	MCM_Line			: FB_MCM_V_Mx_ModbusRTU;
+	MCM_Gen				: FB_MCM_V_Mx_ModbusRTU;	
 	
-	GenCB									: FB_EmaxBreakerBase;
-	LineCB									: FB_EmaxBreakerBase;
-	MCM_Line								: FB_MCM_V_Mx_ModbusRTU;
-	MCM_Gen									: FB_MCM_V_Mx_ModbusRTU;	
+	AutoMode        	: BOOL;     
+	ManualToGen     	: BOOL;    
+	ManualToLine    	: BOOL;          
+	TransferTimer   	: TON;    
+	RetransferTimer 	: TON;      
 END_VAR
 
 VAR PERSISTENT
-	CurrentState							: E_TransferState := E_TransferState.ATS_OFF;
+	TransferState							: E_TransferState := E_TransferState.IDLE;
 	Error									: ST_Error;
 END_VAR
 
@@ -27,7 +33,8 @@ M_MCM_Voltmeter();
 
 M_StateMachine();
 
-INIT:= FALSE;]]></ST>
+INIT:= FALSE;
+]]></ST>
     </Implementation>
     <Folder Name="Devices" Id="{0f8978a1-dd06-4f57-828d-45828f0df427}" />
     <Method Name="M_GenCB" Id="{1b42c6b1-77a5-4799-a20f-060ab13156d7}" FolderPath="Devices\">
@@ -111,22 +118,102 @@ MCM_Gen.P_Config.Enable:=TRUE;
     </Method>
     <Method Name="M_StateMachine" Id="{7309beaf-6981-4895-822f-b929ea1bb9d2}">
       <Declaration><![CDATA[METHOD PRIVATE M_StateMachine
-VAR
+VAR_INST
+	TransitionTimer		: TON;
 	
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE CurrentState OF
-	E_TransferState.ATS_OFF:
-		//
-	E_TransferState.ATS_ON_GEN:
-		//
-	E_TransferState.ATS_ON_LINE:
-		//
-END_CASE
+        <ST><![CDATA[// SAFETY: BOTH CLOSED / BOTH OPEN DETECTION
+Status.BothClosed := LineCB.P_Status.CB_Closed.P_Status.P_Value AND GenCB.P_Status.CB_Closed.P_Status.P_Value;
+Status.BothOpen   := LineCB.P_Status.CB_Open.P_Status.P_Value   AND GenCB.P_Status.CB_Open.P_Status.P_Value;
 
+// FAULT DETECTION
+Status.TransferFault := Status.BothClosed
+                     	OR LineCB.P_Status.CB_Tripped.P_Status.P_Value
+                     	OR GenCB.P_Status.CB_Tripped.P_Status.P_Value
+                     	OR LineCB.P_Status.CB_Fault.P_Status.P_Value
+                     	OR GenCB.P_Status.CB_Fault.P_Status.P_Value;
 
-]]></ST>
+//STATE MACHINE
+CASE TransferState OF
+
+    E_TransferState.IDLE:
+        IF AutoMode THEN
+            TransferState := E_TransferState.LINE_NORMAL;
+        END_IF;
+
+    E_TransferState.LINE_NORMAL:
+        Status.OnLine      := LineCB.P_Status.CB_Closed.P_Status.P_Value;
+        Status.OnGenerator := FALSE;
+        IF NOT MCM_Line.P_DataOut.VoltageStabilized OR ManualToGen THEN
+            TransferState := E_TransferState.LINE_LOST;
+        END_IF;
+
+    E_TransferState.LINE_LOST:
+        IF MCM_Gen.P_DataOut.VoltageStabilized THEN
+            TransferState := E_TransferState.OPENING_LINE_CB;
+        END_IF;
+
+    E_TransferState.OPENING_LINE_CB:
+        LineCB.M_Open();
+        IF LineCB.P_Status.CB_Open.P_Status.P_Value THEN
+            TransitionTimer(IN := FALSE, PT := Config.ToGenTransitionTime);
+            TransferState := E_TransferState.WAITING_TRANSITION;
+        END_IF;
+
+    E_TransferState.WAITING_TRANSITION:
+        TransitionTimer(IN := TRUE, PT := Config.ToGenTransitionTime);
+        IF TransitionTimer.Q THEN
+            TransitionTimer(IN := FALSE, PT := Config.ToGenTransitionTime);
+            TransferState := E_TransferState.CLOSING_GEN_CB;
+        END_IF;
+
+    E_TransferState.CLOSING_GEN_CB:
+        GenCB.M_Close();
+        IF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
+            TransferState := E_TransferState.ON_GENERATOR;
+        END_IF;
+
+    E_TransferState.ON_GENERATOR:
+        Status.OnGenerator := TRUE;
+        Status.OnLine      := FALSE;
+        IF MCM_Line.P_DataOut.VoltageStabilized THEN
+            RetransferTimer(IN := TRUE, PT := Config.RetransferDelay);
+        ELSE
+            RetransferTimer(IN := FALSE, PT := Config.RetransferDelay);
+        END_IF;
+        IF (RetransferTimer.Q AND Config.AutoRetransfer) OR ManualToLine THEN
+            RetransferTimer(IN := FALSE, PT := Config.RetransferDelay);
+            TransferState := E_TransferState.OPENING_GEN_CB;
+        END_IF;
+
+    E_TransferState.OPENING_GEN_CB:
+        GenCB.M_Open();
+        IF GenCB.P_Status.CB_Open.P_Status.P_Value THEN
+            TransitionTimer(IN := FALSE, PT := Config.ToLineTransitionTime);
+            TransferState := E_TransferState.RETRANSFER;
+        END_IF;
+
+    E_TransferState.RETRANSFER:
+        TransitionTimer(IN := TRUE, PT := Config.RetransferDelay);
+        IF TransitionTimer.Q THEN
+            TransitionTimer(IN := FALSE, PT := Config.RetransferDelay);
+            TransferState := E_TransferState.CLOSING_LINE_CB;
+        END_IF;
+
+    E_TransferState.CLOSING_LINE_CB:
+        LineCB.M_Close();
+        IF LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
+            TransferState := E_TransferState.LINE_NORMAL;
+        END_IF;
+
+END_CASE;
+
+// FAULT FORCES IDLE
+IF Status.TransferFault THEN
+    TransferState := E_TransferState.IDLE;
+END_IF;]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Config" Id="{c80d9a0c-3599-4a11-9022-6117c18866c2}">

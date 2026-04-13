@@ -13,7 +13,8 @@ STRUCT
 	ToGenTransitionTime		    : TIME := T#1S;
 	ToLineTransitionTime	    : TIME := T#1S;
 	
-
+	AutoRetransfer				: BOOL := TRUE;
+	RetransferDelay				: TIME := T#1S;
 END_STRUCT
 END_TYPE
 ]]></Declaration>
