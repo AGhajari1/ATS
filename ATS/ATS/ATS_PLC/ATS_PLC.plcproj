@@ -54,10 +54,13 @@
     <Compile Include="FBs\DO\Structures\ST_StatusDO.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FBs\MCM_VoltMeter\FB_MCM_V_Mx_ModbusRTU.TcPOU">
+    <Compile Include="FBs\MCM_VoltMeter\Enums\E_ReadState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FBs\MCM_VoltMeter\Structures\E_ReadState.TcDUT">
+    <Compile Include="FBs\MCM_VoltMeter\Enums\E_Voltage.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs\MCM_VoltMeter\FB_MCM_V_Mx_ModbusRTU.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FBs\MCM_VoltMeter\Structures\ST_MCM_Config.TcDUT">
@@ -109,6 +112,7 @@
     <Folder Include="FBs\DI" />
     <Folder Include="FBs\DO" />
     <Folder Include="FBs\Breaker" />
+    <Folder Include="FBs\MCM_VoltMeter\Enums" />
     <Folder Include="FBs\MCM_VoltMeter\Structures" />
     <Folder Include="FBs\Transfer_StateMachine" />
     <Folder Include="FBs\Transfer_StateMachine\ENUM" />

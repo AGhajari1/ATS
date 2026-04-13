@@ -1,0 +1,3 @@
+using Beckhoff modbus library for KL6022 card since both are 22bytes
+library doesn't initialize so card needs to be set to send data continuous
+this is done via setting bit 8000:04 and 8010:04 to True (Enable send FIFO data continuous) 

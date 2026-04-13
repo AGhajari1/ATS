@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <DUT Name="E_Voltage" Id="{64016fae-5c89-4239-9339-0fb67515c751}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE E_Voltage :
+(
+	UNKNOWN	:= 0,
+	VLL208	:= 1,
+	VLL480	:= 2,
+	VLL600	:= 3
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

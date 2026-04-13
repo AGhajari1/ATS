@@ -17,7 +17,9 @@ END_VAR
 VAR PERSISTENT
 	CurrentState							: E_TransferState := E_TransferState.ATS_OFF;
 	Error									: ST_Error;
-END_VAR]]></Declaration>
+END_VAR
+
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[M_LineCB();
 M_GenCB();
@@ -98,15 +100,12 @@ END_VAR]]></Declaration>
 	MCM_Gen.P_Config.SampleTime			:= T#200MS;
 END_IF
 
-
-
-
-
 MCM_Line();
 MCM_Gen();
 
 MCM_Line.P_Config.Enable:=TRUE;
 MCM_Gen.P_Config.Enable:=TRUE;
+
 ]]></ST>
       </Implementation>
     </Method>

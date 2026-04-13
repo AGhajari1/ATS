@@ -4,7 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_MCM_V_Mx_ModbusRTU
 VAR
 	INIT	AT%Q*	: BIT;
-    Modbus         	: ModbusRtuMasterV2_KL6x22B; 
+    ModbusFB        : ModbusRtuMasterV2_KL6x22B; 
 	Definition		: ST_MCM_Definition;
  	Config			: ST_MCM_Config;
     RawData        	: ARRAY[0..76] OF WORD; 
@@ -27,11 +27,26 @@ END_VAR
 VAR CONSTANT
     REG_START       : UINT := 0;
     REG_COUNT       : UINT := 77;
-END_VAR
- ]]></Declaration>
+	
+	//limits for each voltage system
+	VLL208_LOW		: INT := 150;
+	VLL208_HIGH		: INT := 250;
+	VLL480_LOW		: INT := 420;
+	VLL480_HIGH		: INT := 520;
+	VLL600_LOW		: INT := 550;
+	VLL600_HIGH		: INT := 690;
+END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[NewData := FALSE;
-CommCtrl  := ADR(Modbus.OutData.Ctrl); // DO NOT USE OR MANIPULATE TESTING ONLY
+      <ST><![CDATA[ModBusSequencer();
+VoltageDetection();]]></ST>
+    </Implementation>
+    <Folder Name="Helper" Id="{69e57e93-eff8-46b3-bf6f-b9d144193202}" />
+    <Method Name="ModBusSequencer" Id="{aa86de4e-15b4-4d52-9414-eef997b69729}">
+      <Declaration><![CDATA[METHOD PRIVATE ModBusSequencer
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[NewData := FALSE;
+CommCtrl  := ADR(ModbusFB.OutData.Ctrl); // DO NOT USE OR MANIPULATE TESTING ONLY
 CommInitRequest := CommCtrl^; // DO NOT USE OR MANIPULATE TESTING ONLY
 IF NOT Config.Enable THEN
     State   := E_ReadState.Idle;
@@ -89,7 +104,7 @@ END_CASE
 RetryTimer(PT:=Config.RetryTime);
 NextReadTimer(PT:=Config.SampleTime);
 
-Modbus.ReadRegs(
+ModbusFB.ReadRegs(
     UnitID      := Config.SlaveAddr,
     Quantity    := REG_COUNT,
     MBAddr      := REG_START,
@@ -102,7 +117,8 @@ Modbus.ReadRegs(
 	Errorid		=>ErrorCode
 );
 ]]></ST>
-    </Implementation>
+      </Implementation>
+    </Method>
     <Property Name="P_Config" Id="{d3f163c3-9fce-47dc-8111-cfee114bcdd0}">
       <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
 PROPERTY P_Config : REFERENCE TO ST_MCM_Config]]></Declaration>
@@ -135,7 +151,7 @@ PROPERTY P_Definition : REFERENCE TO ST_MCM_Definition]]></Declaration>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="ParseData" Id="{c46f2e3a-5ebe-4375-846b-87cb1bc0b137}">
+    <Method Name="ParseData" Id="{c46f2e3a-5ebe-4375-846b-87cb1bc0b137}" FolderPath="Helper\">
       <Declaration><![CDATA[METHOD PRIVATE ParseData]]></Declaration>
       <Implementation>
         <ST><![CDATA[Dataout.DataCount:=Dataout.DataCount+1;
@@ -201,7 +217,32 @@ DataOut.AutoFreqCh   := RawData[75] <> 0;
 DataOut.FreqChannel  := RawData[76];]]></ST>
       </Implementation>
     </Method>
-    <Method Name="WordsToReal" Id="{b84595d3-9f58-46c1-ac2e-e1607073fc55}">
+    <Method Name="VoltageDetection" Id="{d12d065a-8f72-408c-9921-036420f737d9}">
+      <Declaration><![CDATA[METHOD PRIVATE VoltageDetection
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//Voltage Range Detection	
+IF	 	Dataout.VoltageAB <= VLL208_HIGH AND DataOut.VoltageAB >= VLL208_LOW AND
+		DataOut.VoltageBC <= VLL208_HIGH AND P_DataOut.VoltageAB >= VLL208_LOW AND
+		DataOut.VoltageCA <= VLL208_HIGH AND P_DataOut.VoltageAB >= VLL208_LOW
+THEN
+	DataOut.VLL:= E_Voltage.VLL208;	
+ELSIF 	DataOut.VoltageAB <= VLL480_HIGH AND DataOut.VoltageAB >= VLL480_LOW AND
+		DataOut.VoltageBC <= VLL480_HIGH AND DataOut.VoltageAB >= VLL480_LOW AND
+		DataOut.VoltageCA <= VLL480_HIGH AND DataOut.VoltageAB >= VLL480_LOW
+THEN
+	DataOut.VLL:= E_Voltage.VLL480;	
+ELSIF 	DataOut.VoltageAB <= VLL600_HIGH AND DataOut.VoltageAB >= VLL600_LOW AND
+		DataOut.VoltageBC <= VLL600_HIGH AND DataOut.VoltageAB >= VLL600_LOW AND
+		DataOut.VoltageCA <= VLL600_HIGH AND DataOut.VoltageAB >= VLL600_LOW
+THEN
+	DataOut.VLL:= E_Voltage.VLL600;	
+ELSE
+	DataOut.VLL:= E_Voltage.UNKNOWN;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="WordsToReal" Id="{b84595d3-9f58-46c1-ac2e-e1607073fc55}" FolderPath="Helper\">
       <Declaration><![CDATA[METHOD PRIVATE WordsToReal : REAL
 VAR_INPUT
     High : WORD;

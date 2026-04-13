@@ -5,12 +5,12 @@
   <Children>
     <Node>
       <Title>YT Scope NC Project</Title>
-      <Expanded>True</Expanded>
+      <Expanded>False</Expanded>
       <FileName>C:\Repos\SNL_ATS\Scope\ATS_Scope\YT Scope NC Project.tcscopex</FileName>
       <Children>
         <Node>
           <Title>DataPool</Title>
-          <Expanded>True</Expanded>
+          <Expanded>False</Expanded>
           <FileName></FileName>
           <Children>
             <Node>
@@ -20,13 +20,7 @@
               <Children />
             </Node>
             <Node>
-              <Title>BUSY_M</Title>
-              <Expanded>False</Expanded>
-              <FileName></FileName>
-              <Children />
-            </Node>
-            <Node>
-              <Title>cbRead</Title>
+              <Title>CommInitRequest</Title>
               <Expanded>False</Expanded>
               <FileName></FileName>
               <Children />
@@ -38,7 +32,7 @@
               <Children />
             </Node>
             <Node>
-              <Title>Error_M</Title>
+              <Title>Execute</Title>
               <Expanded>False</Expanded>
               <FileName></FileName>
               <Children />
@@ -49,32 +43,68 @@
               <FileName></FileName>
               <Children />
             </Node>
+            <Node>
+              <Title>Q_Next read timer</Title>
+              <Expanded>False</Expanded>
+              <FileName></FileName>
+              <Children />
+            </Node>
+            <Node>
+              <Title>State</Title>
+              <Expanded>False</Expanded>
+              <FileName></FileName>
+              <Children />
+            </Node>
+            <Node>
+              <Title>VA_16</Title>
+              <Expanded>False</Expanded>
+              <FileName></FileName>
+              <Children />
+            </Node>
+            <Node>
+              <Title>VB_16</Title>
+              <Expanded>False</Expanded>
+              <FileName></FileName>
+              <Children />
+            </Node>
+            <Node>
+              <Title>VC_16</Title>
+              <Expanded>False</Expanded>
+              <FileName></FileName>
+              <Children />
+            </Node>
+            <Node>
+              <Title>VoltageAB</Title>
+              <Expanded>False</Expanded>
+              <FileName></FileName>
+              <Children />
+            </Node>
+            <Node>
+              <Title>VoltageBC</Title>
+              <Expanded>False</Expanded>
+              <FileName></FileName>
+              <Children />
+            </Node>
+            <Node>
+              <Title>VoltageCA</Title>
+              <Expanded>False</Expanded>
+              <FileName></FileName>
+              <Children />
+            </Node>
           </Children>
         </Node>
         <Node>
           <Title>YT Chart</Title>
-          <Expanded>True</Expanded>
+          <Expanded>False</Expanded>
           <FileName></FileName>
           <Children>
             <Node>
               <Title>Axis Group</Title>
-              <Expanded>True</Expanded>
+              <Expanded>False</Expanded>
               <FileName></FileName>
               <Children>
                 <Node>
                   <Title>Busy</Title>
-                  <Expanded>False</Expanded>
-                  <FileName></FileName>
-                  <Children />
-                </Node>
-                <Node>
-                  <Title>BUSY_M</Title>
-                  <Expanded>False</Expanded>
-                  <FileName></FileName>
-                  <Children />
-                </Node>
-                <Node>
-                  <Title>cbRead</Title>
                   <Expanded>False</Expanded>
                   <FileName></FileName>
                   <Children />
@@ -86,13 +116,45 @@
                   <Children />
                 </Node>
                 <Node>
-                  <Title>Error_M</Title>
+                  <Title>INIT</Title>
                   <Expanded>False</Expanded>
                   <FileName></FileName>
                   <Children />
                 </Node>
                 <Node>
-                  <Title>INIT</Title>
+                  <Title>Execute</Title>
+                  <Expanded>False</Expanded>
+                  <FileName></FileName>
+                  <Children />
+                </Node>
+                <Node>
+                  <Title>State</Title>
+                  <Expanded>False</Expanded>
+                  <FileName></FileName>
+                  <Children />
+                </Node>
+              </Children>
+            </Node>
+          </Children>
+        </Node>
+        <Node>
+          <Title>YT Chart (1)</Title>
+          <Expanded>False</Expanded>
+          <FileName></FileName>
+          <Children>
+            <Node>
+              <Title>Axis Group (1)</Title>
+              <Expanded>False</Expanded>
+              <FileName></FileName>
+              <Children>
+                <Node>
+                  <Title>VA_16</Title>
+                  <Expanded>False</Expanded>
+                  <FileName></FileName>
+                  <Children />
+                </Node>
+                <Node>
+                  <Title>VB_16</Title>
                   <Expanded>False</Expanded>
                   <FileName></FileName>
                   <Children />
