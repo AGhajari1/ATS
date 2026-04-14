@@ -243,7 +243,9 @@ PhaseAngleCA_OK := ABS(DataOut.AngAC_16 - 240.0)  <= Config.AngleTolerance;
 StabilityTimer (IN  := VoltageOK AND FrequencyOK AND PhaseAngleAB_OK AND PhaseAngleBC_OK AND PhaseAngleCA_OK,
            		PT  := Config.StableTime);
 
-DataOut.VoltageStabilized := StabilityTimer .Q;]]></ST>
+DataOut.VoltageStabilized := StabilityTimer .Q;
+
+//git test]]></ST>
       </Implementation>
     </Method>
     <Method Name="WordsToReal" Id="{b84595d3-9f58-46c1-ac2e-e1607073fc55}" FolderPath="Helper\">
