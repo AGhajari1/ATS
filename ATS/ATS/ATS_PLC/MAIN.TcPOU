@@ -58,7 +58,7 @@ VAR_INST
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[fbTime( bEnable := TRUE, dwCycle := 1);
-SystemTimeString:= SYSTEMTIME_TO_STRING(fbTime.systemTime);]]></ST>
+SystemTimeString:= LEFT(REPLACE(SYSTEMTIME_TO_STRING(fbTime.systemTime),' ',1,11),19);]]></ST>
       </Implementation>
     </Method>
   </POU>

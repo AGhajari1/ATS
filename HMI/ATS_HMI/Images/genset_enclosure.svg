@@ -1,0 +1,123 @@
+<svg width="100%" viewBox="0 0 680 420" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Cute genset enclosure with door on left and stacks on right</title>
+  <desc>A cute minimalistic genset enclosure with access door on left side, tall protruding eyebrow intake, and rooftop superstructure with two exhaust stacks on the right</desc>
+
+  <g transform="translate(110, 40)">
+
+    <!-- Shadow -->
+    <ellipse cx="270" cy="368" rx="300" ry="10" fill="#3a6aaa" opacity="0.15"/>
+
+    <!-- SKID base -->
+    <rect x="10" y="340" width="520" height="20" rx="8" fill="#8ab0d8"/>
+    <rect x="0" y="348" width="540" height="14" rx="7" fill="#7aa0c8"/>
+
+    <!-- MAIN BODY -->
+    <rect x="30" y="168" width="480" height="176" rx="10" fill="#5b8dd9"/>
+    <!-- Vertical ribs -->
+    <line x1="66"  y1="168" x2="66"  y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="102" y1="168" x2="102" y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="138" y1="168" x2="138" y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="174" y1="168" x2="174" y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="210" y1="168" x2="210" y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="246" y1="168" x2="246" y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="282" y1="168" x2="282" y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="318" y1="168" x2="318" y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="354" y1="168" x2="354" y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="390" y1="168" x2="390" y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="426" y1="168" x2="426" y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="462" y1="168" x2="462" y2="344" stroke="#4a7cc8" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Body top edge -->
+    <rect x="30" y="158" width="480" height="16" rx="6" fill="#6a9ce8"/>
+
+    <!-- LEFT bump-out -->
+    <rect x="30" y="200" width="70" height="140" rx="8" fill="#6a9ce8"/>
+    <line x1="52" y1="200" x2="52" y2="340" stroke="#5a8cd8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="74" y1="200" x2="74" y2="340" stroke="#5a8cd8" stroke-width="3" stroke-linecap="round"/>
+    <rect x="30" y="192" width="70" height="14" rx="5" fill="#7aaae8"/>
+
+    <!-- EYEBROW INTAKE HOOD -->
+    <rect x="-80" y="190" width="114" height="110" rx="8" fill="#6a9ce8"/>
+    <rect x="-80" y="194" width="18" height="102" rx="4" fill="#3a5a9a"/>
+    <line x1="-78" y1="204" x2="-65" y2="204" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-78" y1="214" x2="-65" y2="214" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-78" y1="224" x2="-65" y2="224" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-78" y1="234" x2="-65" y2="234" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-78" y1="244" x2="-65" y2="244" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-78" y1="254" x2="-65" y2="254" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-78" y1="264" x2="-65" y2="264" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-78" y1="274" x2="-65" y2="274" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-78" y1="284" x2="-65" y2="284" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="-62" y="194" width="96" height="102" rx="4" fill="#3a5a9a"/>
+    <line x1="-58" y1="204" x2="30" y2="204" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-58" y1="214" x2="30" y2="214" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-58" y1="224" x2="30" y2="224" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-58" y1="234" x2="30" y2="234" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-58" y1="244" x2="30" y2="244" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-58" y1="254" x2="30" y2="254" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-58" y1="264" x2="30" y2="264" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-58" y1="274" x2="30" y2="274" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-58" y1="284" x2="30" y2="284" stroke="#7ec8e3" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="-86" y="182" width="126" height="14" rx="6" fill="#8ab8f0"/>
+    <rect x="-86" y="193" width="126" height="5" rx="2" fill="#4a7cc8"/>
+    <rect x="-80" y="296" width="114" height="8" rx="4" fill="#4a7cc8"/>
+    <rect x="30" y="190" width="6" height="110" fill="#6a9ce8"/>
+
+    <!-- RIGHT bump-out -->
+    <rect x="438" y="210" width="72" height="130" rx="8" fill="#6a9ce8"/>
+    <line x1="458" y1="210" x2="458" y2="340" stroke="#5a8cd8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="478" y1="210" x2="478" y2="340" stroke="#5a8cd8" stroke-width="3" stroke-linecap="round"/>
+    <rect x="438" y="202" width="72" height="14" rx="5" fill="#7aaae8"/>
+
+    <!-- Access door -->
+    <rect x="120" y="178" width="144" height="162" rx="8" fill="#4a7cc8"/>
+    <rect x="128" y="186" width="128" height="146" rx="5" fill="#5b8dd9"/>
+    <rect x="178" y="258" width="28" height="9" rx="4.5" fill="#f5a623"/>
+    <circle cx="140" cy="214" r="4" fill="#3a6cb8"/>
+    <circle cx="140" cy="318" r="4" fill="#3a6cb8"/>
+
+    <!-- Lightning bolt on door -->
+    <polygon points="10,-38 -14,6 4,6 -10,38 17,0 0,0 15,-38"
+             transform="translate(192,262)"
+             fill="#f5a623" stroke="#e07800" stroke-width="2" stroke-linejoin="round"/>
+
+    <!-- ROOFTOP SUPERSTRUCTURE — right side -->
+    <rect x="320" y="96" width="190" height="68" rx="9" fill="#6a9ce8"/>
+    <line x1="350" y1="96" x2="350" y2="164" stroke="#5a8cd8" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="380" y1="96" x2="380" y2="164" stroke="#5a8cd8" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="410" y1="96" x2="410" y2="164" stroke="#5a8cd8" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="440" y1="96" x2="440" y2="164" stroke="#5a8cd8" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="470" y1="96" x2="470" y2="164" stroke="#5a8cd8" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="314" y="86" width="202" height="16" rx="6" fill="#7aaae8"/>
+
+    <!-- Intake hood on top of superstructure -->
+    <rect x="334" y="58" width="162" height="34" rx="7" fill="#7aaae8"/>
+    <rect x="328" y="50" width="174" height="14" rx="6" fill="#8ab8f0"/>
+
+    <!-- TWO EXHAUST STACKS -->
+    <rect x="368" y="-18" width="22" height="110" rx="7" fill="#8ab0d8"/>
+    <ellipse cx="379" cy="-18" rx="11" ry="5" fill="#9ac0e8"/>
+    <rect x="432" y="-30" width="22" height="124" rx="7" fill="#8ab0d8"/>
+    <ellipse cx="443" cy="-30" rx="11" ry="5" fill="#9ac0e8"/>
+
+    <!-- Lattice brace -->
+    <line x1="379" y1="20" x2="443" y2="40" stroke="#7aa0c8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="443" y1="20" x2="379" y2="40" stroke="#7aa0c8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="379" y1="40" x2="443" y2="60" stroke="#7aa0c8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="443" y1="40" x2="379" y2="60" stroke="#7aa0c8" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Exhaust puffs -->
+    <circle cx="379" cy="-30" r="8" fill="#c8d8f0" opacity="0.5"/>
+    <circle cx="390" cy="-42" r="5" fill="#c8d8f0" opacity="0.35"/>
+    <circle cx="443" cy="-44" r="9" fill="#c8d8f0" opacity="0.5"/>
+    <circle cx="456" cy="-56" r="6" fill="#c8d8f0" opacity="0.35"/>
+
+    <!-- Ground -->
+    <line x1="-96" y1="370" x2="550" y2="370" stroke="#a8c9a0" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-76" y1="370" x2="-82" y2="358" stroke="#a8c9a0" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-64" y1="370" x2="-62" y2="359" stroke="#a8c9a0" stroke-width="3" stroke-linecap="round"/>
+    <line x1="528" y1="370" x2="534" y2="358" stroke="#a8c9a0" stroke-width="3" stroke-linecap="round"/>
+    <line x1="540" y1="370" x2="538" y2="359" stroke="#a8c9a0" stroke-width="3" stroke-linecap="round"/>
+
+  </g>
+</svg>

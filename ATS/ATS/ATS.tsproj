@@ -95,7 +95,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{8196D76A-1476-42AB-B3B0-D536DFC9598E}" Name="ATS_PLC" PrjFilePath="ATS_PLC\ATS_PLC.plcproj" TmcFilePath="ATS_PLC\ATS_PLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{D11B154B-0EB0-F307-C2FA-6C5A5FD100A3}" TmcPath="ATS_PLC\ATS_PLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{3031B11F-AF66-CBCD-B543-967F82E99EB9}" TmcPath="ATS_PLC\ATS_PLC.tmc">
 					<Name>ATS_PLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -117,16 +117,8 @@
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.ATS.MCM_Line.INIT</Name>
-							<Type>BIT</Type>
-						</Var>
-						<Var>
 							<Name>MAIN.ATS.MCM_Line.ModbusFB.OutData</Name>
 							<Type GUID="{E4C24E72-EF65-C814-8E17-663F53275EE3}" Namespace="Tc2_ModbusRTU">MB_KL6outData22B</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.ATS.MCM_Gen.INIT</Name>
-							<Type>BIT</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.ATS.MCM_Gen.ModbusFB.OutData</Name>

@@ -146,6 +146,15 @@
     <Content Include=".eslintrc.json">
       <Visible>false</Visible>
     </Content>
+    <Content Include="Images\genset_enclosure.svg">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\power_transmission_tower.svg">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\SNL_LOGO.png">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Server\TcHmiLua\TcHmiLua.Config.default.json">
       <SubType>Content</SubType>
     </Content>

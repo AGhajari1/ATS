@@ -384,6 +384,57 @@
     "SOCKET_TIMEOUT": "PT10S",
     "SUBSCRIPTION_FLOODPROTECTION": 100,
     "SYMBOLS": {
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.Freq_16": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Gen::DataOut::Freq_16",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/REAL"
+                    },
+                    {
+                        "propertyOrder": 14
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.Freq_16": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Line::DataOut::Freq_16",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/REAL"
+                    },
+                    {
+                        "propertyOrder": 14
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VAB_16": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Line::DataOut::VAB_16",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/REAL"
+                    },
+                    {
+                        "propertyOrder": 7
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VA_16": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -396,6 +447,74 @@
                     },
                     {
                         "propertyOrder": 3
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VBC_16": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Line::DataOut::VBC_16",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/REAL"
+                    },
+                    {
+                        "propertyOrder": 8
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VB_16": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Line::DataOut::VB_16",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/REAL"
+                    },
+                    {
+                        "propertyOrder": 4
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VCA_16": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Line::DataOut::VCA_16",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/REAL"
+                    },
+                    {
+                        "propertyOrder": 9
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VC_16": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Line::DataOut::VC_16",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/REAL"
+                    },
+                    {
+                        "propertyOrder": 5
                     }
                 ]
             },
@@ -3954,7 +4073,14 @@
             },
             "SYMBOLACCESS": 0,
             "SYMBOLS": {
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.Freq_16": 3,
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.Freq_16": 3,
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VAB_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VA_16": 3,
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VBC_16": 3,
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VB_16": 3,
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VCA_16": 3,
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VC_16": 3,
                 "ADS.ATS_PLC.MAIN.M_SystemTime.fbTime.systemTime": 3,
                 "ADS.ATS_PLC.MAIN.SystemTimeString": 3,
                 "ADS.AdsSyncReadDeviceInfoReq": 3,

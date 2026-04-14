@@ -1,0 +1,78 @@
+<svg width="100%" viewBox="0 0 680 640" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Cute puffy power transmission tower with big lightning bolt</title>
+  <desc>A cute minimalistic power transmission tower with wide legs and a large bold orange-yellow lightning bolt</desc>
+
+  <g transform="translate(340, 60)">
+
+    <!-- Crossarm top -->
+    <line x1="-90" y1="30" x2="90" y2="30" stroke="#5b8dd9" stroke-width="8" stroke-linecap="round"/>
+    <!-- Crossarm mid -->
+    <line x1="-110" y1="120" x2="110" y2="120" stroke="#5b8dd9" stroke-width="8" stroke-linecap="round"/>
+    <!-- Crossarm lower -->
+    <line x1="-130" y1="210" x2="130" y2="210" stroke="#5b8dd9" stroke-width="8" stroke-linecap="round"/>
+
+    <!-- Insulator stubs top -->
+    <line x1="-90" y1="30" x2="-90" y2="52" stroke="#5b8dd9" stroke-width="7" stroke-linecap="round"/>
+    <line x1="90" y1="30" x2="90" y2="52" stroke="#5b8dd9" stroke-width="7" stroke-linecap="round"/>
+    <!-- Insulator stubs mid -->
+    <line x1="-110" y1="120" x2="-110" y2="142" stroke="#5b8dd9" stroke-width="7" stroke-linecap="round"/>
+    <line x1="110" y1="120" x2="110" y2="142" stroke="#5b8dd9" stroke-width="7" stroke-linecap="round"/>
+    <!-- Insulator stubs lower -->
+    <line x1="-130" y1="210" x2="-130" y2="232" stroke="#5b8dd9" stroke-width="7" stroke-linecap="round"/>
+    <line x1="130" y1="210" x2="130" y2="232" stroke="#5b8dd9" stroke-width="7" stroke-linecap="round"/>
+
+    <!-- Insulator dots top -->
+    <circle cx="-90" cy="57" r="7" fill="#7ec8e3"/>
+    <circle cx="90" cy="57" r="7" fill="#7ec8e3"/>
+    <!-- Insulator dots mid -->
+    <circle cx="-110" cy="147" r="7" fill="#7ec8e3"/>
+    <circle cx="110" cy="147" r="7" fill="#7ec8e3"/>
+    <!-- Insulator dots lower -->
+    <circle cx="-130" cy="237" r="7" fill="#7ec8e3"/>
+    <circle cx="130" cy="237" r="7" fill="#7ec8e3"/>
+
+    <!-- Main vertical legs -->
+    <line x1="-14" y1="0" x2="-72" y2="440" stroke="#5b8dd9" stroke-width="10" stroke-linecap="round"/>
+    <line x1="14" y1="0" x2="72" y2="440" stroke="#5b8dd9" stroke-width="10" stroke-linecap="round"/>
+
+    <!-- Diagonal bracing -->
+    <line x1="-14" y1="30" x2="14" y2="80" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="14" y1="30" x2="-14" y2="80" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-20" y1="80" x2="20" y2="130" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="20" y1="80" x2="-20" y2="130" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-27" y1="130" x2="27" y2="185" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="27" y1="130" x2="-27" y2="185" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-34" y1="185" x2="34" y2="245" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="34" y1="185" x2="-34" y2="245" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-41" y1="245" x2="41" y2="310" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="41" y1="245" x2="-41" y2="310" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-50" y1="310" x2="50" y2="375" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="50" y1="310" x2="-50" y2="375" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-60" y1="375" x2="60" y2="440" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+    <line x1="60" y1="375" x2="-60" y2="440" stroke="#5b8dd9" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Top crown / hat -->
+    <ellipse cx="0" cy="-6" rx="17" ry="9" fill="#5b8dd9"/>
+    <rect x="-5.5" y="-19" width="11" height="21" rx="4" fill="#5b8dd9"/>
+    <circle cx="0" cy="-22" r="6" fill="#f0c040"/>
+
+    <!-- Big bold lightning bolt centered on body -->
+    <polygon points="12,-46 -18,8 5,8 -12,46 22,0 0,0 20,-46"
+             transform="translate(0,315)"
+             fill="#f5a623" stroke="#e07800" stroke-width="2" stroke-linejoin="round"/>
+
+    <!-- Feet / base plate -->
+    <rect x="-82" y="438" width="30" height="11" rx="5.5" fill="#5b8dd9"/>
+    <rect x="52" y="438" width="30" height="11" rx="5.5" fill="#5b8dd9"/>
+
+    <!-- Ground line -->
+    <line x1="-110" y1="452" x2="110" y2="452" stroke="#a8c9a0" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Little grass tufts -->
+    <line x1="-90" y1="452" x2="-96" y2="440" stroke="#a8c9a0" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-82" y1="452" x2="-80" y2="441" stroke="#a8c9a0" stroke-width="3" stroke-linecap="round"/>
+    <line x1="90" y1="452" x2="96" y2="440" stroke="#a8c9a0" stroke-width="3" stroke-linecap="round"/>
+    <line x1="82" y1="452" x2="80" y2="441" stroke="#a8c9a0" stroke-width="3" stroke-linecap="round"/>
+
+  </g>
+</svg>
