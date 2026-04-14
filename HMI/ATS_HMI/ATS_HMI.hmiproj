@@ -146,6 +146,9 @@
     <Content Include=".eslintrc.json">
       <Visible>false</Visible>
     </Content>
+    <Content Include="Images\BoxdWolfLogo.png">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Images\genset_enclosure.svg">
       <SubType>Content</SubType>
     </Content>

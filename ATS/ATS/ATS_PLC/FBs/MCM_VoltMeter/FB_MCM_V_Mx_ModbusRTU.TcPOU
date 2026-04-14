@@ -244,8 +244,7 @@ StabilityTimer (IN  := VoltageOK AND FrequencyOK AND PhaseAngleAB_OK AND PhaseAn
            		PT  := Config.StableTime);
 
 DataOut.VoltageStabilized := StabilityTimer .Q;
-
-//git test]]></ST>
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="WordsToReal" Id="{b84595d3-9f58-46c1-ac2e-e1607073fc55}" FolderPath="Helper\">
