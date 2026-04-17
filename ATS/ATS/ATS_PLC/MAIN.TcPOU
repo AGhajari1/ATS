@@ -10,8 +10,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-M_SystemTime();
+      <ST><![CDATA[M_SystemTime();
 
 M_Definition();
 
