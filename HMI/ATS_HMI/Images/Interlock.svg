@@ -1,0 +1,10 @@
+<svg width="100%" viewBox="0 0 680 120" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Horizontal dashed line with downward-pointing hollow triangle in the middle</title>
+  <desc>A black horizontal dashed line spanning the width, with a downward-pointing hollow black triangle centered on it.</desc>
+
+  <line x1="96" y1="60" x2="270" y2="60" stroke="black" stroke-width="2" stroke-dasharray="14,14"/>
+
+  <polygon points="340,92 300,28 380,28" fill="none" stroke="black" stroke-width="2"/>
+
+  <line x1="410" y1="60" x2="584" y2="60" stroke="black" stroke-width="2" stroke-dasharray="14,14"/>
+</svg>

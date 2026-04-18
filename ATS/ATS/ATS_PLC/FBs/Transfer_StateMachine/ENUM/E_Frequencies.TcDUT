@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
+  <DUT Name="E_Frequencies" Id="{43b5346e-0208-47d3-ac97-4b934410ff04}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE E_Frequencies :
+(
+	_50Hz := 50,
+	_60Hz := 60
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

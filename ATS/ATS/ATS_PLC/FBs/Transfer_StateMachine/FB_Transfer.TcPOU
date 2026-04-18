@@ -17,7 +17,11 @@ VAR
 	ManualToGen     	: BOOL;    
 	ManualToLine    	: BOOL;          
 	TransferTimer   	: TON;    
-	RetransferTimer 	: TON;      
+	RetransferTimer 	: TON;     
+
+	SystemVoltage		: E_Voltages := E_Voltages._600V; 
+	SystemFrequency		: E_Frequencies := E_Frequencies._60Hz;
+	
 END_VAR
 
 VAR PERSISTENT
@@ -107,6 +111,11 @@ END_VAR]]></Declaration>
 	MCM_Gen.P_Config.SampleTime			:= T#200MS;
 END_IF
 
+MCM_Gen.P_Config.NominalVoltage:= MCM_Line.P_Config.NominalVoltage:= TO_INT(SystemVoltage);
+MCM_Gen.P_Config.NominalFrequency:= MCM_Line.P_Config.NominalFrequency:= TO_INT(SystemFrequency);
+
+
+
 MCM_Line();
 MCM_Gen();
 
@@ -130,10 +139,8 @@ Status.BothOpen   := LineCB.P_Status.CB_Open.P_Status.P_Value   AND GenCB.P_Stat
 
 // FAULT DETECTION
 Status.TransferFault := Status.BothClosed
-                     	OR LineCB.P_Status.CB_Tripped.P_Status.P_Value
-                     	OR GenCB.P_Status.CB_Tripped.P_Status.P_Value
-                     	OR LineCB.P_Status.CB_Fault.P_Status.P_Value
-                     	OR GenCB.P_Status.CB_Fault.P_Status.P_Value;
+                     	OR LineCB.P_Status.Error.Error
+                     	OR GenCB.P_Status.Error.Error;
 
 //STATE MACHINE
 CASE TransferState OF

@@ -72,7 +72,13 @@
     <Compile Include="FBs\MCM_VoltMeter\Structures\UNION_DWORD_REAL.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FBs\Transfer_StateMachine\ENUM\E_Frequencies.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FBs\Transfer_StateMachine\ENUM\E_TransferState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FBs\Transfer_StateMachine\ENUM\E_Voltages.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FBs\Transfer_StateMachine\FB_Transfer.TcPOU">

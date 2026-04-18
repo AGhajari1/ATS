@@ -31,6 +31,57 @@
     "DEFAULTTIMEZONE": "client",
     "DEFINITIONS": {
         "ADS": {
+            "ADS-ATS_PLC.E_Frequencies": {
+                "attributes": {
+                    "generate_implicit_init_function": "",
+                    "qualified_only": "",
+                    "strict": "",
+                    "to_string": ""
+                },
+                "enum": [
+                    50,
+                    60
+                ],
+                "options": [
+                    {
+                        "label": "Hz50",
+                        "value": 50
+                    },
+                    {
+                        "label": "Hz60",
+                        "value": 60
+                    }
+                ],
+                "type": "integer"
+            },
+            "ADS-ATS_PLC.E_Voltages": {
+                "attributes": {
+                    "generate_implicit_init_function": "",
+                    "qualified_only": "",
+                    "strict": "",
+                    "to_string": ""
+                },
+                "enum": [
+                    600,
+                    208,
+                    120
+                ],
+                "options": [
+                    {
+                        "label": "V600",
+                        "value": 600
+                    },
+                    {
+                        "label": "V208",
+                        "value": 208
+                    },
+                    {
+                        "label": "V120",
+                        "value": 120
+                    }
+                ],
+                "type": "integer"
+            },
             "ADS-ATS_PLC.STRING-255": {
                 "allOf": [
                     {
@@ -386,6 +437,159 @@
     "SOCKET_TIMEOUT": "PT10S",
     "SUBSCRIPTION_FLOODPROTECTION": 100,
     "SYMBOLS": {
+        "ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Close.Status.P_Value": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::GenCB::Commands::Close::Status::P_Value",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 1
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Open.Status.P_Value": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::GenCB::Commands::Open::Status::P_Value",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 1
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Closed.P_Status.P_Value": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::GenCB::Status::CB_Closed::P_Status::P_Value",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 2
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Closed.Status.P_Value": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::GenCB::Status::CB_Closed::Status::P_Value",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 2
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Ready.P_Status.P_Value": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::GenCB::Status::CB_Ready::P_Status::P_Value",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 2
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Close.Status.P_Value": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::LineCB::Commands::Close::Status::P_Value",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 1
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Open.Status.P_Value": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::LineCB::Commands::Open::Status::P_Value",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 1
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.LineCB.P_Status.CB_Ready.P_Status.P_Value": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::LineCB::P_Status::CB_Ready::P_Status::P_Value",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 2
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Closed.Status.P_Value": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::LineCB::Status::CB_Closed::Status::P_Value",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 2
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.Freq_16": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -505,6 +709,23 @@
             },
             "USEMAPPING": true
         },
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.P_DataOut.VoltageStabilized": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Gen::P_DataOut::VoltageStabilized",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 51
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.Freq_16": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -619,6 +840,57 @@
                     },
                     {
                         "propertyOrder": 5
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VoltageStabilized": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Line::DataOut::VoltageStabilized",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 51
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.SystemFrequency": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::SystemFrequency",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:server#/definitions/ADS-ATS_PLC.E_Frequencies"
+                    },
+                    {
+                        "propertyOrder": 15
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.SystemVoltage": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::SystemVoltage",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:server#/definitions/ADS-ATS_PLC.E_Voltages"
+                    },
+                    {
+                        "propertyOrder": 14
                     }
                 ]
             },
@@ -4177,6 +4449,15 @@
             },
             "SYMBOLACCESS": 0,
             "SYMBOLS": {
+                "ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Close.Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Open.Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Closed.P_Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Closed.Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Ready.P_Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Close.Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Open.Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.LineCB.P_Status.CB_Ready.P_Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Closed.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.Freq_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.VAB_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.VA_16": 3,
@@ -4184,6 +4465,7 @@
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.VB_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.VCA_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.VC_16": 3,
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.P_DataOut.VoltageStabilized": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.Freq_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VAB_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VA_16": 3,
@@ -4191,6 +4473,9 @@
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VB_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VCA_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VC_16": 3,
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VoltageStabilized": 3,
+                "ADS.ATS_PLC.MAIN.ATS.SystemFrequency": 3,
+                "ADS.ATS_PLC.MAIN.ATS.SystemVoltage": 3,
                 "ADS.ATS_PLC.MAIN.M_SystemTime.fbTime.systemTime": 3,
                 "ADS.ATS_PLC.MAIN.SystemTimeString": 3,
                 "ADS.AdsSyncReadDeviceInfoReq": 3,

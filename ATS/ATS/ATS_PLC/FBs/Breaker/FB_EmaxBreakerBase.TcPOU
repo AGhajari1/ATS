@@ -23,7 +23,7 @@ END_VAR
 M_Errors();
 
 IF CloseCommand THEN
-	IF NOT status.Error.Error AND Status.CB_Ready.P_Status.P_Value AND NOT Status.CB_Closed.P_Status.P_Value AND NOT Status.CB_Tripped.P_Status.P_Value THEN
+	IF NOT status.Error.Error AND Status.CB_Ready.P_Status.P_Value AND NOT Status.CB_Closed.P_Status.P_Value THEN
 		Commands.Close.ON();
 		Commands.Open();
 	END_IF
@@ -31,7 +31,7 @@ IF CloseCommand THEN
 END_IF
 
 IF OpenCommand THEN
-	IF NOT status.Error.Error AND Status.CB_Ready.P_Status.P_Value AND NOT Status.CB_Open.P_Status.P_Value AND NOT Status.CB_Tripped.P_Status.P_Value THEN
+	IF NOT status.Error.Error AND Status.CB_Ready.P_Status.P_Value AND NOT Status.CB_Open.P_Status.P_Value  THEN
 		Commands.Close.OFF();
 		Commands.Open.ON();
 	END_IF
@@ -73,17 +73,6 @@ IF Closing_Timer.Q AND status.CB_Closed.P_Status.P_Value THEN
 	Status.Error.Reason:= 'CB Closing Timeout';
 END_IF
 
-//Breaker fault input
-IF Status.CB_Fault.P_Status.P_Value THEN
-	Status.Error.Error:=TRUE;
-	Status.Error.Reason:= 'CB Faulted';
-END_IF
-
-//Breaker Tripped
-IF Status.CB_Tripped.P_Status.P_Value THEN
-	Status.Error.Error:=TRUE;
-	Status.Error.Reason:= 'CB Tripped';
-END_IF
 
 //Global reset
 IF Reset  THEN
@@ -103,11 +92,9 @@ END_VAR
 	Commands.Open.P_Definition.Name 	:= CONCAT('Open',definition.Name);
 	Commands.Close.P_Definition.Name 	:= CONCAT('Close',definition.Name);
 	
-	Status.CB_Closed.P_Definition.Name	:=  CONCAT(definition.Name,'Closed');
-	Status.CB_Fault.P_Definition.Name	:=  CONCAT(definition.Name,'Faulted');
+	Status.CB_Closed.P_Definition.Name	:=  CONCAT(definition.Name,'Closed');;
 	Status.CB_Open.P_Definition.Name	:=  CONCAT(definition.Name,'Opened');
-	Status.CB_Ready.P_Definition.Name	:=  CONCAT(definition.Name,'Ready');
-	Status.CB_Tripped.P_Definition.Name	:=  CONCAT(definition.Name,'Tripped');
+	Status.CB_Ready.P_Definition.Name	:=  CONCAT(definition.Name,'Ready To Close');
 	
 END_IF
 
@@ -115,10 +102,8 @@ Commands.Open();
 Commands.Close();
 
 Status.CB_Closed();
-Status.CB_Fault();
 Status.CB_Open();
-Status.CB_Ready();
-Status.CB_Tripped();]]></ST>
+Status.CB_Ready();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Open" Id="{1f976e73-2ab5-4c28-a52a-ef8fd3e28a84}" FolderPath="Public\">

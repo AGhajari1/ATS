@@ -152,6 +152,12 @@
     <Content Include="Images\genset_enclosure.svg">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Images\industrial_load_icon.svg">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\Interlock.svg">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Images\power_transmission_tower.svg">
       <SubType>Content</SubType>
     </Content>

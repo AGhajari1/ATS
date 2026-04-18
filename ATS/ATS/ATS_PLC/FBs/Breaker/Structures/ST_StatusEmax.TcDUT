@@ -5,9 +5,7 @@
 STRUCT
 	CB_Open				: FB_DigitalInput;
 	CB_Closed			: FB_DigitalInput;
-	CB_Tripped			: FB_DigitalInput;
 	CB_Ready			: FB_DigitalInput;
-	CB_Fault			: FB_DigitalInput;
 	Error				: ST_Error;
 END_STRUCT
 END_TYPE
