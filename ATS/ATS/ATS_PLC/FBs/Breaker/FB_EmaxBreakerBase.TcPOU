@@ -22,21 +22,38 @@ END_VAR
       <ST><![CDATA[M_IO();
 M_Errors();
 
+//create closing state
+IF Commands.Close.P_Status.P_Value AND NOT Status.CB_Closed.P_Status.P_Value THEN
+	Status.CB_Closing:= TRUE;
+END_IF
+//create opening state
+IF Commands.Open.P_Status.P_Value AND NOT Status.CB_Opened.P_Status.P_Value THEN
+	Status.CB_Opening:= TRUE;
+END_IF
+//reset opening and closing states
+IF Status.CB_Opened.P_Status.P_Value OR Status.CB_Closed.P_Status.P_Value OR Status.Error.Error THEN
+	Status.CB_Opening:= FALSE;
+	Status.CB_Opening:= FALSE;
+END_IF
+
+
 IF CloseCommand THEN
 	IF NOT status.Error.Error AND Status.CB_Ready.P_Status.P_Value AND NOT Status.CB_Closed.P_Status.P_Value THEN
+		Commands.Open.OFF();
 		Commands.Close.ON();
-		Commands.Open();
 	END_IF
 	Closecommand:= FALSE;
 END_IF
 
 IF OpenCommand THEN
-	IF NOT status.Error.Error AND Status.CB_Ready.P_Status.P_Value AND NOT Status.CB_Open.P_Status.P_Value  THEN
+	IF NOT status.Error.Error AND Status.CB_Ready.P_Status.P_Value AND NOT Status.CB_Opened.P_Status.P_Value  THEN
 		Commands.Close.OFF();
 		Commands.Open.ON();
 	END_IF
 	Opencommand:= FALSE;
 END_IF
+
+
 
 
 INIT:= FALSE;]]></ST>
@@ -58,7 +75,7 @@ Opening_Timer.PT:= Config.Opening_Duration;
 Opening_Timer.IN:= Commands.Open.P_Status.P_Value;
 Opening_Timer();
 
-IF Opening_Timer.Q AND status.CB_Open.P_Status.P_Value THEN
+IF Opening_Timer.Q AND NOT status.CB_Opened.P_Status.P_Value THEN
 	status.Error.Error:= TRUE;
 	Status.Error.Reason:= 'CB Opening Timeout';
 END_IF
@@ -68,7 +85,7 @@ Closing_Timer.PT:= Config.Closing_Duration;
 Closing_Timer.IN:= Commands.Close.P_Status.P_Value;
 Closing_Timer();
 
-IF Closing_Timer.Q AND status.CB_Closed.P_Status.P_Value THEN
+IF Closing_Timer.Q AND NOT status.CB_Closed.P_Status.P_Value THEN
 	status.Error.Error:= TRUE;
 	Status.Error.Reason:= 'CB Closing Timeout';
 END_IF
@@ -92,8 +109,8 @@ END_VAR
 	Commands.Open.P_Definition.Name 	:= CONCAT('Open',definition.Name);
 	Commands.Close.P_Definition.Name 	:= CONCAT('Close',definition.Name);
 	
-	Status.CB_Closed.P_Definition.Name	:=  CONCAT(definition.Name,'Closed');;
-	Status.CB_Open.P_Definition.Name	:=  CONCAT(definition.Name,'Opened');
+	Status.CB_Closed.P_Definition.Name	:=  CONCAT(definition.Name,'Closed');
+	Status.CB_Opened.P_Definition.Name	:=  CONCAT(definition.Name,'Opened');
 	Status.CB_Ready.P_Definition.Name	:=  CONCAT(definition.Name,'Ready To Close');
 	
 END_IF
@@ -102,7 +119,7 @@ Commands.Open();
 Commands.Close();
 
 Status.CB_Closed();
-Status.CB_Open();
+Status.CB_Opened();
 Status.CB_Ready();]]></ST>
       </Implementation>
     </Method>

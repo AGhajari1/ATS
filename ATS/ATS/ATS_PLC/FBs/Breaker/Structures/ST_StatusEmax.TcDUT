@@ -3,8 +3,10 @@
   <DUT Name="ST_StatusEmax" Id="{124c15b3-d9cd-4e1d-95cb-fea5a33d35d8}">
     <Declaration><![CDATA[TYPE ST_StatusEmax :
 STRUCT
-	CB_Open				: FB_DigitalInput;
 	CB_Closed			: FB_DigitalInput;
+	CB_Opened			: FB_DigitalInput;
+	CB_Closing			: BOOL	:= FALSE;
+	CB_Opening			: BOOL	:= FALSE;
 	CB_Ready			: FB_DigitalInput;
 	Error				: ST_Error;
 END_STRUCT

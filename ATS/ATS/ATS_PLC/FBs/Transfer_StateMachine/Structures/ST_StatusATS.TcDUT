@@ -5,7 +5,7 @@
 STRUCT
 	OnGenerator     : BOOL;     
 	OnLine          : BOOL;     
-	BothOpen        : BOOL;     
+	BothOpened      : BOOL;     
 	BothClosed      : BOOL;    
 	TransferFault   : BOOL;  
 END_STRUCT
