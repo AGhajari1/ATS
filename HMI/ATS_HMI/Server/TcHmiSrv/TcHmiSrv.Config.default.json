@@ -601,6 +601,23 @@
             },
             "USEMAPPING": true
         },
+        "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.Error.Reason": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::GenCB::Status::Error::Reason",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/STRING%2880%29"
+                    },
+                    {
+                        "propertyOrder": 2
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.HMI_NonAutoToGen": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -712,6 +729,23 @@
                 "allOf": [
                     {
                         "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 2
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.Error.Reason": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::LineCB::Status::Error::Reason",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/STRING%2880%29"
                     },
                     {
                         "propertyOrder": 2
@@ -987,6 +1021,23 @@
                     },
                     {
                         "propertyOrder": 51
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.ResetErrors": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::ResetErrors",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 18
                     }
                 ]
             },
@@ -4587,6 +4638,7 @@
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Closed.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Opened.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Ready.P_Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.Error.Reason": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_NonAutoToGen": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_NonAutoToLine": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Close.Status.P_Value": 3,
@@ -4594,6 +4646,7 @@
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.P_Status.CB_Ready.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Closed.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Opened.P_Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.Error.Reason": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.Freq_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.VAB_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.VA_16": 3,
@@ -4610,6 +4663,7 @@
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VCA_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VC_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VoltageStabilized": 3,
+                "ADS.ATS_PLC.MAIN.ATS.ResetErrors": 3,
                 "ADS.ATS_PLC.MAIN.ATS.SystemFrequency": 3,
                 "ADS.ATS_PLC.MAIN.ATS.SystemVoltage": 3,
                 "ADS.ATS_PLC.MAIN.M_SystemTime.fbTime.systemTime": 3,

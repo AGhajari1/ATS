@@ -138,6 +138,14 @@ Status.CB_Ready();]]></ST>
         <ST><![CDATA[Reset:= True;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_ResetErrors" Id="{283dc89f-81aa-4dc5-8182-41c1dc048be2}">
+      <Declaration><![CDATA[METHOD PUBLIC M_ResetErrors
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Status.Error.Error:= FALSE;
+Status.Error.Reason:= '';]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="P_Config" Id="{b9505af7-f8bb-4689-ab40-5bdbaabd5633}">
       <Declaration><![CDATA[{attribute 'monitoring' := 'call'}
 PROPERTY P_Config : Reference to ST_ConfigEmax]]></Declaration>

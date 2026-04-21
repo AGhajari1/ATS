@@ -5,7 +5,6 @@
 VAR
 	INIT				: BOOL := TRUE;
 	Definition			: ST_DefinitionATS;
-	Config				: ST_ConfigATS;
 	Status	 			: ST_StatusATS;
 	                    
 	GenCB				: FB_EmaxBreakerBase;
@@ -13,9 +12,8 @@ VAR
 	MCM_Line			: FB_MCM_V_Mx_ModbusRTU;
 	MCM_Gen				: FB_MCM_V_Mx_ModbusRTU;	
 	
-    
-	ManualToGen     	: BOOL;    
-	ManualToLine    	: BOOL;          
+	GenStartCommand		AT%Q*	: BOOL; 
+            
 	TransferTimer   	: TON;    
 	RetransferTimer 	: TON;     
 
@@ -28,11 +26,13 @@ VAR
 	HMI_NonAutoToGen	: BOOL:= FALSE;
 	HMI_NonAutoToLine	: BOOL:= FALSE;
 	
+	Error				: ST_Error;
+	ResetErrors			: BOOL := FALSE;
 END_VAR
 
 VAR PERSISTENT
-	TransferState							: E_TransferState := E_TransferState.IDLE;
-	Error									: ST_Error;
+	TransferState		: E_TransferState := E_TransferState.IDLE;
+	Config				: ST_ConfigATS;
 END_VAR
 
 ]]></Declaration>
@@ -48,17 +48,24 @@ CASE ATSMode OF
 		M_AutoStateMachine();
 		
 	E_Modes.NonAutomatic:
-		//
+		IF HMI_NonAutoToGen THEN
+			M_TransferToGen();
+		ELSIF HMI_NonAutoToLine THEN
+			M_TransferToLine();
+		END_IF
 		
 	E_Modes.Manual:
-		//
+		// DO NOTHING - BREAKERS TO BE OPERATED MANUALLY - A FAKE MODE
 		
 END_CASE
 
-IF HMI_NonAutoToGen THEN
-	M_TransferToGen();
-ELSIF HMI_NonAutoToLine THEN
-	M_TransferToLine();
+IF ATSMode <> E_Modes.NonAutomatic THEN
+	HMI_NonAutoToGen	:= FALSE;
+	HMI_NonAutoToLine	:= FALSE;
+END_IF
+
+IF ResetErrors THEN
+	M_ResetErrors();
 END_IF
 
 
@@ -104,7 +111,7 @@ CASE TransferState OF
     E_TransferState.LINE_NORMAL:
         Status.OnLine      := LineCB.P_Status.CB_Closed.P_Status.P_Value;
         Status.OnGenerator := FALSE;
-        IF NOT MCM_Line.P_DataOut.VoltageStabilized OR ManualToGen THEN
+        IF NOT MCM_Line.P_DataOut.VoltageStabilized THEN
             TransferState := E_TransferState.LINE_LOST;
         END_IF;
 
@@ -144,7 +151,7 @@ CASE TransferState OF
         ELSE
             RetransferTimer.IN := FALSE;
         END_IF;
-        IF (RetransferTimer.Q AND Config.AutoRetransfer) OR ManualToLine THEN
+        IF RetransferTimer.Q AND Config.AutoRetransfer THEN
 			RetransferTimer.IN := FALSE;
             TransferState := E_TransferState.OPENING_GEN_CB;
         END_IF;
@@ -262,6 +269,15 @@ MCM_Gen.P_Config.Enable:=TRUE;
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="M_ResetErrors" Id="{f4d2a4f3-9b34-41a6-817c-038d452b2c81}">
+      <Declaration><![CDATA[METHOD M_ResetErrors
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[LineCB.M_ResetErrors();
+GenCB.M_ResetErrors();
+ResetErrors:= FALSE;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="M_TransferToGen" Id="{296e3694-7292-460a-af37-b303b864889e}">
       <Declaration><![CDATA[METHOD M_TransferToGen
 ]]></Declaration>
@@ -275,7 +291,7 @@ THEN
 		Status.OnLine:= FALSE;
 	END_IF
 	IF LineCB.P_Status.CB_Opened.P_Status.P_Value AND NOT LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
-		IF NOT GenCB.P_Status.CB_Closing THEN //one shot
+		IF NOT GenCB.P_Status.CB_Closing  AND MCM_Gen.P_DataOut.VoltageStabilized THEN //one shot
 			GenCB.M_Close();
 		END_IF
 		Status.OnLine:= FALSE;
@@ -287,7 +303,8 @@ THEN
 ELSE //TODO error handling
 	Status.OnGenerator:= TRUE;
 	HMI_NonAutoToGen:= FALSE;
-END_IF]]></ST>
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_TransferToLine" Id="{25ba2139-f11f-4b85-a5a3-46eb64cd0748}">
@@ -303,7 +320,7 @@ THEN
 		Status.OnGenerator:= FALSE;
 	END_IF
 	IF GenCB.P_Status.CB_Opened.P_Status.P_Value AND NOT GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
-		IF NOT LineCB.P_Status.CB_Closing THEN //one shot
+		IF NOT LineCB.P_Status.CB_Closing AND MCM_Line.P_DataOut.VoltageStabilized THEN //one shot
 			LineCB.M_Close();
 		END_IF
 		Status.OnGenerator:= FALSE;
