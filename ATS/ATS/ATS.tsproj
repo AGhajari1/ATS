@@ -77,7 +77,7 @@
 		<ImageData Id="1003">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ff000000000000ff00ffff00ffff00ff808080808080808080808080808080ff00ffff00ffff00ffff00ffff00ff000000ff00ffff00ff000000ff00ffff00ffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ff000000ff00ffff00ffff00ffff00ffff00ffc0c0c000ffffc0c0c000ffff808080ff00ffff00ffff00ffff00ffff00ff000000ff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff000000ff00ffff00ff000000ff00ffff00ffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ff000000000000ff00ffff00ffff00ffc0c0c0ff0000c0c0c0ff0000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c00000ffc0c0c00000ff808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0008000c0c0c0008000808080ff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff</ImageData>
 		<ImageData Id="1004">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffff00ffff00ffff00ffff00ffff00ff808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff007fff007fff007fff007fff007fff007fffc0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ff</ImageData>
 	</ImageDatas>
-	<Project ProjectGUID="{288CC4CF-71BC-4DD4-92F6-401DE35987F2}" Target64Bit="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{288CC4CF-71BC-4DD4-92F6-401DE35987F2}" TargetNetId="192.168.1.100.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Settings MaxCpus="64" NonWinCpus="61" MaxStackSize="4096">
 				<Cpu CpuId="3"/>
@@ -95,7 +95,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{8196D76A-1476-42AB-B3B0-D536DFC9598E}" Name="ATS_PLC" PrjFilePath="ATS_PLC\ATS_PLC.plcproj" TmcFilePath="ATS_PLC\ATS_PLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{B3310D91-7B90-BB00-D744-F35799A364A5}" TmcPath="ATS_PLC\ATS_PLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{0C1EBEE3-F20E-DFBA-C745-939CB2661E19}" TmcPath="ATS_PLC\ATS_PLC.tmc">
 					<Name>ATS_PLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -190,7 +190,7 @@
 			</Project>
 		</Plc>
 		<Io>
-			<Device Id="1" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="192.168.1.100.2.1" RemoteName="PLC_Rack (EtherCAT)" InfoImageId="2">
+			<Device Id="1" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="192.168.1.100.2.1" RemoteName="PLC_Rack (EtherCAT)" InfoImageId="2">
 				<Name>PLC_Rack (EtherCAT)</Name>
 				<AddressInfo>
 					<Ccat>
@@ -1010,7 +1010,25 @@
 		</Io>
 	</Project>
 	<Mappings>
+		<MappingInfo Identifier="{00000000-2001-0850-0020-500810000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^ATS_PLC^ATS_PLC Instance">
+			<OwnerB Name="TIID^PLC_Rack (EtherCAT)^Term 1 (EK1200)^Term 2 (EL1008)">
+				<Link VarA="PlcTask Inputs^MAIN.ATS.GenCB.Status.CB_Closed.HardwareLink" VarB="Channel 2^Input"/>
+				<Link VarA="PlcTask Inputs^MAIN.ATS.GenCB.Status.CB_Opened.HardwareLink" VarB="Channel 8^Input"/>
+				<Link VarA="PlcTask Inputs^MAIN.ATS.GenCB.Status.CB_Ready.HardwareLink" VarB="Channel 4^Input"/>
+				<Link VarA="PlcTask Inputs^MAIN.ATS.LineCB.Status.CB_Closed.HardwareLink" VarB="Channel 1^Input"/>
+				<Link VarA="PlcTask Inputs^MAIN.ATS.LineCB.Status.CB_Opened.HardwareLink" VarB="Channel 7^Input"/>
+				<Link VarA="PlcTask Inputs^MAIN.ATS.LineCB.Status.CB_Ready.HardwareLink" VarB="Channel 3^Input"/>
+			</OwnerB>
+			<OwnerB Name="TIID^PLC_Rack (EtherCAT)^Term 1 (EK1200)^Term 3 (EL2004)">
+				<Link VarA="PlcTask Outputs^MAIN.ATS.GenCB.Commands.Open.HardwareLink" VarB="Channel 4^Output"/>
+				<Link VarA="PlcTask Outputs^MAIN.ATS.GenStartCommand" VarB="Channel 1^Output"/>
+				<Link VarA="PlcTask Outputs^MAIN.ATS.LineCB.Commands.Close.HardwareLink" VarB="Channel 3^Output"/>
+				<Link VarA="PlcTask Outputs^MAIN.ATS.LineCB.Commands.Open.HardwareLink" VarB="Channel 2^Output"/>
+			</OwnerB>
+			<OwnerB Name="TIID^PLC_Rack (EtherCAT)^Term 1 (EK1200)^Term 4 (EL2004)">
+				<Link VarA="PlcTask Outputs^MAIN.ATS.GenCB.Commands.Close.HardwareLink" VarB="Channel 1^Output"/>
+			</OwnerB>
 			<OwnerB Name="TIID^PLC_Rack (EtherCAT)^Term 1 (EK1200)^Term 5 (EL6022)">
 				<Link VarA="PlcTask Inputs^MAIN.ATS.MCM_Gen.ModbusFB.InData^D" VarB="COM Inputs Channel 2^Data In 0"/>
 				<Link VarA="PlcTask Inputs^MAIN.ATS.MCM_Gen.ModbusFB.InData^D" VarB="COM Inputs Channel 2^Data In 1" Size="8" OffsA="8"/>

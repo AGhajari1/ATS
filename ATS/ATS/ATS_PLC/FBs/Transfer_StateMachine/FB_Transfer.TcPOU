@@ -275,7 +275,9 @@ MCM_Gen.P_Config.Enable:=TRUE;
       <Implementation>
         <ST><![CDATA[LineCB.M_ResetErrors();
 GenCB.M_ResetErrors();
-ResetErrors:= FALSE;]]></ST>
+ResetErrors:= FALSE;
+HMI_NonAutoToGen:= FALSE;
+HMI_NonAutoToLine:= FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_TransferToGen" Id="{296e3694-7292-460a-af37-b303b864889e}">
