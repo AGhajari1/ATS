@@ -146,6 +146,12 @@
     <Content Include=".eslintrc.json">
       <Visible>false</Visible>
     </Content>
+    <Content Include="EcDiag.content">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Home.content">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Images\BoxdWolfLogo.png">
       <SubType>Content</SubType>
     </Content>
@@ -156,6 +162,12 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="Images\Interlock.svg">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\padlock.svg">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Images\padlock_open.svg">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Images\power_transmission_tower.svg">

@@ -7,7 +7,7 @@ STRUCT
 	CB_Opened			: FB_DigitalInput;
 	CB_Closing			: BOOL	:= FALSE;
 	CB_Opening			: BOOL	:= FALSE;
-	CB_Ready			: FB_DigitalInput;
+	CB_ReadyToClose		: FB_DigitalInput;
 	Error				: ST_Error;
 END_STRUCT
 END_TYPE

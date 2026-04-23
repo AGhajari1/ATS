@@ -38,7 +38,7 @@ END_IF
 
 
 IF CloseCommand THEN
-	IF NOT status.Error.Error AND Status.CB_Ready.P_Status.P_Value AND NOT Status.CB_Closed.P_Status.P_Value THEN
+	IF NOT status.Error.Error AND Status.CB_ReadyToClose.P_Status.P_Value AND NOT Status.CB_Closed.P_Status.P_Value THEN
 		Commands.Open.OFF();
 		Commands.Close.ON();
 	END_IF
@@ -111,7 +111,7 @@ END_VAR
 	
 	Status.CB_Closed.P_Definition.Name	:=  CONCAT(definition.Name,'Closed');
 	Status.CB_Opened.P_Definition.Name	:=  CONCAT(definition.Name,'Opened');
-	Status.CB_Ready.P_Definition.Name	:=  CONCAT(definition.Name,'Ready To Close');
+	Status.CB_ReadyToClose.P_Definition.Name	:=  CONCAT(definition.Name,'Ready To Close');
 	
 END_IF
 
@@ -120,7 +120,7 @@ Commands.Close();
 
 Status.CB_Closed();
 Status.CB_Opened();
-Status.CB_Ready();]]></ST>
+Status.CB_ReadyToClose();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_Open" Id="{1f976e73-2ab5-4c28-a52a-ef8fd3e28a84}" FolderPath="Public\">

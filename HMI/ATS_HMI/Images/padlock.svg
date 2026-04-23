@@ -1,0 +1,41 @@
+<svg width="100%" viewBox="0 0 680 520" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Padlock illustration</title>
+  <desc>A stylized padlock drawn in SVG with a shackle arc, lock body, and keyhole</desc>
+
+  <style>
+    .lock-body { fill: #4A90D9; }
+    .lock-shadow { fill: #2E6FAF; }
+    .shackle { fill: none; stroke: #2E5FA3; stroke-width: 28; stroke-linecap: round; }
+    .shackle-highlight { fill: none; stroke: #6EB3F5; stroke-width: 8; stroke-linecap: round; }
+    .keyhole-bg { fill: #1A3D6E; }
+    .keyhole-shine { fill: rgba(255,255,255,0.18); }
+    .rivet { fill: #2E6FAF; }
+    .shine { fill: rgba(255,255,255,0.15); }
+  </style>
+
+  <!-- Shackle -->
+  <path class="shackle" d="M270 290 L270 195 Q270 100 340 100 Q410 100 410 195 L410 290" />
+  <path class="shackle-highlight" d="M270 290 L270 195 Q270 106 340 106 Q408 106 408 195 L408 286" />
+
+  <!-- Lock body shadow -->
+  <rect class="lock-shadow" x="218" y="288" width="248" height="192" rx="20"/>
+
+  <!-- Lock body -->
+  <rect class="lock-body" x="212" y="280" width="248" height="192" rx="20"/>
+
+  <!-- Shine overlay -->
+  <rect class="shine" x="212" y="280" width="248" height="60" rx="20"/>
+
+  <!-- Rivets -->
+  <circle class="rivet" cx="244" cy="318" r="10"/>
+  <circle class="rivet" cx="436" cy="318" r="10"/>
+  <circle class="rivet" cx="244" cy="440" r="10"/>
+  <circle class="rivet" cx="436" cy="440" r="10"/>
+
+  <!-- Keyhole circle -->
+  <circle class="keyhole-bg" cx="336" cy="368" r="36"/>
+  <circle class="keyhole-shine" cx="326" cy="358" r="10"/>
+
+  <!-- Keyhole slot -->
+  <rect class="keyhole-bg" x="320" y="392" width="32" height="44" rx="10"/>
+</svg>

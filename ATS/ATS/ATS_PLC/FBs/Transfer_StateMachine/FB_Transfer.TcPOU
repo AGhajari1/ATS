@@ -28,6 +28,8 @@ VAR
 	
 	Error				: ST_Error;
 	ResetErrors			: BOOL := FALSE;
+	
+	ATSMessage			: STRING:='';
 END_VAR
 
 VAR PERSISTENT
@@ -111,17 +113,20 @@ CASE TransferState OF
     E_TransferState.LINE_NORMAL:
         Status.OnLine      := LineCB.P_Status.CB_Closed.P_Status.P_Value;
         Status.OnGenerator := FALSE;
-        IF NOT MCM_Line.P_DataOut.VoltageStabilized THEN
+		ATSMessage:= 'System On Utility Power';
+        IF NOT MCM_Gen.P_DataOut.VoltageStabilized THEN
             TransferState := E_TransferState.LINE_LOST;
         END_IF;
 
     E_TransferState.LINE_LOST:
+		ATSMessage:= 'Utility Power Lost';
         IF MCM_Gen.P_DataOut.VoltageStabilized THEN
             TransferState := E_TransferState.OPENING_LINE_CB;
         END_IF;
 
     E_TransferState.OPENING_LINE_CB:
         LineCB.M_Open();
+		ATSMessage:= 'Waiting for Line CB to Open';
         IF LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
             TransitionTimer.IN := FALSE;
 			TransitionTimer.PT := Config.ToGenTransitionTime;
@@ -137,12 +142,14 @@ CASE TransferState OF
         END_IF;
 
     E_TransferState.CLOSING_GEN_CB:
+		ATSMessage:= 'Waiting for Generator CB to Close';
         GenCB.M_Close();
         IF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
             TransferState := E_TransferState.ON_GENERATOR;
         END_IF;
 
     E_TransferState.ON_GENERATOR:
+		ATSMessage:= 'System On Generator Power';
         Status.OnGenerator := TRUE;
         Status.OnLine      := FALSE;
 		RetransferTimer.PT := Config.RetransferDelay;
@@ -157,6 +164,7 @@ CASE TransferState OF
         END_IF;
 
     E_TransferState.OPENING_GEN_CB:
+		ATSMessage:= 'Waiting for Generator CB to Open';
         GenCB.M_Open();
         IF GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
             TransitionTimer.IN := FALSE;
@@ -173,6 +181,7 @@ CASE TransferState OF
         END_IF;
 
     E_TransferState.CLOSING_LINE_CB:
+		ATSMessage:= 'Waiting for Line CB to Open';
         LineCB.M_Close();
         IF LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
             TransferState := E_TransferState.LINE_NORMAL;
@@ -275,6 +284,7 @@ MCM_Gen.P_Config.Enable:=TRUE;
       <Implementation>
         <ST><![CDATA[LineCB.M_ResetErrors();
 GenCB.M_ResetErrors();
+ATSMessage:='';
 ResetErrors:= FALSE;
 HMI_NonAutoToGen:= FALSE;
 HMI_NonAutoToLine:= FALSE;]]></ST>

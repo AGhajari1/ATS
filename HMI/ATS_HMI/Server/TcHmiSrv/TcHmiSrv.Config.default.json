@@ -465,6 +465,23 @@
     "SOCKET_TIMEOUT": "PT10S",
     "SUBSCRIPTION_FLOODPROTECTION": 100,
     "SYMBOLS": {
+        "ADS.ATS_PLC.MAIN.ATS.ATSMessage": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::ATSMessage",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/STRING%2880%29"
+                    },
+                    {
+                        "propertyOrder": 19
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.ATSMode": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -4630,6 +4647,7 @@
             },
             "SYMBOLACCESS": 0,
             "SYMBOLS": {
+                "ADS.ATS_PLC.MAIN.ATS.ATSMessage": 3,
                 "ADS.ATS_PLC.MAIN.ATS.ATSMode": 3,
                 "ADS.ATS_PLC.MAIN.ATS.ATSModeString": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Close.Status.P_Value": 3,
