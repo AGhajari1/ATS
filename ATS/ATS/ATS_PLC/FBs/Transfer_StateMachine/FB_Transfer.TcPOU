@@ -19,6 +19,12 @@ VAR
 
 	SystemVoltage		: E_Voltages := E_Voltages._600V; 
 	SystemFrequency		: E_Frequencies := E_Frequencies._60Hz;
+	VoltageTolerance	: REAL	:= 0.1;
+	FrequencyTolerance	: REAL  := 0.3;
+	PhaseTolerange		: REAL 	:= 10;
+	
+	HMI_GenStartDelay	: INT	:= 5;
+	HMI_ReturnToLineDelay	: INT	:= 5;
 	
 	ATSMode				: E_Modes := E_Modes.Automatic;
 	ATSModeString		: STRING := TO_STRING(E_Modes.Automatic);
@@ -44,6 +50,9 @@ M_GenCB();
 M_MCM_Voltmeter();
 
 ATSModeString:= TO_STRING(ATSMode);
+
+Config.GenStartDelay:= TO_TIME(HMI_GenStartDelay*1000);			//Convert ms to second
+Config.ReturnToLineDelay:= TO_TIME(HMI_ReturnToLineDelay*1000); //Convert ms to second
 
 CASE ATSMode OF
 	E_Modes.Automatic:
@@ -152,13 +161,13 @@ CASE TransferState OF
 		ATSMessage:= 'System On Generator Power';
         Status.OnGenerator := TRUE;
         Status.OnLine      := FALSE;
-		RetransferTimer.PT := Config.RetransferDelay;
+		RetransferTimer.PT := Config.ReturnToLineDelay;
         IF MCM_Line.P_DataOut.VoltageStabilized THEN
             RetransferTimer.IN := TRUE;
         ELSE
             RetransferTimer.IN := FALSE;
         END_IF;
-        IF RetransferTimer.Q AND Config.AutoRetransfer THEN
+        IF RetransferTimer.Q AND Config.AutoReturnToLine THEN
 			RetransferTimer.IN := FALSE;
             TransferState := E_TransferState.OPENING_GEN_CB;
         END_IF;
@@ -174,7 +183,7 @@ CASE TransferState OF
 
     E_TransferState.RETRANSFER:
             TransitionTimer.IN := TRUE;
-			TransitionTimer.PT := Config.RetransferDelay;
+			TransitionTimer.PT := Config.ReturnToLineDelay;
         IF TransitionTimer.Q THEN
             TransitionTimer.IN := FALSE;
             TransferState := E_TransferState.CLOSING_LINE_CB;
@@ -264,9 +273,12 @@ END_VAR]]></Declaration>
 	MCM_Gen.P_Config.SampleTime			:= T#200MS;
 END_IF
 
-MCM_Gen.P_Config.NominalVoltage:= MCM_Line.P_Config.NominalVoltage:= TO_INT(SystemVoltage);
-MCM_Gen.P_Config.NominalFrequency:= MCM_Line.P_Config.NominalFrequency:= TO_INT(SystemFrequency);
+MCM_Gen.P_Config.NominalVoltage		:= MCM_Line.P_Config.NominalVoltage		:= TO_INT(SystemVoltage);
+MCM_Gen.P_Config.NominalFrequency	:= MCM_Line.P_Config.NominalFrequency	:= TO_INT(SystemFrequency);
 
+MCM_Gen.P_Config.VoltageTolerance	:= MCM_Line.P_Config.VoltageTolerance 	:= VoltageTolerance;
+MCM_Gen.P_Config.FrequencyTolerance	:= MCM_Line.P_Config.FrequencyTolerance	:= FrequencyTolerance;
+MCM_Gen.P_Config.AngleTolerance		:= MCM_Line.P_Config.AngleTolerance		:= PhaseTolerange;
 
 
 MCM_Line();

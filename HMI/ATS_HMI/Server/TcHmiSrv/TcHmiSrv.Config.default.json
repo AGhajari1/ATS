@@ -526,6 +526,40 @@
             },
             "USEMAPPING": true
         },
+        "ADS.ATS_PLC.MAIN.ATS.Config.AutoReturnToLine": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::Config::AutoReturnToLine",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 4
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.FrequencyTolerance": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::FrequencyTolerance",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/REAL"
+                    },
+                    {
+                        "propertyOrder": 14
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Close.Status.P_Value": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -645,6 +679,23 @@
             },
             "USEMAPPING": true
         },
+        "ADS.ATS_PLC.MAIN.ATS.HMI_GenStartDelay": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::HMI_GenStartDelay",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/INT"
+                    },
+                    {
+                        "propertyOrder": 16
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.HMI_NonAutoToGen": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -674,6 +725,23 @@
                     },
                     {
                         "propertyOrder": 18
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.HMI_ReturnToLineDelay": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::HMI_ReturnToLineDelay",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/INT"
+                    },
+                    {
+                        "propertyOrder": 17
                     }
                 ]
             },
@@ -1053,6 +1121,23 @@
             },
             "USEMAPPING": true
         },
+        "ADS.ATS_PLC.MAIN.ATS.PhaseTolerange": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::PhaseTolerange",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/REAL"
+                    },
+                    {
+                        "propertyOrder": 15
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.ResetErrors": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -1099,6 +1184,23 @@
                     },
                     {
                         "propertyOrder": 14
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.VoltageTolerance": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::VoltageTolerance",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/REAL"
+                    },
+                    {
+                        "propertyOrder": 13
                     }
                 ]
             },
@@ -5868,6 +5970,8 @@
                 "ADS.ATS_PLC.MAIN.ATS.ATSMessage": 3,
                 "ADS.ATS_PLC.MAIN.ATS.ATSMode": 3,
                 "ADS.ATS_PLC.MAIN.ATS.ATSModeString": 3,
+                "ADS.ATS_PLC.MAIN.ATS.Config.AutoReturnToLine": 3,
+                "ADS.ATS_PLC.MAIN.ATS.FrequencyTolerance": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Close.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Open.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Closed.P_Status.P_Value": 3,
@@ -5875,8 +5979,10 @@
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Opened.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Ready.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.Error.Reason": 3,
+                "ADS.ATS_PLC.MAIN.ATS.HMI_GenStartDelay": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_NonAutoToGen": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_NonAutoToLine": 3,
+                "ADS.ATS_PLC.MAIN.ATS.HMI_ReturnToLineDelay": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Close.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Open.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.P_Status.CB_Ready.P_Status.P_Value": 3,
@@ -5899,9 +6005,11 @@
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VCA_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VC_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VoltageStabilized": 3,
+                "ADS.ATS_PLC.MAIN.ATS.PhaseTolerange": 3,
                 "ADS.ATS_PLC.MAIN.ATS.ResetErrors": 3,
                 "ADS.ATS_PLC.MAIN.ATS.SystemFrequency": 3,
                 "ADS.ATS_PLC.MAIN.ATS.SystemVoltage": 3,
+                "ADS.ATS_PLC.MAIN.ATS.VoltageTolerance": 3,
                 "ADS.ATS_PLC.MAIN.M_SystemTime.fbTime.systemTime": 3,
                 "ADS.ATS_PLC.MAIN.SystemTimeString": 3,
                 "ADS.AdsSyncReadDeviceInfoReq": 3,

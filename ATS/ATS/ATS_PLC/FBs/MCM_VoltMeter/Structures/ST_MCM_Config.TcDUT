@@ -13,7 +13,7 @@ STRUCT
 	VoltageTolerance	: REAL := 0.10;   
 	NominalFrequency	: REAL := 60.0;    
 	FrequencyTolerance  : REAL := 0.3;    
-	AngleTolerance  	: REAL := 10.0;   
+	AngleTolerance  	: REAL := 10;   
 	StableTime		 	: TIME := T#10S; 
 END_STRUCT
 END_TYPE

@@ -1,5 +1,6 @@
 <div id="Desktop" data-tchmi-type="TcHmi.Controls.System.TcHmiView" data-tchmi-top="0" data-tchmi-left="-1" data-tchmi-width-mode="Content" data-tchmi-min-width="100" data-tchmi-min-width-unit="%" data-tchmi-height-mode="Content" data-tchmi-min-height="100" data-tchmi-min-height-unit="%" data-tchmi-creator-viewport-height="480" data-tchmi-zindex="1">
-  <div id="TcHmiTextblock_2" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="51" data-tchmi-height-unit="px" data-tchmi-left="211" data-tchmi-text="AUTOMATIC TRANSFER SWITCH" data-tchmi-top="18" data-tchmi-width="396" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-font-size="20" data-tchmi-text-vertical-alignment="Center" data-tchmi-text-horizontal-alignment="Center" data-tchmi-zindex="1" data-tchmi-creator-locked="True">
+  <div id="TcHmiTextblock_2" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="51" data-tchmi-height-unit="px" data-tchmi-left="211" data-tchmi-text="OPEN TRANSITION
+AUTOMATIC TRANSFER SWITCH" data-tchmi-top="18" data-tchmi-width="396" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-font-size="20" data-tchmi-text-vertical-alignment="Center" data-tchmi-text-horizontal-alignment="Center" data-tchmi-zindex="1">
 
 <script data-tchmi-target-attribute="data-tchmi-background-color" type="application/json">
 {
@@ -27,8 +28,8 @@
 </script>
 <div id="BoxedWolfLogo" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiImage" data-tchmi-height="86" data-tchmi-height-unit="px" data-tchmi-left="2" data-tchmi-src="Images/BoxdWolfLogo.png" data-tchmi-top="0" data-tchmi-width="95" data-tchmi-width-unit="px" data-tchmi-creator-visibility="Visible" data-tchmi-zindex="1" data-tchmi-creator-locked="True">
 </div>
-<div id="Contact" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="42" data-tchmi-height-unit="px" data-tchmi-left="105" data-tchmi-text="BoxedWolf.com
-855-293-9653" data-tchmi-top="22" data-tchmi-width="130" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-background-image-horizontal-alignment="Center" data-tchmi-background-image-vertical-alignment="Center" data-tchmi-text-horizontal-alignment="Left" data-tchmi-text-font-size="14" data-tchmi-zindex="1" data-tchmi-creator-locked="True">
+<div id="Contact" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="42" data-tchmi-height-unit="px" data-tchmi-left="109" data-tchmi-text="BoxedWolf.com
+855-293-9653" data-tchmi-top="22" data-tchmi-width="89" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-background-image-horizontal-alignment="Center" data-tchmi-background-image-vertical-alignment="Center" data-tchmi-text-horizontal-alignment="Left" data-tchmi-text-font-size="14" data-tchmi-zindex="1">
 </div>
 <div id="ModeButton" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="10" data-tchmi-left-unit="px" data-tchmi-text="%s%ADS.ATS_PLC.MAIN.ATS.ATSModeString%/s%" data-tchmi-top="420" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-font-size="15" data-tchmi-creator-locked="True">
 
@@ -279,8 +280,14 @@ Errors" data-tchmi-creator-locked="True">
 ]
 </script>
 <div id="ATSMessages" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="340" data-tchmi-left-unit="px" data-tchmi-text="%s%ADS.ATS_PLC.MAIN.ATS.ATSMessage%/s%" data-tchmi-top="420" data-tchmi-top-unit="px" data-tchmi-width="335" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-horizontal-alignment="Right" data-tchmi-text-vertical-alignment="Center" data-tchmi-text-font-size="15" data-tchmi-creator-locked="True">
+
+<script data-tchmi-target-attribute="data-tchmi-text-color" type="application/json">
+{
+  "color": "rgba(93, 144, 221, 1)"
+}
+</script>
 </div>
-<div id="TCStateIcon" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiAdsState" data-tchmi-ads-runtime="ATS_PLC" data-tchmi-height="36" data-tchmi-height-unit="px" data-tchmi-left="745" data-tchmi-server-interval="500" data-tchmi-top="25" data-tchmi-width="36" data-tchmi-width-unit="px" data-tchmi-creator-locked="True">
+<div id="TCStateIcon" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiAdsState" data-tchmi-ads-runtime="ATS_PLC" data-tchmi-height="41" data-tchmi-height-unit="px" data-tchmi-left="611" data-tchmi-server-interval="500" data-tchmi-top="23" data-tchmi-width="41" data-tchmi-width-unit="px" data-tchmi-creator-locked="True">
 
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
 [
@@ -342,7 +349,7 @@ Errors" data-tchmi-creator-locked="True">
 </script>
 
 </div>
-<div id="LockIcon" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiImage" data-tchmi-height="36" data-tchmi-height-unit="px" data-tchmi-left="684" data-tchmi-src="Images/padlock.svg" data-tchmi-top="25" data-tchmi-width="49" data-tchmi-width-unit="px" data-tchmi-creator-locked="True" data-tchmi-creator-visibility="Visible">
+<div id="LockIcon" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiImage" data-tchmi-height="36" data-tchmi-height-unit="px" data-tchmi-left="742" data-tchmi-src="Images/padlock.svg" data-tchmi-top="24" data-tchmi-width="49" data-tchmi-width-unit="px" data-tchmi-creator-visibility="Visible" data-tchmi-creator-locked="True">
 
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
 [
@@ -365,7 +372,7 @@ Errors" data-tchmi-creator-locked="True">
 ]
 </script>
 </div>
-<div id="UnlockIcon" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiImage" data-tchmi-height="36" data-tchmi-height-unit="px" data-tchmi-left="684" data-tchmi-left-unit="px" data-tchmi-src="Images/padlock_open.svg" data-tchmi-top="26" data-tchmi-top-unit="px" data-tchmi-width="49" data-tchmi-width-unit="px" data-tchmi-creator-visibility="Visible" data-tchmi-creator-locked="True" data-tchmi-zindex="2" data-tchmi-visibility="Collapsed">
+<div id="UnlockIcon" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiImage" data-tchmi-height="36" data-tchmi-height-unit="px" data-tchmi-left="742" data-tchmi-left-unit="px" data-tchmi-src="Images/padlock_open.svg" data-tchmi-top="25" data-tchmi-top-unit="px" data-tchmi-width="49" data-tchmi-width-unit="px" data-tchmi-creator-visibility="Collapsed" data-tchmi-zindex="2" data-tchmi-visibility="Collapsed" data-tchmi-creator-locked="True">
 
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
 [
@@ -373,14 +380,56 @@ Errors" data-tchmi-creator-locked="True">
     "event": "%i%PassOK%/i%",
     "actions": [
       {
-        "objectType": "WriteToSymbol",
+        "objectType": "Condition",
         "active": true,
-        "symbolExpression": "%ctx%owner::Visibility%/ctx%",
-        "value": {
-          "objectType": "StaticValue",
-          "valueType": "tchmi:framework#/definitions/Visibility",
-          "value": "Visible"
-        },
+        "parts": [
+          {
+            "if": [
+              {
+                "compare1": {
+                  "objectType": "Symbol",
+                  "valueType": "tchmi:general#/definitions/BOOL",
+                  "symbolExpression": "%i%PassOK%/i%"
+                },
+                "compare2": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/BOOL",
+                  "value": true
+                },
+                "compareOperator": "==",
+                "logic": null
+              }
+            ],
+            "then": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::Visibility%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:framework#/definitions/Visibility",
+                  "value": "Visible"
+                },
+                "asyncWait": true
+              }
+            ]
+          },
+          {
+            "else": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::Visibility%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:framework#/definitions/Visibility",
+                  "value": "Collapsed"
+                },
+                "asyncWait": true
+              }
+            ]
+          }
+        ],
         "asyncWait": true
       }
     ]
@@ -439,7 +488,7 @@ Errors" data-tchmi-creator-locked="True">
 </div>
 <div id="ContentRegion" data-tchmi-type="TcHmi.Controls.System.TcHmiRegion" data-tchmi-height="320" data-tchmi-height-unit="px" data-tchmi-left="1" data-tchmi-left-unit="px" data-tchmi-top="90" data-tchmi-top-unit="px" data-tchmi-width="800" data-tchmi-width-unit="px" data-tchmi-creator-locked="True" data-tchmi-target-content="Home.content">
 </div>
-<div id="HomeButton" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="697" data-tchmi-left-unit="px" data-tchmi-text="HOME" data-tchmi-top="90" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="3" data-tchmi-visibility="Collapsed">
+<div id="HomeButton" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="697" data-tchmi-left-unit="px" data-tchmi-text="HOME" data-tchmi-top="90" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="3" data-tchmi-visibility="Collapsed" data-tchmi-creator-locked="True">
 
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
 [
@@ -473,7 +522,7 @@ Errors" data-tchmi-creator-locked="True">
 ]
 </script>
 </div>
-<div id="PassInput" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiPasswordInput" data-tchmi-auto-focus-out="True" data-tchmi-height="25" data-tchmi-height-unit="px" data-tchmi-left="684" data-tchmi-left-unit="px" data-tchmi-reset-to-last-valid-value="True" data-tchmi-top="61" data-tchmi-top-unit="px" data-tchmi-width="51" data-tchmi-width-unit="px" data-tchmi-visibility="Collapsed">
+<div id="PassInput" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiPasswordInput" data-tchmi-auto-focus-out="True" data-tchmi-height="25" data-tchmi-height-unit="px" data-tchmi-left="742" data-tchmi-left-unit="px" data-tchmi-reset-to-last-valid-value="True" data-tchmi-top="63" data-tchmi-top-unit="px" data-tchmi-width="51" data-tchmi-width-unit="px" data-tchmi-visibility="Collapsed" data-tchmi-creator-locked="True">
 <script data-tchmi-target-attribute="data-tchmi-content-padding" type="application/json">
 {
   "top": 3,
@@ -579,5 +628,7 @@ Errors" data-tchmi-creator-locked="True">
   }
 ]
 </script>
+</div>
+<div id="SystemTime" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="41" data-tchmi-height-unit="px" data-tchmi-left="658" data-tchmi-left-unit="px" data-tchmi-text="%s%ADS.ATS_PLC.MAIN.SystemTimeString%/s%" data-tchmi-top="23" data-tchmi-top-unit="px" data-tchmi-width="90" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-font-size="15" data-tchmi-text-vertical-alignment="Center" data-tchmi-text-horizontal-alignment="Center" data-tchmi-creator-locked="True">
 </div>
 </div>
