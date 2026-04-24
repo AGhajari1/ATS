@@ -16,8 +16,13 @@ VAR
 	OpenCommand							: BOOL:= TRUE;
 	
 	Reset								: BOOL:= FALSE;
+	CloseCoilRelease					: TON;
+	OpenCoilRelease						: TON;
 END_VAR
-]]></Declaration>
+
+VAR CONSTANT
+	COILRELEASETIME						: TIME:= T#500MS;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[M_IO();
 M_Errors();
@@ -42,7 +47,13 @@ IF CloseCommand THEN
 		Commands.Open.OFF();
 		Commands.Close.ON();
 	END_IF
-	Closecommand:= FALSE;
+	CloseCoilRelease.IN:= TRUE;
+	IF CloseCoilRelease.Q THEN
+		Commands.Close.OFF();
+		CloseCoilRelease.IN:= FALSE;
+		Closecommand:= FALSE;
+	END_IF
+	
 END_IF
 
 IF OpenCommand THEN
@@ -50,11 +61,18 @@ IF OpenCommand THEN
 		Commands.Close.OFF();
 		Commands.Open.ON();
 	END_IF
-	Opencommand:= FALSE;
+	OpenCoilRelease.IN:= TRUE;
+	IF OpenCoilRelease.Q THEN
+		Commands.Open.OFF();
+		OpenCoilRelease.IN:= FALSE;
+		Opencommand:= FALSE;
+	END_IF
+	
 END_IF
 
 
-
+CloseCoilRelease(PT:= COILRELEASETIME);
+OpenCoilRelease(PT:= COILRELEASETIME);
 
 INIT:= FALSE;]]></ST>
     </Implementation>

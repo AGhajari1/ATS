@@ -41,6 +41,7 @@ END_VAR
 VAR PERSISTENT
 	TransferState		: E_TransferState := E_TransferState.IDLE;
 	Config				: ST_ConfigATS;
+	HMIPassword			: STRING:='1234';
 END_VAR
 
 ]]></Declaration>
@@ -354,8 +355,9 @@ THEN
 		END_IF
 	END_IF
 ELSE //TODO Error handling
-	Status.OnLine:= TRUE;
-	HMI_NonAutoToLine:= FALSE;
+	Status.OnLine		:= TRUE;
+	HMI_NonAutoToLine	:= FALSE;
+
 END_IF]]></ST>
       </Implementation>
     </Method>

@@ -26,7 +26,7 @@ AUTOMATIC TRANSFER SWITCH" data-tchmi-top="18" data-tchmi-width="396" data-tchmi
   "color": "rgba(238, 238, 242, 1)"
 }
 </script>
-<div id="BoxedWolfLogo" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiImage" data-tchmi-height="86" data-tchmi-height-unit="px" data-tchmi-left="2" data-tchmi-src="Images/BoxdWolfLogo.png" data-tchmi-top="0" data-tchmi-width="95" data-tchmi-width-unit="px" data-tchmi-creator-visibility="Visible" data-tchmi-zindex="1" data-tchmi-creator-locked="True">
+<div id="BoxedWolfLogo" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiImage" data-tchmi-height="95" data-tchmi-height-unit="px" data-tchmi-left="2" data-tchmi-src="Images/BoxdWolfLogo.png" data-tchmi-top="0" data-tchmi-width="95" data-tchmi-width-unit="px" data-tchmi-creator-visibility="Visible" data-tchmi-zindex="1" data-tchmi-creator-locked="True">
 </div>
 <div id="Contact" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="42" data-tchmi-height-unit="px" data-tchmi-left="109" data-tchmi-text="BoxedWolf.com
 855-293-9653" data-tchmi-top="22" data-tchmi-width="89" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-background-image-horizontal-alignment="Center" data-tchmi-background-image-vertical-alignment="Center" data-tchmi-text-horizontal-alignment="Left" data-tchmi-text-font-size="14" data-tchmi-zindex="1">
@@ -486,7 +486,7 @@ Errors" data-tchmi-creator-locked="True">
 ]
 </script>
 </div>
-<div id="ContentRegion" data-tchmi-type="TcHmi.Controls.System.TcHmiRegion" data-tchmi-height="320" data-tchmi-height-unit="px" data-tchmi-left="1" data-tchmi-left-unit="px" data-tchmi-top="90" data-tchmi-top-unit="px" data-tchmi-width="800" data-tchmi-width-unit="px" data-tchmi-creator-locked="True" data-tchmi-target-content="Home.content">
+<div id="ContentRegion" data-tchmi-type="TcHmi.Controls.System.TcHmiRegion" data-tchmi-height="315" data-tchmi-height-unit="px" data-tchmi-left="1" data-tchmi-left-unit="px" data-tchmi-top="95" data-tchmi-top-unit="px" data-tchmi-width="800" data-tchmi-width-unit="px" data-tchmi-target-content="Home.content" data-tchmi-creator-locked="True">
 </div>
 <div id="HomeButton" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="697" data-tchmi-left-unit="px" data-tchmi-text="HOME" data-tchmi-top="90" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="3" data-tchmi-visibility="Collapsed" data-tchmi-creator-locked="True">
 
@@ -551,9 +551,9 @@ Errors" data-tchmi-creator-locked="True">
                   "symbolExpression": "%ctx%owner::Text%/ctx%"
                 },
                 "compare2": {
-                  "objectType": "StaticValue",
+                  "objectType": "Symbol",
                   "valueType": "tchmi:general#/definitions/String",
-                  "value": "1234"
+                  "symbolExpression": "%s%ADS.ATS_PLC.MAIN.ATS.HMIPassword%/s%"
                 },
                 "compareOperator": "==",
                 "logic": null

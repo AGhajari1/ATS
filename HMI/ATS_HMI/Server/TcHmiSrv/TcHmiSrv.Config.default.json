@@ -679,6 +679,23 @@
             },
             "USEMAPPING": true
         },
+        "ADS.ATS_PLC.MAIN.ATS.HMIPassword": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::HMIPassword",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/STRING%2880%29"
+                    },
+                    {
+                        "propertyOrder": 27
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.HMI_GenStartDelay": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -5979,6 +5996,7 @@
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Opened.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Ready.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.Error.Reason": 3,
+                "ADS.ATS_PLC.MAIN.ATS.HMIPassword": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_GenStartDelay": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_NonAutoToGen": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_NonAutoToLine": 3,
@@ -6107,6 +6125,7 @@
     "VIRTUALDIRECTORIES": {
         "/": "..\\..\\ATS_HMI\\",
         "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\..\\ATS\\ATS\\Packages\\Beckhoff.TwinCAT.HMI.Controls.14.4.64\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.EcDiagnosticsControl": "..\\..\\..\\ATS\\ATS\\Packages\\Beckhoff.TwinCAT.HMI.EcDiagnosticsControl.14.3.345\\runtimes\\native1.12-tchmi",
         "/Beckhoff.TwinCAT.HMI.Framework": "..\\..\\..\\ATS\\ATS\\Packages\\Beckhoff.TwinCAT.HMI.Framework.14.3.500\\runtimes\\native1.12-tchmi",
         "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\..\\ATS\\ATS\\Packages\\Beckhoff.TwinCAT.HMI.Functions.14.3.347\\runtimes\\native1.12-tchmi",
         "/bin": "..\\..\\ATS_HMI\\bin\\"
