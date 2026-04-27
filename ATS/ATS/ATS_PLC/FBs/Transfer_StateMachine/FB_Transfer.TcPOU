@@ -15,7 +15,10 @@ VAR
 	GenStartCommand		AT%Q*	: BOOL; 
             
 	TransferTimer   	: TON;    
-	RetransferTimer 	: TON;     
+	RetransferTimer 	: TON;
+	
+	// Moved from M_AutoStateMachine
+	TransitionTimer : TON;
 
 	SystemVoltage		: E_Voltages := E_Voltages._600V; 
 	SystemFrequency		: E_Frequencies := E_Frequencies._60Hz;
@@ -88,14 +91,41 @@ INIT:= FALSE;
     <Method Name="M_AutoStateMachine" Id="{7309beaf-6981-4895-822f-b929ea1bb9d2}">
       <Declaration><![CDATA[METHOD PRIVATE M_AutoStateMachine
 VAR_INST
-	TransitionTimer		: TON;
+	// Boolean variables for statuses of circuit breakers
+	bGenClosed : BOOL ;
+	bLineClosed : BOOL;
+	bGenOpened : BOOL;
+	bLineOpened : BOOL;
 	
+	// Voltage Stablization variables
+	bGenVoltageStablized : BOOL;
+	bLineVoltageStablized : BOOL;
+	
+	bGenCBError : BOOL;
+	bLineCBError : BOOL;
+
+	// Why is RetransferTimer declared elsewhere and not here alongside TransitionTimer?
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// SAFETY: BOTH CLOSED / BOTH OPEN DETECTION
-Status.BothClosed := LineCB.P_Status.CB_Closed.P_Status.P_Value AND GenCB.P_Status.CB_Closed.P_Status.P_Value;
-Status.BothOpened   := LineCB.P_Status.CB_Opened.P_Status.P_Value   AND GenCB.P_Status.CB_Opened.P_Status.P_Value;
+        <ST><![CDATA[// Circuit breaker status values
+bGenClosed:= GenCB.P_Status.CB_Closed.P_Status.P_Value;
+bLineClosed := LineCB.P_Status.CB_Closed.P_Status.P_Value;
+bGenOpened    := GenCB.P_Status.CB_Opened.P_Status.P_Value;
+bLineOpened   := LineCB.P_Status.CB_Opened.P_Status.P_Value;
+
+bGenVoltageStablized := MCM_Gen.P_DataOut.VoltageStabilized;
+bLineVoltageStablized := MCM_Gen.P_DataOut.VoltageStabilized;
+
+bGenCBError := GenCB.P_Status.Error.Error;
+bLineCBError := LineCB.P_Status.Error.Error;
+	
+
+// SAFETY: BOTH CLOSED / BOTH OPEN DETECTION
+Status.BothClosed := bLineClosed AND bGenClosed;
+
+// This line of code is not used in the program at all
+Status.BothOpened   := bLineOpened   AND bGenOpened;
 
 IF Status.BothClosed THEN
 	GenCB.M_Open();
@@ -104,8 +134,8 @@ END_IF
 
 // FAULT DETECTION
 Status.TransferFault := Status.BothClosed
-                     	OR LineCB.P_Status.Error.Error
-                     	OR GenCB.P_Status.Error.Error;
+                     	OR bLineCBError
+                     	OR bGenCBError;
 
 // FAULT FORCES IDLE
 IF Status.TransferFault THEN
@@ -116,28 +146,34 @@ END_IF;
 CASE TransferState OF
 
     E_TransferState.IDLE:
+	// Do we need this line of code?
         IF ATSMode = E_Modes.Automatic THEN
             TransferState := E_TransferState.LINE_NORMAL;
         END_IF;
 
     E_TransferState.LINE_NORMAL:
-        Status.OnLine      := LineCB.P_Status.CB_Closed.P_Status.P_Value;
+        Status.OnLine      := bLineClosed;
         Status.OnGenerator := FALSE;
 		ATSMessage:= 'System On Utility Power';
-        IF NOT MCM_Gen.P_DataOut.VoltageStabilized THEN
-            TransferState := E_TransferState.LINE_LOST;
-        END_IF;
+		// Is it referring to MCM_Line.P_DataOut.VoltageStablized instead of this?
+//         IF NOT MCM_Gen.P_DataOut.VoltageStabilized THEN
+//             TransferState := E_TransferState.LINE_LOST;
+//         END_IF;
+		IF NOT bLineVoltageStablized THEN;
+			TransferState := E_TransferState.LINE_LOST;
+		END_IF
 
     E_TransferState.LINE_LOST:
 		ATSMessage:= 'Utility Power Lost';
-        IF MCM_Gen.P_DataOut.VoltageStabilized THEN
+		// Check for debounce here if necessary
+        IF bGenVoltageStablized THEN
             TransferState := E_TransferState.OPENING_LINE_CB;
         END_IF;
 
     E_TransferState.OPENING_LINE_CB:
         LineCB.M_Open();
 		ATSMessage:= 'Waiting for Line CB to Open';
-        IF LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
+        IF bLineOpened THEN
             TransitionTimer.IN := FALSE;
 			TransitionTimer.PT := Config.ToGenTransitionTime;
             TransferState := E_TransferState.WAITING_TRANSITION;
@@ -145,7 +181,8 @@ CASE TransferState OF
 
     E_TransferState.WAITING_TRANSITION:
             TransitionTimer.IN := TRUE;
-			TransitionTimer.PT := Config.ToGenTransitionTime;
+			// Remove this line here since it is redundant
+// 			TransitionTimer.PT := Config.ToGenTransitionTime;
         IF TransitionTimer.Q THEN
             TransitionTimer.IN := FALSE;
             TransferState := E_TransferState.CLOSING_GEN_CB;
@@ -154,7 +191,7 @@ CASE TransferState OF
     E_TransferState.CLOSING_GEN_CB:
 		ATSMessage:= 'Waiting for Generator CB to Close';
         GenCB.M_Close();
-        IF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
+        IF bGenClosed THEN
             TransferState := E_TransferState.ON_GENERATOR;
         END_IF;
 
@@ -163,7 +200,7 @@ CASE TransferState OF
         Status.OnGenerator := TRUE;
         Status.OnLine      := FALSE;
 		RetransferTimer.PT := Config.ReturnToLineDelay;
-        IF MCM_Line.P_DataOut.VoltageStabilized THEN
+        IF bLineVoltageStablized THEN
             RetransferTimer.IN := TRUE;
         ELSE
             RetransferTimer.IN := FALSE;
@@ -176,7 +213,7 @@ CASE TransferState OF
     E_TransferState.OPENING_GEN_CB:
 		ATSMessage:= 'Waiting for Generator CB to Open';
         GenCB.M_Open();
-        IF GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
+        IF bGenOpened THEN
             TransitionTimer.IN := FALSE;
 			TransitionTimer.PT := Config.ToLineTransitionTime;
             TransferState := E_TransferState.RETRANSFER;
@@ -190,10 +227,12 @@ CASE TransferState OF
             TransferState := E_TransferState.CLOSING_LINE_CB;
         END_IF;
 
+
     E_TransferState.CLOSING_LINE_CB:
+	// Wrong HMI message, should be "Waiting for Line CB to CLOSE"
 		ATSMessage:= 'Waiting for Line CB to Open';
         LineCB.M_Close();
-        IF LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
+        IF bLineClosed THEN
             TransferState := E_TransferState.LINE_NORMAL;
         END_IF;
 
@@ -201,6 +240,8 @@ END_CASE;
 
 TransitionTimer();
 RetransferTimer();
+
+// State Machine Rewritten Here
 ]]></ST>
       </Implementation>
     </Method>
