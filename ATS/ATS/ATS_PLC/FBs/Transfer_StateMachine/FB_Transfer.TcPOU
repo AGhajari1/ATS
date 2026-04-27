@@ -91,7 +91,11 @@ INIT:= FALSE;
     <Method Name="M_AutoStateMachine" Id="{7309beaf-6981-4895-822f-b929ea1bb9d2}">
       <Declaration><![CDATA[METHOD PRIVATE M_AutoStateMachine
 VAR_INST
-	// Boolean variables for statuses of circuit breakers
+
+END_VAR
+
+VAR
+		// Boolean variables for statuses of circuit breakers
 	bGenClosed : BOOL ;
 	bLineClosed : BOOL;
 	bGenOpened : BOOL;
@@ -118,12 +122,11 @@ bLineVoltageStablized := MCM_Gen.P_DataOut.VoltageStabilized;
 bGenCBError := GenCB.P_Status.Error.Error;
 bLineCBError := LineCB.P_Status.Error.Error;
 	
-
 // SAFETY: BOTH CLOSED / BOTH OPEN DETECTION
 Status.BothClosed := bLineClosed AND bGenClosed;
 
 // This line of code is not used in the program at all
-Status.BothOpened   := bLineOpened   AND bGenOpened;
+Status.BothOpened := bLineOpened AND bGenOpened;
 
 IF Status.BothClosed THEN
 	GenCB.M_Open();
@@ -144,9 +147,13 @@ END_IF;
 CASE TransferState OF
 
     E_TransferState.IDLE:
-		// Do we need this line of code?
         IF ATSMode = E_Modes.Automatic THEN
-            TransferState := E_TransferState.LINE_NORMAL;
+			// Depends on the initial states
+			IF bLineClosed AND bGenOpened THEN
+				TransferState := E_TransferState.LINE_NORMAL;
+			ELSIF bGenClosed AND bLineOpened THEN
+				TransferState := E_TransferState.ON_GENERATOR;
+			END_IF
         END_IF;
 
     E_TransferState.LINE_NORMAL:
@@ -163,7 +170,6 @@ CASE TransferState OF
 
     E_TransferState.LINE_LOST:
 		ATSMessage:= 'Utility Power Lost';
-		// Check for debounce here if necessary
         IF bGenVoltageStablized THEN
             TransferState := E_TransferState.OPENING_LINE_CB;
         END_IF;
@@ -221,12 +227,11 @@ CASE TransferState OF
     E_TransferState.RETRANSFER:
 		TransitionTimer.IN := TRUE;
 		// What is the purpose of ReturnToLineDelay? Completely overwrites it
-// 		TransitionTimer.PT := Config.ReturnToLineDelay;
+		// TransitionTimer.PT := Config.ReturnToLineDelay;
         IF TransitionTimer.Q THEN
             TransitionTimer.IN := FALSE;
             TransferState := E_TransferState.CLOSING_LINE_CB;
         END_IF;
-
 
     E_TransferState.CLOSING_LINE_CB:
 		ATSMessage:= 'Waiting for Line CB to Close';
@@ -240,7 +245,7 @@ END_CASE;
 TransitionTimer();
 RetransferTimer();
 
-// State Machine Rewritten Here
+// State Machine Rewritten
 ]]></ST>
       </Implementation>
     </Method>
