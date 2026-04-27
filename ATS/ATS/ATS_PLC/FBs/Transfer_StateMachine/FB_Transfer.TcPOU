@@ -103,8 +103,6 @@ VAR_INST
 	
 	bGenCBError : BOOL;
 	bLineCBError : BOOL;
-
-	// Why is RetransferTimer declared elsewhere and not here alongside TransitionTimer?
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -146,7 +144,7 @@ END_IF;
 CASE TransferState OF
 
     E_TransferState.IDLE:
-	// Do we need this line of code?
+		// Do we need this line of code?
         IF ATSMode = E_Modes.Automatic THEN
             TransferState := E_TransferState.LINE_NORMAL;
         END_IF;
@@ -156,9 +154,9 @@ CASE TransferState OF
         Status.OnGenerator := FALSE;
 		ATSMessage:= 'System On Utility Power';
 		// Is it referring to MCM_Line.P_DataOut.VoltageStablized instead of this?
-//         IF NOT MCM_Gen.P_DataOut.VoltageStabilized THEN
-//             TransferState := E_TransferState.LINE_LOST;
-//         END_IF;
+		//         IF NOT MCM_Gen.P_DataOut.VoltageStabilized THEN
+		//             TransferState := E_TransferState.LINE_LOST;
+		//         END_IF;
 		IF NOT bLineVoltageStablized THEN;
 			TransferState := E_TransferState.LINE_LOST;
 		END_IF
@@ -195,6 +193,7 @@ CASE TransferState OF
             TransferState := E_TransferState.ON_GENERATOR;
         END_IF;
 
+	// Focus on this line here
     E_TransferState.ON_GENERATOR:
 		ATSMessage:= 'System On Generator Power';
         Status.OnGenerator := TRUE;
@@ -209,7 +208,7 @@ CASE TransferState OF
 			RetransferTimer.IN := FALSE;
             TransferState := E_TransferState.OPENING_GEN_CB;
         END_IF;
-
+		
     E_TransferState.OPENING_GEN_CB:
 		ATSMessage:= 'Waiting for Generator CB to Open';
         GenCB.M_Open();
@@ -220,8 +219,9 @@ CASE TransferState OF
         END_IF;
 
     E_TransferState.RETRANSFER:
-            TransitionTimer.IN := TRUE;
-			TransitionTimer.PT := Config.ReturnToLineDelay;
+		TransitionTimer.IN := TRUE;
+		// What is the purpose of ReturnToLineDelay? Completely overwrites it
+// 		TransitionTimer.PT := Config.ReturnToLineDelay;
         IF TransitionTimer.Q THEN
             TransitionTimer.IN := FALSE;
             TransferState := E_TransferState.CLOSING_LINE_CB;
@@ -229,8 +229,7 @@ CASE TransferState OF
 
 
     E_TransferState.CLOSING_LINE_CB:
-	// Wrong HMI message, should be "Waiting for Line CB to CLOSE"
-		ATSMessage:= 'Waiting for Line CB to Open';
+		ATSMessage:= 'Waiting for Line CB to Close';
         LineCB.M_Close();
         IF bLineClosed THEN
             TransferState := E_TransferState.LINE_NORMAL;
