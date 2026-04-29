@@ -13,6 +13,9 @@ STRUCT
 	ToGenTransitionTime		    : TIME := T#1S;
 	ToLineTransitionTime	    : TIME := T#1S;
 	
+	GenCoolDownDelay			: TIME := T#1800S;
+	FaultTimeOut				: TIME := T#30S;
+	
 END_STRUCT
 END_TYPE
 ]]></Declaration>

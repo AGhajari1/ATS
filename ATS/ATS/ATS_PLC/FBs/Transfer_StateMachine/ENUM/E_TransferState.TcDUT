@@ -10,12 +10,14 @@ TYPE E_TransferState :
     LINE_NORMAL			:=1,
     LINE_LOST			:=2,
     OPENING_LINE_CB		:=3,
-    WAITING_TRANSITION	:=4,
+    WAITING_TO_GEN		:=4,
     CLOSING_GEN_CB		:=5,
     ON_GENERATOR		:=6,
     OPENING_GEN_CB		:=7,
     CLOSING_LINE_CB		:=8,
-    RETRANSFER			:=9
+    RETRANSFER			:=9,
+	GEN_START			:= 10,
+	FAULT 				:= 11
 );
 END_TYPE
 ]]></Declaration>
