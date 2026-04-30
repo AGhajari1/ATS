@@ -213,7 +213,7 @@ CASE TransferState OF
 		ATSMessage := 'Generator Starting Up';
 		THIS^.GenStartCommand := TRUE;
 		
-		VoltageUnstableTimer.PT := Config.VoltageUnstableTimeOut;
+		VoltageUnstableTimer.PT := Config.GenFaultTimeOut;
 		VoltageUnstableTimer.IN := NOT MCM_Gen.P_DataOut.VoltageStabilized;
 		
 		IF MCM_Gen.P_DataOut.VoltageStabilized THEN
