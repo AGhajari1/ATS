@@ -106,8 +106,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// SAFETY: BOTH CLOSED / BOTH OPEN DETECTION
-Status.BothClosed := LineCB.P_Status.CB_Closed.P_Status.P_Value AND GenCB.P_Status.CB_Closed.P_Status.P_Value;
+        <ST><![CDATA[Status.BothClosed := LineCB.P_Status.CB_Closed.P_Status.P_Value AND GenCB.P_Status.CB_Closed.P_Status.P_Value;
 Status.BothOpened := LineCB.P_Status.CB_Opened.P_Status.P_Value AND GenCB.P_Status.CB_Opened.P_Status.P_Value;
 
 IF Status.BothClosed THEN
@@ -141,7 +140,7 @@ CASE TransferState OF
 		RetransferTimer.IN := FALSE;
 		CoolDownTimer.IN := FALSE;
 		VoltageUnstableTimer.IN := FALSE;
-	
+		
 		Status.OnLine := FALSE;
 		Status.OnGenerator := FALSE;
 		
@@ -178,13 +177,13 @@ CASE TransferState OF
 			ATSMessage := 'Generator Offline';
 			GenCoolDown := FALSE;
 			CoolDownTimer.IN := FALSE;
-			
 			THIS^.GenStartCommand := FALSE;
 		END_IF
 		IF VoltageUnstableTimer.Q AND NOT MCM_Line.P_DataOut.VoltageStabilized THEN
 			GenCoolDown := FALSE;
 			CoolDownTimer.IN := FALSE;
 			TransferState := E_TransferState.LINE_LOST;
+			VoltageUnstableTimer.IN := FALSE;
 		END_IF
 	
 	E_TransferState.LINE_LOST:
@@ -305,10 +304,6 @@ RetransferTimer();
 CoolDownTimer();
 BreakerFaultTimer();
 VoltageUnstableTimer();
-
-
-
-
 ]]></ST>
       </Implementation>
     </Method>
