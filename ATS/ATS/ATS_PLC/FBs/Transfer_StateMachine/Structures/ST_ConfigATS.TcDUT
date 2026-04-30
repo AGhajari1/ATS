@@ -14,7 +14,9 @@ STRUCT
 	ToLineTransitionTime	    : TIME := T#1S;
 	
 	GenCoolDownDelay			: TIME := T#1800S;
-	FaultTimeOut				: TIME := T#30S;
+	FaultTimeOut				: TIME := T#500MS;
+	GenFaultTimeOut 			: TIME := T#30S;
+	VoltageUnstableTimeOut 		: TIME := T#5S;
 	
 END_STRUCT
 END_TYPE

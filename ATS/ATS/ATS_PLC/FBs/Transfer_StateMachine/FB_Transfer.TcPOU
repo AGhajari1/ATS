@@ -14,10 +14,10 @@ VAR
 	
 	GenStartCommand		AT%Q*	: BOOL; 
             
-	TransferTimer   	: TON;    
-	RetransferTimer 	: TON;
-	BreakerFaultTimer 	: TON;
-	GenFaultTimer 		: TON;
+	TransferTimer   		: TON;    
+	RetransferTimer 		: TON;
+	BreakerFaultTimer 		: TON;
+	VoltageUnstableTimer 	: TON;
 	
 	// Moved from M_AutoStateMachine
 	TransitionTimer : TON;
@@ -100,6 +100,9 @@ END_VAR
 
 VAR
 	GenCoolDown : BOOL;
+	
+	// Add Button for this in HMI
+	ResetFaultCommand : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -126,26 +129,46 @@ END_IF;
 
 CASE TransferState OF
 	E_TransferState.FAULT:
+		// Code will be expanded upon if necessary
 		ATSMessage := 'ATS FAULT DETECTED';
+		
 		LineCB.M_Open();
 		GenCB.M_Open();
-		
+	
 		THIS^.GenStartCommand := FALSE;
-		Status.OnLine := FALSE;
-		Status.OnGenerator := FALSE;
-
-		BreakerFaultTimer.IN := FALSE;
+		
 		TransitionTimer.IN := FALSE;
 		RetransferTimer.IN := FALSE;
 		CoolDownTimer.IN := FALSE;
-		GenFaultTimer.IN := FALSE;
+		VoltageUnstableTimer.IN := FALSE;
 	
+		Status.OnLine := FALSE;
+		Status.OnGenerator := FALSE;
+		
+		IF ResetFaultCommand AND NOT Status.BothClosed THEN
+			LineCB.M_ResetErrors();
+			GenCB.M_ResetErrors();
+			
+			IF LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
+				TransferState := E_TransferState.LINE_NORMAL;
+			ELSIF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
+				TransferState := E_TransferState.ON_GENERATOR;
+			ELSE
+				TransferState := E_TransferState.LINE_LOST;
+			END_IF;
+
+		END_IF
+		
     E_TransferState.LINE_NORMAL:
         Status.OnLine      := LineCB.P_Status.CB_Closed.P_Status.P_Value;
         Status.OnGenerator := FALSE;
 		ATSMessage:= 'System On Utility Power';
+		
 		CoolDownTimer.PT := Config.GenCoolDownDelay;
 		CoolDownTimer.IN := GenCoolDown;
+		
+		VoltageUnstableTimer.PT := Config.VoltageUnstableTimeOut;
+		VoltageUnstableTimer.IN := NOT MCM_Line.P_DataOut.VoltageStabilized;
 		
 		IF GenCoolDown THEN
 			ATSMessage := 'System On Utility Power - Generator Cooling Down';
@@ -156,10 +179,9 @@ CASE TransferState OF
 			GenCoolDown := FALSE;
 			CoolDownTimer.IN := FALSE;
 			
-			// Shut down the generator
 			THIS^.GenStartCommand := FALSE;
 		END_IF
-		IF NOT MCM_Line.P_DataOut.VoltageStabilized THEN
+		IF VoltageUnstableTimer.Q AND NOT MCM_Line.P_DataOut.VoltageStabilized THEN
 			GenCoolDown := FALSE;
 			CoolDownTimer.IN := FALSE;
 			TransferState := E_TransferState.LINE_LOST;
@@ -178,53 +200,48 @@ CASE TransferState OF
 		LineCB.M_Open();
 		
 		BreakerFaultTimer.PT := Config.FaultTimeOut;
-		BreakerFaultTimer.IN := TRUE;
+		BreakerFaultTimer.IN := NOT LineCB.P_Status.CB_Opened.P_Status.P_Value;
 		
 		IF LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
 			TransferState := E_TransferState.GEN_START;
 			BreakerFaultTimer.IN := FALSE;
-		ELSIF BreakerFaultTimer.Q THEN
+		ELSIF BreakerFaultTimer.Q AND NOT LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
 			BreakerFaultTimer.IN := FALSE;
 			TransferState := E_TransferState.FAULT;
         END_IF
 	
-	// Make sure to add Fault Timer in this state
 	E_TransferState.GEN_START:
 		ATSMessage := 'Generator Starting Up';
 		THIS^.GenStartCommand := TRUE;
 		
-		GenFaultTimer.PT := Config.FaultTimeOut;
-		GenFaultTimer.IN := TRUE;
+		VoltageUnstableTimer.PT := Config.VoltageUnstableTimeOut;
+		VoltageUnstableTimer.IN := NOT MCM_Gen.P_DataOut.VoltageStabilized;
 		
 		IF MCM_Gen.P_DataOut.VoltageStabilized THEN
 			TransferState := E_TransferState.CLOSING_GEN_CB;
-			GenFaultTimer.IN := FALSE;
-		ELSIF GenFaultTimer.Q THEN
+			VoltageUnstableTimer.IN := FALSE;
+		ELSIF VoltageUnstableTimer.Q AND NOT MCM_Gen.P_DataOut.VoltageStabilized THEN
 			TransferState := E_TransferState.FAULT;
-			GenFaultTimer.IN := FALSE;
+			VoltageUnstableTimer.IN := FALSE;
 		END_IF
 	
 	E_TransferState.CLOSING_GEN_CB:
 		ATSMessage:= 'Waiting for Generator CB to Close';
-		
-		// Adding another safeguard
 		IF LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
 			GenCB.M_Close();
 		END_IF
 		
 		BreakerFaultTimer.PT := Config.FaultTimeOut;
-		BreakerFaultTimer.IN := TRUE;
+		BreakerFaultTimer.IN := NOT GenCB.P_Status.CB_Closed.P_Status.P_Value;
 		
 		IF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
 			TransferState := E_TransferState.ON_GENERATOR;
 			BreakerFaultTimer.IN := FALSE;
-		ELSIF BreakerFaultTimer.Q THEN
+		ELSIF BreakerFaultTimer.Q AND NOT GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
 			BreakerFaultTimer.IN := FALSE;
 			TransferState := E_TransferState.FAULT;
 		END_IF
-		// Add Fault logic down below
 		
-	
     E_TransferState.ON_GENERATOR:
 		ATSMessage:= 'System On Generator Power';
         Status.OnGenerator := TRUE;
@@ -245,18 +262,17 @@ CASE TransferState OF
         GenCB.M_Open();
 		
 		BreakerFaultTimer.PT := Config.FaultTimeOut;
-		BreakerFaultTimer.IN := TRUE;
+		BreakerFaultTimer.IN := NOT GenCB.P_Status.CB_Opened.P_Status.P_Value;
 		
         IF GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
 			BreakerFaultTimer.IN := FALSE;
 			TransitionTimer.PT := Config.ToLineTransitionTime;
             TransitionTimer.IN := FALSE;
             TransferState := E_TransferState.RETRANSFER;
-		ELSIF BreakerFaultTimer.Q THEN
+		ELSIF BreakerFaultTimer.Q AND NOT GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
 			BreakerFaultTimer.IN := FALSE;
 			TransferState := E_TransferState.FAULT;
         END_IF
-		
 		
     E_TransferState.RETRANSFER:
 		TransitionTimer.IN := TRUE;
@@ -265,14 +281,10 @@ CASE TransferState OF
             TransferState := E_TransferState.CLOSING_LINE_CB;
         END_IF
 		
-		
     E_TransferState.CLOSING_LINE_CB:
 		ATSMessage:= 'Waiting for Line CB to Close';
-		GenCoolDown := TRUE;
-		// Checking if GenCB is closed before closing LineCB
-		
 		BreakerFaultTimer.PT := Config.FaultTimeOut;
-		BreakerFaultTimer.IN := TRUE;
+		BreakerFaultTimer.IN := NOT LineCB.P_Status.CB_Closed.P_Status.P_Value;
 		
 		IF GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
 			LineCB.M_Close();
@@ -281,7 +293,7 @@ CASE TransferState OF
 			GenCoolDown := TRUE;
 			BreakerFaultTimer.IN := FALSE;
             TransferState := E_TransferState.LINE_NORMAL;
-		ELSIF BreakerFaultTimer.Q THEN
+		ELSIF BreakerFaultTimer.Q AND NOT LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
 			BreakerFaultTimer.IN := FALSE;
 			TransferState := E_TransferState.FAULT;
         END_IF
@@ -292,161 +304,10 @@ TransitionTimer();
 RetransferTimer();
 CoolDownTimer();
 BreakerFaultTimer();
-GenFaultTimer();
+VoltageUnstableTimer();
 
 
-// // Add a FAULT state rather than an IDLE state
-// CASE TransferState OF
-// 	E_TransferState.FAULT:
-// 		// Provide more in depth Fault State
-// 		ATSMessage := 'ATS FAULT DETECTED';
-// 		LineCB.M_Open();
-// 		GenCB.M_Open();
-// 		
-// 		THIS^.GenStartCommand := FALSE;
-// 		Status.OnLine := FALSE;
-// 		Status.OnGenerator := FALSE;
-// 		
-// 		// Setting Everything Off
-// 		GeneratorTimer.IN := FALSE;
-// 		TransitionTimer.IN := FALSE;
-// 		RetransferTimer.IN := FALSE;
-// 		CoolDownTimer.IN := FALSE;
-// 		
-// 		
-//     E_TransferState.IDLE:
-//         IF ATSMode = E_Modes.Automatic THEN
-// 			// Conditional Statements to Determine What Circuitbreakers are open
-// 			TransferState := E_TransferState.LINE_NORMAL;
-//         END_IF
-// 
-//     E_TransferState.LINE_NORMAL:
-//         Status.OnLine      := LineCB.P_Status.CB_Closed.P_Status.P_Value;
-//         Status.OnGenerator := FALSE;
-// 		ATSMessage:= 'System On Utility Power';
-// 		CoolDownTimer.PT := Config.GenCoolDownDelay;
-// 		CoolDownTimer.IN := GenCoolDown;
-// 		
-// 		IF CoolDownTimer.Q THEN
-// 			ATSMessage := 'Generator Offline';
-// 			GenCoolDown := FALSE;
-// 			CoolDownTimer.IN := FALSE;
-// 			
-// 			// Shut down the generator
-// 			THIS^.GenStartCommand := FALSE;
-// 		END_IF
-// 		IF NOT MCM_Line.P_DataOut.VoltageStabilized THEN
-// 			GenCoolDown := FALSE;
-// 			CoolDownTimer.IN := FALSE;
-// 			TransferState := E_TransferState.LINE_LOST;
-// 		END_IF
-// 
-// 	// Make it so it moves
-//     E_TransferState.LINE_LOST:
-// 		ATSMessage:= 'Utility Power Lost';
-// 		GeneratorTimer.PT := Config.GenStartDelay;
-// 		GeneratorTimer.IN := TRUE;
-// 		IF MCM_Line.P_DataOut.VoltageStabilized THEN
-// 			GeneratorTimer.IN := FALSE;
-// 			TransferState := E_TransferState.LINE_NORMAL;
-// 		ELSIF GeneratorTimer.Q AND NOT MCM_Line.P_DataOut.VoltageStabilized THEN
-// 			GeneratorTimer.IN := FALSE;
-// 			TransferState := E_TransferState.GEN_START;
-// 		END_IF
-// 		
-// 	E_TransferState.GEN_START:
-// 		ATSMessage := 'Generator Starting Up';
-// 		THIS^.GenStartCommand := TRUE;
-// 		GeneratorTimer.IN := TRUE;
-// 		IF MCM_Line.P_DataOut.VoltageStabilized THEN
-// 			GeneratorTimer.IN := FALSE;
-// 			THIS^.GenStartCommand := FALSE;
-// 			TransferState := E_TransferState.LINE_NORMAL;
-// 		ELSIF GeneratorTimer.Q AND MCM_Gen.P_DataOut.VoltageStabilized THEN
-// 			GeneratorTimer.IN := FALSE;
-// 			TransferState := E_TransferState.OPENING_LINE_CB;
-// 
-// 		// Add a fault conditional in the case where Generator does not stabilize and Utility is also closed --> Use a FailTimer?
-// 		ELSIF GeneratorTimer.Q AND NOT MCM_Gen.P_DataOut.VoltageStabilized THEN
-// 			TransferState := E_TransferState.FAULT;
-// 		END_IF
-// 		
-//     		
-//     E_TransferState.OPENING_LINE_CB:
-//         LineCB.M_Open();
-// 		ATSMessage:= 'Waiting for Line CB to Open';
-//         IF LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
-// 			TransitionTimer.IN := FALSE;
-// 			TransitionTimer.PT := Config.ToGenTransitionTime;
-//             TransferState := E_TransferState.WAITING_TO_GEN;
-//         END_IF;
-// 
-//     E_TransferState.WAITING_TO_GEN:
-// 		ATSMessage := 'Waiting Before Closing Generator CB';
-// 		TransitionTimer.IN := TRUE;
-//         IF TransitionTimer.Q THEN
-//             TransitionTimer.IN := FALSE;
-//             TransferState := E_TransferState.CLOSING_GEN_CB;
-//         END_IF;
-// 
-//     E_TransferState.CLOSING_GEN_CB:
-// 		ATSMessage:= 'Waiting for Generator CB to Close';
-// 		// Checking if Line CB is closed before closing GenCB
-// 		IF LineCB.P_Status.CB_Opened.P_Status.P_Value AND MCM_Gen.P_DataOut.VoltageStabilized THEN
-//        		GenCB.M_Close();
-// 		ELSE
-// 			TransferState := E_TransferState.OPENING_LINE_CB;
-// 		END_IF;
-//         IF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
-//             TransferState := E_TransferState.ON_GENERATOR;
-//         END_IF;
-// 
-// 	// Focus on this line here
-//     E_TransferState.ON_GENERATOR:
-// 		ATSMessage:= 'System On Generator Power';
-//         Status.OnGenerator := TRUE;
-//         Status.OnLine      := FALSE;
-// 		RetransferTimer.PT := Config.ReturnToLineDelay;
-//         IF MCM_Line.P_DataOut.VoltageStabilized AND Config.AutoReturnToLine THEN
-//             RetransferTimer.IN := TRUE;
-//         ELSE
-//             RetransferTimer.IN := FALSE;
-//         END_IF;
-//         IF RetransferTimer.Q THEN
-// 			RetransferTimer.IN := FALSE;
-//             TransferState := E_TransferState.OPENING_GEN_CB;
-//         END_IF;
-// 		
-//     E_TransferState.OPENING_GEN_CB:
-// 		ATSMessage:= 'Waiting for Generator CB to Open';
-//         GenCB.M_Open();
-//         IF GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
-//             TransitionTimer.IN := FALSE;
-// 			TransitionTimer.PT := Config.ToLineTransitionTime;
-//             TransferState := E_TransferState.RETRANSFER;
-//         END_IF;
-// 
-//     E_TransferState.RETRANSFER:
-// 		GenCoolDown := TRUE;
-// 		TransitionTimer.IN := TRUE;
-//         IF TransitionTimer.Q THEN
-//             TransitionTimer.IN := FALSE;
-//             TransferState := E_TransferState.CLOSING_LINE_CB;
-//         END_IF;
-// 
-//     E_TransferState.CLOSING_LINE_CB:
-// 		ATSMessage:= 'Waiting for Line CB to Close';
-// 		// Checking if GenCB is closed before closing LineCB
-// 		IF GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
-// 			LineCB.M_Close();
-// 		ELSE
-// 			TransferState := E_TransferState.OPENING_GEN_CB;
-// 		END_IF
-//         IF LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
-//             TransferState := E_TransferState.LINE_NORMAL;
-//         END_IF;
-// 		
-// END_CASE;
+
 
 ]]></ST>
       </Implementation>

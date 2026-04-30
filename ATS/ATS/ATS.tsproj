@@ -95,7 +95,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{8196D76A-1476-42AB-B3B0-D536DFC9598E}" Name="ATS_PLC" PrjFilePath="ATS_PLC\ATS_PLC.plcproj" TmcFilePath="ATS_PLC\ATS_PLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{04B70DB1-F01D-9BFE-B851-6618267BF6A2}" TmcPath="ATS_PLC\ATS_PLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{4B4D3FD4-7653-73B6-9066-2410DFBBF921}" TmcPath="ATS_PLC\ATS_PLC.tmc">
 					<Name>ATS_PLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
