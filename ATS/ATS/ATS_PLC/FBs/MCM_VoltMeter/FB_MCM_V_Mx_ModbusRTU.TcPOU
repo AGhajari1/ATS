@@ -1,7 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.18">
   <POU Name="FB_MCM_V_Mx_ModbusRTU" Id="{1ca84450-dc7b-43bd-b6b9-283fa8345226}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_MCM_V_Mx_ModbusRTU
+    <Declaration><![CDATA[(*ON EL6022 
+enable contineous FIFO data send
+enable half duplex 
+set the addresses on the device properly
+otherwise it won't work
+*)
+FUNCTION_BLOCK FB_MCM_V_Mx_ModbusRTU
 VAR
 	INIT			: BIT;
     ModbusFB        : ModbusRtuMasterV2_KL6x22B; 
@@ -9,6 +15,7 @@ VAR
  	Config			: ST_MCM_Config;
     RawData        	: ARRAY[0..76] OF WORD; 
  	DataOut		   	: ST_MCM_Data;
+	EmptyDataout	: ST_MCM_Data;
 	CommInitRequest	: BYTE; //not used  TESTING ONLY
 	CommCtrl 		: POINTER TO BYTE; //not used  TESTING ONLY
 	
@@ -110,6 +117,8 @@ ModbusFB.ReadRegs(
 	Error		=>Error,
 	Errorid		=>ErrorCode
 );
+
+
 ]]></ST>
       </Implementation>
     </Method>
@@ -208,7 +217,11 @@ DataOut.InputConfig  := RawData[71];
 (* awRawC[72..73] = Passcode — skipped *)
 DataOut.LockState    := RawData[74];
 DataOut.AutoFreqCh   := RawData[75] <> 0;
-DataOut.FreqChannel  := RawData[76];]]></ST>
+DataOut.FreqChannel  := RawData[76];
+
+IF Error THEN
+	DataOut:= EmptyDataout;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="VoltageCheck" Id="{d12d065a-8f72-408c-9921-036420f737d9}">
@@ -244,6 +257,7 @@ StabilityTimer (IN  := VoltageOK AND FrequencyOK AND PhaseAngleAB_OK AND PhaseAn
            		PT  := Config.StableTime);
 
 DataOut.VoltageStabilized := StabilityTimer .Q;
+
 ]]></ST>
       </Implementation>
     </Method>

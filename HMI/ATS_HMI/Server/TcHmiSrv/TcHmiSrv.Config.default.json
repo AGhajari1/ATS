@@ -2,7 +2,7 @@
     "ALLOWED_ORIGINS": [],
     "ALLOW_REMOTE_ADMIN": true,
     "ALLOW_SSL_CERTIFICATES_HOSTS_ORIGINS": true,
-    "AUTO_LOGINUSER": "",
+    "AUTO_LOGINUSER": "__SystemAdministrator",
     "AUTO_LOGOFF": "P30D",
     "BASE_HMI_URL": "",
     "CACHEENABLED": true,

@@ -7,8 +7,8 @@
 TYPE E_Voltages :
 (
 	_600V := 600,
-	_208V := 208,
-	_120V := 120
+	_480V := 480,
+	_208V := 208
 );
 END_TYPE
 ]]></Declaration>

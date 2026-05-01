@@ -1647,7 +1647,7 @@
 </div>
 <div id="GenDelayText_1" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="18" data-tchmi-height-unit="px" data-tchmi-left="0" data-tchmi-left-unit="px" data-tchmi-text="Return To Line Delay" data-tchmi-top="92" data-tchmi-top-unit="px" data-tchmi-width="117" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1" data-tchmi-background-image-horizontal-alignment="Center" data-tchmi-text-horizontal-alignment="Right">
 </div>
-<div id="ReturnLineCheckboxReturnToLineDelay" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="10" data-tchmi-left-unit="px" data-tchmi-text="Return To Line Delay" data-tchmi-top="114" data-tchmi-top-unit="px" data-tchmi-width="143" data-tchmi-width-unit="px" data-tchmi-text-position="Left" data-tchmi-text-horizontal-alignment="Right" data-tchmi-text-vertical-alignment="Center">
+<div id="ReturnLineCheckboxReturnToLineDelay" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="10" data-tchmi-left-unit="px" data-tchmi-text="Auto Inverse" data-tchmi-top="114" data-tchmi-top-unit="px" data-tchmi-width="143" data-tchmi-width-unit="px" data-tchmi-text-position="Left" data-tchmi-text-horizontal-alignment="Right" data-tchmi-text-vertical-alignment="Center">
 
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
 [
