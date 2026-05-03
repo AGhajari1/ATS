@@ -985,6 +985,23 @@
             },
             "USEMAPPING": true
         },
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.Error": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Gen::Error",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 16
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.P_DataOut.VoltageStabilized": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -1133,6 +1150,23 @@
                     },
                     {
                         "propertyOrder": 51
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.MCM_Line.Error": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::MCM_Line::Error",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 16
                     }
                 ]
             },
@@ -6014,6 +6048,7 @@
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.VB_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.VCA_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.VC_16": 3,
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.Error": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.P_DataOut.VoltageStabilized": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.Freq_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VAB_16": 3,
@@ -6023,6 +6058,7 @@
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VCA_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VC_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.DataOut.VoltageStabilized": 3,
+                "ADS.ATS_PLC.MAIN.ATS.MCM_Line.Error": 3,
                 "ADS.ATS_PLC.MAIN.ATS.PhaseTolerange": 3,
                 "ADS.ATS_PLC.MAIN.ATS.ResetErrors": 3,
                 "ADS.ATS_PLC.MAIN.ATS.SystemFrequency": 3,

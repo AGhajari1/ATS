@@ -49,7 +49,7 @@ END_VAR
 VAR PERSISTENT
 	TransferState		: E_TransferState := E_TransferState.IDLE;
 	Config				: ST_ConfigATS;
-	HMIPassword			: STRING:='1234';
+	HMIPassword			: STRING:='2544'; //ALIG
 END_VAR
 
 ]]></Declaration>

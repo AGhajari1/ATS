@@ -102,8 +102,8 @@ CASE State OF
         END_IF
 END_CASE
 
-RetryTimer(PT:=Config.RetryTime);
-NextReadTimer(PT:=Config.SampleTime);
+RetryTimer(PT:= Config.RetryTime);
+NextReadTimer(PT:= Config.SampleTime);
 
 ModbusFB.ReadRegs(
     UnitID      := Config.SlaveAddr,
