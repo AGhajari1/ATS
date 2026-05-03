@@ -1,6 +1,6 @@
 <div id="Desktop" data-tchmi-type="TcHmi.Controls.System.TcHmiView" data-tchmi-top="0" data-tchmi-left="-1" data-tchmi-width-mode="Content" data-tchmi-min-width="100" data-tchmi-min-width-unit="%" data-tchmi-height-mode="Content" data-tchmi-min-height="100" data-tchmi-min-height-unit="%" data-tchmi-creator-viewport-height="480" data-tchmi-zindex="1">
-  <div id="TcHmiTextblock_2" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="51" data-tchmi-height-unit="px" data-tchmi-left="211" data-tchmi-text="OPEN TRANSITION
-AUTOMATIC TRANSFER SWITCH" data-tchmi-top="18" data-tchmi-width="396" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-font-size="20" data-tchmi-text-vertical-alignment="Center" data-tchmi-text-horizontal-alignment="Center" data-tchmi-zindex="1">
+  <div id="Title" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="51" data-tchmi-height-unit="px" data-tchmi-left="203" data-tchmi-text="OPEN TRANSITION
+AUTOMATIC TRANSFER SWITCH" data-tchmi-top="18" data-tchmi-width="396" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-font-size="20" data-tchmi-text-vertical-alignment="Center" data-tchmi-text-horizontal-alignment="Center" data-tchmi-zindex="1" data-tchmi-creator-locked="True">
 
 <script data-tchmi-target-attribute="data-tchmi-background-color" type="application/json">
 {
@@ -263,19 +263,7 @@ Errors" data-tchmi-creator-locked="True">
 [
   {
     "event": "%ctx%owner::Id|EventRegistrationMode=Resolve%/ctx%.onPressed",
-    "actions": [
-      {
-        "objectType": "WriteToSymbol",
-        "active": true,
-        "symbolExpression": null,
-        "value": {
-          "objectType": "StaticValue",
-          "valueType": "tchmi:general#/definitions/String",
-          "value": null
-        },
-        "asyncWait": true
-      }
-    ]
+    "actions": []
   }
 ]
 </script>
@@ -287,7 +275,7 @@ Errors" data-tchmi-creator-locked="True">
 }
 </script>
 </div>
-<div id="TCStateIcon" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiAdsState" data-tchmi-ads-runtime="ATS_PLC" data-tchmi-height="41" data-tchmi-height-unit="px" data-tchmi-left="611" data-tchmi-server-interval="500" data-tchmi-top="23" data-tchmi-width="41" data-tchmi-width-unit="px" data-tchmi-creator-locked="True">
+<div id="TCStateIcon" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiAdsState" data-tchmi-ads-runtime="ATS_PLC" data-tchmi-height="17" data-tchmi-height-unit="px" data-tchmi-left="642" data-tchmi-server-interval="500" data-tchmi-top="25" data-tchmi-width="16" data-tchmi-width-unit="px" data-tchmi-creator-locked="True">
 
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
 [
@@ -359,11 +347,11 @@ Errors" data-tchmi-creator-locked="True">
       {
         "objectType": "WriteToSymbol",
         "active": true,
-        "symbolExpression": "%ctrl%PassInput::Visibility%/ctrl%",
+        "symbolExpression": "%ctrl%ContentRegion::TargetContent%/ctrl%",
         "value": {
           "objectType": "StaticValue",
-          "valueType": "tchmi:framework#/definitions/Visibility",
-          "value": "Visible"
+          "valueType": "tchmi:framework#/definitions/ContentPath",
+          "value": "Password.content"
         },
         "asyncWait": true
       }
@@ -469,17 +457,6 @@ Errors" data-tchmi-creator-locked="True">
           "value": "Visible"
         },
         "asyncWait": true
-      },
-      {
-        "objectType": "WriteToSymbol",
-        "active": true,
-        "symbolExpression": "%ctrl%PassInput::Text%/ctrl%",
-        "value": {
-          "objectType": "StaticValue",
-          "valueType": "tchmi:general#/definitions/String",
-          "value": "0000"
-        },
-        "asyncWait": true
       }
     ]
   }
@@ -522,113 +499,14 @@ Errors" data-tchmi-creator-locked="True">
 ]
 </script>
 </div>
-<div id="PassInput" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiPasswordInput" data-tchmi-auto-focus-out="True" data-tchmi-height="25" data-tchmi-height-unit="px" data-tchmi-left="742" data-tchmi-left-unit="px" data-tchmi-reset-to-last-valid-value="True" data-tchmi-top="63" data-tchmi-top-unit="px" data-tchmi-width="51" data-tchmi-width-unit="px" data-tchmi-visibility="Collapsed" data-tchmi-creator-locked="True">
-<script data-tchmi-target-attribute="data-tchmi-content-padding" type="application/json">
+<div id="SystemTime" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="41" data-tchmi-height-unit="px" data-tchmi-left="658" data-tchmi-left-unit="px" data-tchmi-text="%s%ADS.ATS_PLC.MAIN.SystemTimeString%/s%" data-tchmi-top="23" data-tchmi-top-unit="px" data-tchmi-width="90" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-font-size="15" data-tchmi-text-vertical-alignment="Center" data-tchmi-text-horizontal-alignment="Center" data-tchmi-creator-locked="True">
+</div>
+<div id="KeypadPopup" data-tchmi-type="TcHmi.Controls.System.TcHmiPopup" data-tchmi-height="285" data-tchmi-height-unit="px" data-tchmi-left="276" data-tchmi-left-unit="px" data-tchmi-top="113" data-tchmi-top-unit="px" data-tchmi-width="250" data-tchmi-width-unit="px" data-tchmi-modal="False" data-tchmi-header-text="NUMERIC INPUT" data-tchmi-target-file-host-preload="True" data-tchmi-target-file-host-keep-alive="True">
+
+<script data-tchmi-target-attribute="data-tchmi-target-file" type="application/json">
 {
-  "top": 3,
-  "right": 3,
-  "bottom": 3,
-  "left": 3
+  "path": "Keypad.content"
 }
 </script>
-
-
-<script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
-[
-  {
-    "event": "%ctx%owner::Id|EventRegistrationMode=Resolve%/ctx%.onUserInteractionFinished",
-    "actions": [
-      {
-        "objectType": "Condition",
-        "active": true,
-        "parts": [
-          {
-            "if": [
-              {
-                "compare1": {
-                  "objectType": "Symbol",
-                  "valueType": "tchmi:general#/definitions/String",
-                  "symbolExpression": "%ctx%owner::Text%/ctx%"
-                },
-                "compare2": {
-                  "objectType": "Symbol",
-                  "valueType": "tchmi:general#/definitions/String",
-                  "symbolExpression": "%s%ADS.ATS_PLC.MAIN.ATS.HMIPassword%/s%"
-                },
-                "compareOperator": "==",
-                "logic": null
-              }
-            ],
-            "then": [
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%i%PassOK%/i%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:general#/definitions/BOOL",
-                  "value": true
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctrl%LockIcon::Visibility%/ctrl%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:framework#/definitions/Visibility",
-                  "value": "Collapsed"
-                },
-                "asyncWait": true
-              }
-            ]
-          },
-          {
-            "else": [
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%i%PassOK%/i%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:general#/definitions/BOOL",
-                  "value": false
-                },
-                "asyncWait": true
-              },
-              {
-                "objectType": "WriteToSymbol",
-                "active": true,
-                "symbolExpression": "%ctx%owner::Text%/ctx%",
-                "value": {
-                  "objectType": "StaticValue",
-                  "valueType": "tchmi:general#/definitions/String",
-                  "value": "1111"
-                },
-                "asyncWait": true
-              }
-            ]
-          }
-        ],
-        "asyncWait": true
-      },
-      {
-        "objectType": "WriteToSymbol",
-        "active": true,
-        "symbolExpression": "%ctx%owner::Visibility%/ctx%",
-        "value": {
-          "objectType": "StaticValue",
-          "valueType": "tchmi:framework#/definitions/Visibility",
-          "value": "Collapsed"
-        },
-        "asyncWait": true
-      }
-    ]
-  }
-]
-</script>
-</div>
-<div id="SystemTime" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="41" data-tchmi-height-unit="px" data-tchmi-left="658" data-tchmi-left-unit="px" data-tchmi-text="%s%ADS.ATS_PLC.MAIN.SystemTimeString%/s%" data-tchmi-top="23" data-tchmi-top-unit="px" data-tchmi-width="90" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-font-size="15" data-tchmi-text-vertical-alignment="Center" data-tchmi-text-horizontal-alignment="Center" data-tchmi-creator-locked="True">
 </div>
 </div>

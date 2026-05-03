@@ -91,21 +91,21 @@
                 },
                 "enum": [
                     600,
-                    208,
-                    120
+                    480,
+                    208
                 ],
                 "options": [
                     {
-                        "label": "V600",
+                        "label": "_600V",
                         "value": 600
                     },
                     {
-                        "label": "V208",
-                        "value": 208
+                        "label": "_480V",
+                        "value": 480
                     },
                     {
-                        "label": "V120",
-                        "value": 120
+                        "label": "_208V",
+                        "value": 208
                     }
                 ],
                 "type": "integer"
@@ -645,11 +645,11 @@
             },
             "USEMAPPING": true
         },
-        "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Ready.P_Status.P_Value": {
+        "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_ReadyToClose.P_Status.P_Value": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
             "DYNAMIC": true,
-            "MAPPING": "ATS_PLC::MAIN::ATS::GenCB::Status::CB_Ready::P_Status::P_Value",
+            "MAPPING": "ATS_PLC::MAIN::ATS::GenCB::Status::CB_ReadyToClose::P_Status::P_Value",
             "SCHEMA": {
                 "allOf": [
                     {
@@ -798,23 +798,6 @@
             },
             "USEMAPPING": true
         },
-        "ADS.ATS_PLC.MAIN.ATS.LineCB.P_Status.CB_Ready.P_Status.P_Value": {
-            "ACCESS": 3,
-            "DOMAIN": "ADS",
-            "DYNAMIC": true,
-            "MAPPING": "ATS_PLC::MAIN::ATS::LineCB::P_Status::CB_Ready::P_Status::P_Value",
-            "SCHEMA": {
-                "allOf": [
-                    {
-                        "$ref": "tchmi:general#/definitions/BOOL"
-                    },
-                    {
-                        "propertyOrder": 2
-                    }
-                ]
-            },
-            "USEMAPPING": true
-        },
         "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Closed.Status.P_Value": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -837,6 +820,23 @@
             "DOMAIN": "ADS",
             "DYNAMIC": true,
             "MAPPING": "ATS_PLC::MAIN::ATS::LineCB::Status::CB_Opened::P_Status::P_Value",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 2
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_ReadyToClose.P_Status.P_Value": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::LineCB::Status::CB_ReadyToClose::P_Status::P_Value",
             "SCHEMA": {
                 "allOf": [
                     {
@@ -1200,7 +1200,7 @@
                         "$ref": "tchmi:server#/definitions/ADS-ATS_PLC.E_Voltages"
                     },
                     {
-                        "propertyOrder": 14
+                        "propertyOrder": 15
                     }
                 ]
             },
@@ -5994,7 +5994,7 @@
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Closed.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Closed.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Opened.P_Status.P_Value": 3,
-                "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Ready.P_Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_ReadyToClose.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.Error.Reason": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMIPassword": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_GenStartDelay": 3,
@@ -6003,9 +6003,9 @@
                 "ADS.ATS_PLC.MAIN.ATS.HMI_ReturnToLineDelay": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Close.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Open.Status.P_Value": 3,
-                "ADS.ATS_PLC.MAIN.ATS.LineCB.P_Status.CB_Ready.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Closed.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Opened.P_Status.P_Value": 3,
+                "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_ReadyToClose.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.Error.Reason": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.Freq_16": 3,
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Gen.DataOut.VAB_16": 3,

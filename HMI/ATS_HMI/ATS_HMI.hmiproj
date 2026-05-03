@@ -152,6 +152,7 @@
     </Content>
     <Content Include="Home.content">
       <SubType>Content</SubType>
+      <Cache>True</Cache>
     </Content>
     <Content Include="Images\BoxdWolfLogo.png">
       <SubType>Content</SubType>
@@ -176,6 +177,16 @@
     </Content>
     <Content Include="Images\SNL_LOGO.png">
       <SubType>Content</SubType>
+    </Content>
+    <Content Include="Keypad.content">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PasswordUpdate.content">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Password.content">
+      <SubType>Content</SubType>
+      <Cache>True</Cache>
     </Content>
     <Content Include="Server\TcHmiEcDiagnostics\TcHmiEcDiagnostics.Config.default.json">
       <SubType>Content</SubType>
