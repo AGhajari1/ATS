@@ -298,7 +298,7 @@ Errors" data-tchmi-creator-locked="True">
 }
 </script>
 </div>
-<div id="TCStateIcon" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiAdsState" data-tchmi-ads-runtime="ATS_PLC" data-tchmi-height="17" data-tchmi-height-unit="px" data-tchmi-left="642" data-tchmi-server-interval="500" data-tchmi-top="25" data-tchmi-width="16" data-tchmi-width-unit="px" data-tchmi-creator-locked="True">
+<div id="TCStateIcon" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiAdsState" data-tchmi-ads-runtime="ATS_PLC" data-tchmi-height="17" data-tchmi-height-unit="px" data-tchmi-left="642" data-tchmi-server-interval="500" data-tchmi-top="25" data-tchmi-width="16" data-tchmi-width-unit="px" data-tchmi-creator-locked="True" data-tchmi-visibility="Collapsed">
 
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
 [
@@ -325,6 +325,64 @@ Errors" data-tchmi-creator-locked="True">
           "valueType": "tchmi:framework#/definitions/Visibility",
           "value": "Visible"
         },
+        "asyncWait": true
+      }
+    ]
+  },
+  {
+    "event": "%i%PassOK%/i%",
+    "actions": [
+      {
+        "objectType": "Condition",
+        "active": true,
+        "parts": [
+          {
+            "if": [
+              {
+                "compare1": {
+                  "objectType": "Symbol",
+                  "valueType": "tchmi:general#/definitions/BOOL",
+                  "symbolExpression": "%i%PassOK%/i%"
+                },
+                "compare2": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/BOOL",
+                  "value": true
+                },
+                "compareOperator": "==",
+                "logic": null
+              }
+            ],
+            "then": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::Visibility%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:framework#/definitions/Visibility",
+                  "value": "Visible"
+                },
+                "asyncWait": true
+              }
+            ]
+          },
+          {
+            "else": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::Visibility%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:framework#/definitions/Visibility",
+                  "value": "Collapsed"
+                },
+                "asyncWait": true
+              }
+            ]
+          }
+        ],
         "asyncWait": true
       }
     ]
