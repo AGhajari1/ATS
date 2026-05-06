@@ -19,6 +19,9 @@ STRUCT
 	VoltageUnstableTimeOut 		: TIME := T#5S;
 	
 	LineLossConfirmDelay 		: TIME := T#5S;    
+	
+	FaultAutoRecoveryDelay  : TIME := T#10S;
+	StateValidationDebounce : TIME := T#10S;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

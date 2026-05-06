@@ -290,7 +290,7 @@ Errors" data-tchmi-creator-locked="True">
   }
 ]
 </script>
-<div id="ATSMessages" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="36" data-tchmi-height-unit="px" data-tchmi-left="340" data-tchmi-left-unit="px" data-tchmi-text="%s%ADS.ATS_PLC.MAIN.ATS.ATSMessage%/s%" data-tchmi-top="410" data-tchmi-top-unit="px" data-tchmi-width="335" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-horizontal-alignment="Right" data-tchmi-text-vertical-alignment="Center" data-tchmi-text-font-size="15">
+<div id="ATSMessages" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="335" data-tchmi-left-unit="px" data-tchmi-text="%s%ADS.ATS_PLC.MAIN.ATS.ATSMessage%/s%" data-tchmi-top="420" data-tchmi-top-unit="px" data-tchmi-width="340" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-horizontal-alignment="Right" data-tchmi-text-vertical-alignment="Center" data-tchmi-text-font-size="15" data-tchmi-creator-locked="True">
 
 <script data-tchmi-target-attribute="data-tchmi-text-color" type="application/json">
 {
@@ -389,34 +389,6 @@ Errors" data-tchmi-creator-locked="True">
   }
 ]
 </script>
-</div>
-<div id="LiveEventLine" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiEventLine" data-tchmi-height="24" data-tchmi-height-unit="px" data-tchmi-left="340" data-tchmi-left-unit="px" data-tchmi-server-interval="1000" data-tchmi-top="446" data-tchmi-top-unit="px" data-tchmi-width="335" data-tchmi-width-unit="px" data-tchmi-creator-locked="True">
-<script data-tchmi-target-attribute="data-tchmi-filter" type="application/json">
-[
-  {
-    "path": "domain",
-    "comparator": "==",
-    "value": "TcHmiEventLogger"
-  },
-  {
-    "logic": "OR"
-  },
-  {
-    "path": "domain",
-    "comparator": "==",
-    "value": "TcHmiAlarm"
-  }
-]
-</script>
-<script data-tchmi-target-attribute="data-tchmi-sorting" type="application/json">
-[
-  {
-    "name": "timeRaised",
-    "order": "Descending"
-  }
-]
-</script>
-
 </div>
 <div id="LockIcon" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiImage" data-tchmi-height="36" data-tchmi-height-unit="px" data-tchmi-left="742" data-tchmi-src="Images/padlock.svg" data-tchmi-top="24" data-tchmi-width="49" data-tchmi-width-unit="px" data-tchmi-creator-visibility="Visible" data-tchmi-creator-locked="True">
 

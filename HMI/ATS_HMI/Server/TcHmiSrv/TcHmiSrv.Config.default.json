@@ -679,6 +679,40 @@
             },
             "USEMAPPING": true
         },
+        "ADS.ATS_PLC.MAIN.ATS.GenCoolDownActive": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::GenCoolDownActive",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 36
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.HMICoolDownTime": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::HMICoolDownTime",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/STRING%2880%29"
+                    },
+                    {
+                        "propertyOrder": 15
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.HMIPassword": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -5269,6 +5303,125 @@
             },
             "USEMAPPING": true
         },
+        "TcHmiEventLogger.ClearLoggedEvents": {
+            "ACCESS": 3,
+            "DOMAIN": "TcHmiEventLogger",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "ClearLoggedEvents",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true,
+                "writeValue": {
+                    "properties": {
+                        "targetName": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "targetName"
+                    ],
+                    "type": "object"
+                }
+            },
+            "USEMAPPING": true
+        },
+        "TcHmiEventLogger.Config": {
+            "ACCESS": 0,
+            "DOMAIN": "TcHmiEventLogger",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "Config",
+            "OPTIONS": {},
+            "SCHEMA": {},
+            "USEMAPPING": true
+        },
+        "TcHmiEventLogger.Diagnostics": {
+            "ACCESS": 3,
+            "DOMAIN": "TcHmiEventLogger",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "Diagnostics",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true,
+                "properties": {
+                    "TARGET_SYSTEMS": {
+                        "additionalProperties": {
+                            "properties": {
+                                "activeAlarmsCount": {
+                                    "propertyOrder": 10,
+                                    "type": "integer"
+                                },
+                                "cachedAlarmsCount": {
+                                    "propertyOrder": 8,
+                                    "type": "integer",
+                                    "visibility": "HideInEngineering"
+                                },
+                                "cachedInvalidAlarmsCount": {
+                                    "propertyOrder": 9,
+                                    "type": "integer",
+                                    "visibility": "HideInEngineering"
+                                },
+                                "cachedMessagesCount": {
+                                    "propertyOrder": 7,
+                                    "type": "integer",
+                                    "visibility": "HideInEngineering"
+                                },
+                                "connectError": {
+                                    "propertyOrder": 2,
+                                    "type": "string"
+                                },
+                                "connectionState": {
+                                    "propertyOrder": 1,
+                                    "type": "string"
+                                },
+                                "importedAlarmsCount": {
+                                    "propertyOrder": 5,
+                                    "type": "integer"
+                                },
+                                "importedEventsCount": {
+                                    "propertyOrder": 3,
+                                    "type": "integer"
+                                },
+                                "importedInvalidAlarmsCount": {
+                                    "propertyOrder": 6,
+                                    "type": "integer"
+                                },
+                                "importedMessagesCount": {
+                                    "propertyOrder": 4,
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "connectionState"
+                            ],
+                            "type": "object"
+                        },
+                        "configDescription": "DESC_TARGET_SYSTEM",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "USEMAPPING": true
+        },
+        "TcHmiEventLogger.ListEnabledTargetSystems": {
+            "ACCESS": 3,
+            "DOMAIN": "TcHmiEventLogger",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "ListEnabledTargetSystems",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true,
+                "items": {
+                    "type": "string"
+                },
+                "type": "array"
+            },
+            "USEMAPPING": true
+        },
         "TcHmiLua.Config": {
             "ACCESS": 0,
             "DOMAIN": "TcHmiLua",
@@ -6030,6 +6183,8 @@
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Opened.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_ReadyToClose.P_Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Status.Error.Reason": 3,
+                "ADS.ATS_PLC.MAIN.ATS.GenCoolDownActive": 3,
+                "ADS.ATS_PLC.MAIN.ATS.HMICoolDownTime": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMIPassword": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_GenStartDelay": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_NonAutoToGen": 3,
@@ -6106,6 +6261,8 @@
                 "TcHmiEcDiagnostics.ListConfiguredDevices": 3,
                 "TcHmiEcDiagnostics.ListMastersOfRoute": 3,
                 "TcHmiEcDiagnostics.ListSlavesWithForcedProcessData": 3,
+                "TcHmiEventLogger.Diagnostics": 3,
+                "TcHmiEventLogger.ListEnabledTargetSystems": 3,
                 "TcHmiSqliteLogger.Diagnostics": 3,
                 "TcHmiUserManagement.ChangePassword": 3,
                 "TcHmiUserManagement.Disable2FA": 3,

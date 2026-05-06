@@ -21,6 +21,7 @@ VAR
 	
 	TransitionTimer 		: TON;
 	CoolDownTimer 			: TON;
+	HMICoolDownTime			: STRING;
 	LineLossConfirmTimer    : TON;
 	
 	SystemVoltage		: E_Voltages := E_Voltages._600V; 
@@ -42,6 +43,9 @@ VAR
 	ResetErrors			: BOOL := FALSE;
 	
 	ATSMessage			: STRING:='';
+	
+	FaultAutoRecoveryTimer  : TON;
+	StateValidationTimer    : TON;
 
 END_VAR
 
@@ -50,6 +54,9 @@ VAR PERSISTENT
 	Config				: ST_ConfigATS;
 	HMIPassword			: STRING:='2544'; //ALIG
 	GenCoolDownActive 	: BOOL;
+	HardFaultLatch		: BOOL;
+	LastATSMode     	: E_Modes := E_Modes.Automatic;
+    ModeChanged     	: BOOL;
 END_VAR
 
 ]]></Declaration>
@@ -58,38 +65,66 @@ END_VAR
 M_GenCB();
 M_MCM_Voltmeter();
 
-ATSModeString:= TO_STRING(ATSMode);
+ATSModeString := TO_STRING(ATSMode);
 
-Config.GenStartDelay:= TO_TIME(HMI_GenStartDelay*1000);			//Convert ms to second
-Config.ReturnToLineDelay:= TO_TIME(HMI_ReturnToLineDelay*1000); //Convert ms to second
+Config.GenStartDelay     := TO_TIME(HMI_GenStartDelay * 1000);
+Config.ReturnToLineDelay := TO_TIME(HMI_ReturnToLineDelay * 1000);
+
+// Always evaluate CB positions regardless of mode
+Status.BothClosed := LineCB.P_Status.CB_Closed.P_Status.P_Value
+                     AND GenCB.P_Status.CB_Closed.P_Status.P_Value;
+Status.BothOpened := LineCB.P_Status.CB_Opened.P_Status.P_Value
+                     AND GenCB.P_Status.CB_Opened.P_Status.P_Value;
+
+// Detect mode change
+ModeChanged := ATSMode <> LastATSMode;
+
+IF ModeChanged THEN
+     ADSLOGSTR(
+        ADSLOG_MSGTYPE_WARN OR ADSLOG_MSGTYPE_LOG,
+        'ATS | Mode changed to %s',
+        TO_STRING(ATSMode)
+    );
+
+    IF ATSMode = E_Modes.Automatic THEN
+        // Re-entering auto — reconcile physical state fresh
+        TransferState             := E_TransferState.STARTUP_CHECK;
+        FaultAutoRecoveryTimer.IN := FALSE;
+        StateValidationTimer.IN   := FALSE;
+    ELSE
+        // Leaving auto — safe the outputs
+        THIS^.GenStartCommand := FALSE;
+    END_IF
+
+    LastATSMode := ATSMode;
+END_IF
 
 CASE ATSMode OF
-	E_Modes.Automatic:
-		M_AutoStateMachine();
-	E_Modes.NonAutomatic:
-		IF HMI_NonAutoToGen THEN
-			M_TransferToGen();
-		ELSIF HMI_NonAutoToLine THEN
-			M_TransferToLine();
-		END_IF
-		
-	E_Modes.Manual:
-		// DO NOTHING - BREAKERS TO BE OPERATED MANUALLY - A FAKE MODE
-		
+    E_Modes.Automatic:
+        M_AutoStateMachine();
+
+    E_Modes.NonAutomatic:
+        IF HMI_NonAutoToGen THEN
+            M_TransferToGen();
+        ELSIF HMI_NonAutoToLine THEN
+            M_TransferToLine();
+        END_IF
+
+    E_Modes.Manual:
+        // DO NOTHING - BREAKERS TO BE OPERATED MANUALLY
+
 END_CASE
 
 IF ATSMode <> E_Modes.NonAutomatic THEN
-	HMI_NonAutoToGen	:= FALSE;
-	HMI_NonAutoToLine	:= FALSE;
+    HMI_NonAutoToGen  := FALSE;
+    HMI_NonAutoToLine := FALSE;
 END_IF
 
 IF ResetErrors THEN
-	M_ResetErrors();
+    M_ResetErrors();
 END_IF
 
-
-INIT:= FALSE;
-]]></ST>
+INIT := FALSE;]]></ST>
     </Implementation>
     <Folder Name="Devices" Id="{0f8978a1-dd06-4f57-828d-45828f0df427}" />
     <Method Name="M_AutoStateMachine" Id="{7309beaf-6981-4895-822f-b929ea1bb9d2}">
@@ -354,32 +389,72 @@ CASE TransferState OF
         END_IF
 
     E_TransferState.FAULT:
-        LineCB.M_Open();
-        GenCB.M_Open();
-        THIS^.GenStartCommand := FALSE;
-        GenCoolDownActive     := FALSE;
-
-        TransitionTimer.IN      := FALSE;
-        RetransferTimer.IN      := FALSE;
-        CoolDownTimer.IN        := FALSE;
-        BreakerFaultTimer.IN    := FALSE;
-        VoltageUnstableTimer.IN := FALSE;
-        LineLossConfirmTimer.IN := FALSE;
-
-        IF ResetErrors AND NOT Status.BothClosed THEN
-            LineCB.M_ResetErrors();
-            GenCB.M_ResetErrors();
-            TransferState := E_TransferState.STARTUP_CHECK;
-        END_IF
+		LineCB.M_Open();
+		GenCB.M_Open();
+		THIS^.GenStartCommand := FALSE;
+		GenCoolDownActive     := FALSE;
+	
+		TransitionTimer.IN      := FALSE;
+		RetransferTimer.IN      := FALSE;
+		CoolDownTimer.IN        := FALSE;
+		BreakerFaultTimer.IN    := FALSE;
+		VoltageUnstableTimer.IN := FALSE;
+		LineLossConfirmTimer.IN := FALSE;
+	
+		IF Status.BothClosed THEN
+			HardFaultLatch := TRUE;
+		END_IF
+	
+		FaultAutoRecoveryTimer.PT := Config.FaultAutoRecoveryDelay;
+		FaultAutoRecoveryTimer.IN := NOT Status.BothClosed
+									 AND NOT GenCB.P_Status.Error.Error
+									 AND NOT LineCB.P_Status.Error.Error
+									 AND NOT HardFaultLatch;
+	
+		IF ResetErrors AND NOT Status.BothClosed THEN
+			FaultAutoRecoveryTimer.IN := FALSE;
+			HardFaultLatch            := FALSE;
+			LineCB.M_ResetErrors();
+			GenCB.M_ResetErrors();
+			ADSLOGSTR(
+				ADSLOG_MSGTYPE_WARN OR ADSLOG_MSGTYPE_LOG,
+				'ATS | Fault cleared by operator - returning to STARTUP_CHECK',
+				''
+			);
+			TransferState := E_TransferState.STARTUP_CHECK;
+	
+		ELSIF FaultAutoRecoveryTimer.Q THEN
+			FaultAutoRecoveryTimer.IN := FALSE;
+			LineCB.M_ResetErrors();
+			GenCB.M_ResetErrors();
+			ADSLOGSTR(
+				ADSLOG_MSGTYPE_WARN OR ADSLOG_MSGTYPE_LOG,
+				'ATS | Fault auto-recovered after %s - returning to STARTUP_CHECK',
+				TO_STRING(Config.FaultAutoRecoveryDelay)
+			);
+			TransferState := E_TransferState.STARTUP_CHECK;
+		END_IF
 
 END_CASE
 
 TransitionTimer();
 RetransferTimer();
 CoolDownTimer();
+
+HMICoolDownTime := LEFT(
+    RIGHT(TO_STRING(CoolDownTimer.PT - CoolDownTimer.ET), 
+          LEN(TO_STRING(CoolDownTimer.PT - CoolDownTimer.ET)) - 2),
+    FIND(RIGHT(TO_STRING(CoolDownTimer.PT - CoolDownTimer.ET),
+               LEN(TO_STRING(CoolDownTimer.PT - CoolDownTimer.ET)) - 2), 's')
+);
+
 BreakerFaultTimer();
 VoltageUnstableTimer();
 LineLossConfirmTimer();
+FaultAutoRecoveryTimer();
+StateValidationTimer();
+
+M_ValidateState();
 
 M_MessageUpdate();]]></ST>
       </Implementation>
@@ -616,15 +691,19 @@ CASE TransferState OF
         Status.LineLossPending       := FALSE;
         Status.GeneratorRunning      := TRUE;
         Status.GeneratorCoolingDown  := TRUE;
-
-    E_TransferState.FAULT:
-        ATSMessage                   := 'ATS FAULT - Operator Action Required';
-        Status.InStartupCheck        := FALSE;
-        Status.OnLine                := FALSE;
-        Status.OnGenerator           := FALSE;
-        Status.LineLossPending       := FALSE;
-        Status.GeneratorRunning      := FALSE;
-        Status.GeneratorCoolingDown  := FALSE;
+	
+	E_TransferState.FAULT:
+		IF HardFaultLatch THEN
+			ATSMessage := 'ATS HARD FAULT - Both Breakers Closed - Operator Reset Required';
+		ELSE
+			ATSMessage := 'ATS FAULT - Auto Recovery Pending';
+		END_IF
+		Status.InStartupCheck        := FALSE;
+		Status.OnLine                := FALSE;
+		Status.OnGenerator           := FALSE;
+		Status.LineLossPending       := FALSE;
+		Status.GeneratorRunning      := FALSE;
+		Status.GeneratorCoolingDown  := FALSE;
 
 END_CASE
 
@@ -723,6 +802,69 @@ ELSE //TODO Error handling
 END_IF
 
 CB_Delay(PT:=T#1S);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ValidateState" Id="{0e480f41-c94e-499f-b623-0c3367ac120a}">
+      <Declaration><![CDATA[METHOD PRIVATE M_ValidateState
+VAR
+    PreconditionViolated : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[PreconditionViolated := FALSE;
+
+CASE TransferState OF
+
+    E_TransferState.LINE_NORMAL,
+    E_TransferState.LINE_LOSS_PENDING:
+        IF NOT LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
+            PreconditionViolated := TRUE;
+        END_IF
+
+    E_TransferState.ON_GENERATOR:
+        IF NOT GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
+            PreconditionViolated := TRUE;
+        END_IF
+
+    E_TransferState.GEN_COOLDOWN:
+        IF NOT LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
+            PreconditionViolated := TRUE;
+        END_IF
+
+    E_TransferState.GEN_START,
+    E_TransferState.GEN_START_DELAY:
+        IF NOT LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
+            PreconditionViolated := TRUE;
+        END_IF
+
+    E_TransferState.CLOSING_LINE_CB:
+        IF NOT GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
+            PreconditionViolated := TRUE;
+        END_IF
+
+    E_TransferState.CLOSING_GEN_CB:
+        IF NOT LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
+            PreconditionViolated := TRUE;
+        END_IF
+
+    E_TransferState.RETRANSFER_DELAY:
+        IF NOT Status.BothOpened THEN
+            PreconditionViolated := TRUE;
+        END_IF
+
+END_CASE
+
+StateValidationTimer.PT := Config.StateValidationDebounce;
+StateValidationTimer.IN := PreconditionViolated;
+
+IF StateValidationTimer.Q THEN
+    StateValidationTimer.IN := FALSE;
+    ADSLOGSTR(
+        ADSLOG_MSGTYPE_WARN OR ADSLOG_MSGTYPE_LOG,
+        'ATS | State validation failed in state: %s - returning to STARTUP_CHECK',
+        TO_STRING(TransferState)
+    );
+    TransferState := E_TransferState.STARTUP_CHECK;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Config" Id="{c80d9a0c-3599-4a11-9022-6117c18866c2}">
