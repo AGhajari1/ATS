@@ -19,12 +19,10 @@ VAR
 	BreakerFaultTimer 		: TON;
 	VoltageUnstableTimer 	: TON;
 	
-	// Moved from M_AutoStateMachine
-	TransitionTimer : TON;
+	TransitionTimer 		: TON;
+	CoolDownTimer 			: TON;
+	LineLossConfirmTimer    : TON;
 	
-	// Cool Down Timer for the generator
-	CoolDownTimer : TON;
-
 	SystemVoltage		: E_Voltages := E_Voltages._600V; 
 	SystemFrequency		: E_Frequencies := E_Frequencies._60Hz;
 	VoltageTolerance	: REAL	:= 0.1;
@@ -47,9 +45,10 @@ VAR
 END_VAR
 
 VAR PERSISTENT
-	TransferState		: E_TransferState := E_TransferState.IDLE;
+	TransferState		: E_TransferState := E_TransferState.STARTUP_CHECK;
 	Config				: ST_ConfigATS;
 	HMIPassword			: STRING:='2544'; //ALIG
+	GenCoolDownActive 	: BOOL;
 END_VAR
 
 ]]></Declaration>
@@ -94,209 +93,283 @@ INIT:= FALSE;
     <Folder Name="Devices" Id="{0f8978a1-dd06-4f57-828d-45828f0df427}" />
     <Method Name="M_AutoStateMachine" Id="{7309beaf-6981-4895-822f-b929ea1bb9d2}">
       <Declaration><![CDATA[METHOD PRIVATE M_AutoStateMachine
-VAR_INST
 
-END_VAR
-
-VAR
-	GenCoolDown : BOOL;
-	
-	// Add Button for this in HMI
-	ResetFaultCommand : BOOL;
-END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Status.BothClosed := LineCB.P_Status.CB_Closed.P_Status.P_Value AND GenCB.P_Status.CB_Closed.P_Status.P_Value;
-Status.BothOpened := LineCB.P_Status.CB_Opened.P_Status.P_Value AND GenCB.P_Status.CB_Opened.P_Status.P_Value;
+        <ST><![CDATA[Status.BothClosed := LineCB.P_Status.CB_Closed.P_Status.P_Value 
+                     AND GenCB.P_Status.CB_Closed.P_Status.P_Value;
+Status.BothOpened := LineCB.P_Status.CB_Opened.P_Status.P_Value 
+                     AND GenCB.P_Status.CB_Opened.P_Status.P_Value;
 
 IF Status.BothClosed THEN
-	GenCB.M_Open();
-	LineCB.M_Open();
+    GenCB.M_Open();
+    LineCB.M_Open();
 END_IF
 
-// FAULT DETECTION
 Status.TransferFault := Status.BothClosed
-                     	OR GenCB.P_Status.Error.Error
-                     	OR LineCB.P_Status.Error.Error;
+                        OR GenCB.P_Status.Error.Error
+                        OR LineCB.P_Status.Error.Error;
 
-// FAULT FORCES IDLE
-IF Status.TransferFault THEN
+IF Status.TransferFault AND TransferState <> E_TransferState.STARTUP_CHECK THEN
     TransferState := E_TransferState.FAULT;
-END_IF;
-
-//STATE MACHINE
+END_IF
 
 CASE TransferState OF
-	E_TransferState.FAULT:
-		// Code will be expanded upon if necessary
-		ATSMessage := 'ATS FAULT DETECTED';
-		
-		LineCB.M_Open();
-		GenCB.M_Open();
-	
-		THIS^.GenStartCommand := FALSE;
-		
-		TransitionTimer.IN := FALSE;
-		RetransferTimer.IN := FALSE;
-		CoolDownTimer.IN := FALSE;
-		VoltageUnstableTimer.IN := FALSE;
-		
-		Status.OnLine := FALSE;
-		Status.OnGenerator := FALSE;
-		
-		IF ResetFaultCommand AND NOT Status.BothClosed THEN
-			LineCB.M_ResetErrors();
-			GenCB.M_ResetErrors();
-			
-			IF LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
-				TransferState := E_TransferState.LINE_NORMAL;
-			ELSIF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
-				TransferState := E_TransferState.ON_GENERATOR;
-			ELSE
-				TransferState := E_TransferState.LINE_LOST;
-			END_IF;
 
-		END_IF
-		
-    E_TransferState.LINE_NORMAL:
-        Status.OnLine      := LineCB.P_Status.CB_Closed.P_Status.P_Value;
-        Status.OnGenerator := FALSE;
-		ATSMessage:= 'System On Utility Power';
-		
-		CoolDownTimer.PT := Config.GenCoolDownDelay;
-		CoolDownTimer.IN := GenCoolDown;
-		
-		VoltageUnstableTimer.PT := Config.VoltageUnstableTimeOut;
-		VoltageUnstableTimer.IN := NOT MCM_Line.P_DataOut.VoltageStabilized;
-		
-		IF GenCoolDown THEN
-			ATSMessage := 'System On Utility Power - Generator Cooling Down';
-		END_IF
-		
-		IF CoolDownTimer.Q THEN
-			ATSMessage := 'Generator Offline';
-			GenCoolDown := FALSE;
-			CoolDownTimer.IN := FALSE;
-			THIS^.GenStartCommand := FALSE;
-		END_IF
-		IF VoltageUnstableTimer.Q AND NOT MCM_Line.P_DataOut.VoltageStabilized THEN
-			GenCoolDown := FALSE;
-			CoolDownTimer.IN := FALSE;
-			TransferState := E_TransferState.LINE_LOST;
-			VoltageUnstableTimer.IN := FALSE;
-		END_IF
-	
-	E_TransferState.LINE_LOST:
-		ATSMessage:= 'Utility Power Lost';
-		IF MCM_Line.P_DataOut.VoltageStabilized THEN
-			TransferState := E_TransferState.LINE_NORMAL;
-		ELSIF NOT MCM_Line.P_DataOut.VoltageStabilized THEN
-			TransferState := E_TransferState.OPENING_LINE_CB;
-		END_IF
-		
-	E_TransferState.OPENING_LINE_CB:
-		ATSMessage := 'Waiting for Line CB to Open';
-		LineCB.M_Open();
-		
-		BreakerFaultTimer.PT := Config.FaultTimeOut;
-		BreakerFaultTimer.IN := NOT LineCB.P_Status.CB_Opened.P_Status.P_Value;
-		
-		IF LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
-			TransferState := E_TransferState.GEN_START;
-			BreakerFaultTimer.IN := FALSE;
-		ELSIF BreakerFaultTimer.Q AND NOT LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
-			BreakerFaultTimer.IN := FALSE;
-			TransferState := E_TransferState.FAULT;
+    E_TransferState.STARTUP_CHECK:
+        LineLossConfirmTimer.IN := FALSE;
+        TransitionTimer.IN      := FALSE;
+        RetransferTimer.IN      := FALSE;
+        CoolDownTimer.IN        := FALSE;
+        BreakerFaultTimer.IN    := FALSE;
+        VoltageUnstableTimer.IN := FALSE;
+
+        IF Status.BothOpened AND MCM_Line.P_DataOut.VoltageStabilized THEN
+            LineCB.M_Close();
+            TransferState := E_TransferState.CLOSING_LINE_CB;
+
+        ELSIF LineCB.P_Status.CB_Closed.P_Status.P_Value 
+              AND MCM_Line.P_DataOut.VoltageStabilized THEN
+            GenCoolDownActive := FALSE;
+            TransferState     := E_TransferState.LINE_NORMAL;
+
+        ELSIF LineCB.P_Status.CB_Closed.P_Status.P_Value 
+              AND NOT MCM_Line.P_DataOut.VoltageStabilized THEN
+            TransferState := E_TransferState.LINE_LOSS_PENDING;
+
+        ELSIF GenCB.P_Status.CB_Closed.P_Status.P_Value 
+              AND MCM_Gen.P_DataOut.VoltageStabilized THEN
+            THIS^.GenStartCommand := TRUE;
+            TransferState         := E_TransferState.ON_GENERATOR;
+
+        ELSIF GenCB.P_Status.CB_Closed.P_Status.P_Value 
+              AND NOT MCM_Gen.P_DataOut.VoltageStabilized THEN
+            GenCB.M_Open();
+            THIS^.GenStartCommand := FALSE;
+            GenCoolDownActive     := FALSE;
+            TransferState         := E_TransferState.OPENING_GEN_CB;
+
+        ELSIF Status.BothOpened 
+              AND NOT MCM_Line.P_DataOut.VoltageStabilized 
+              AND NOT MCM_Gen.P_DataOut.VoltageStabilized THEN
+            TransferState := E_TransferState.GEN_START_DELAY;
+
+        ELSIF Status.TransferFault THEN
+            TransferState := E_TransferState.FAULT;
         END_IF
-	
-	E_TransferState.GEN_START:
-		ATSMessage := 'Generator Starting Up';
-		THIS^.GenStartCommand := TRUE;
-		
-		VoltageUnstableTimer.PT := Config.GenFaultTimeOut;
-		VoltageUnstableTimer.IN := NOT MCM_Gen.P_DataOut.VoltageStabilized;
-		
-		IF MCM_Gen.P_DataOut.VoltageStabilized THEN
-			TransferState := E_TransferState.CLOSING_GEN_CB;
-			VoltageUnstableTimer.IN := FALSE;
-		ELSIF VoltageUnstableTimer.Q AND NOT MCM_Gen.P_DataOut.VoltageStabilized THEN
-			TransferState := E_TransferState.FAULT;
-			VoltageUnstableTimer.IN := FALSE;
-		END_IF
-	
-	E_TransferState.CLOSING_GEN_CB:
-		ATSMessage:= 'Waiting for Generator CB to Close';
-		IF LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
-			GenCB.M_Close();
-		END_IF
-		
-		BreakerFaultTimer.PT := Config.FaultTimeOut;
-		BreakerFaultTimer.IN := NOT GenCB.P_Status.CB_Closed.P_Status.P_Value;
-		
-		IF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
-			TransferState := E_TransferState.ON_GENERATOR;
-			BreakerFaultTimer.IN := FALSE;
-		ELSIF BreakerFaultTimer.Q AND NOT GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
-			BreakerFaultTimer.IN := FALSE;
-			TransferState := E_TransferState.FAULT;
-		END_IF
-		
+
+    E_TransferState.LINE_NORMAL:
+        LineLossConfirmTimer.PT := Config.LineLossConfirmDelay;
+        LineLossConfirmTimer.IN := NOT MCM_Line.P_DataOut.VoltageStabilized;
+
+        CoolDownTimer.PT := Config.GenCoolDownDelay;
+        CoolDownTimer.IN := GenCoolDownActive;
+
+        IF CoolDownTimer.Q THEN
+            THIS^.GenStartCommand := FALSE;
+            GenCoolDownActive     := FALSE;
+            CoolDownTimer.IN      := FALSE;
+        END_IF
+
+        IF LineLossConfirmTimer.Q THEN
+            LineLossConfirmTimer.IN := FALSE;
+            GenCoolDownActive       := FALSE;
+            CoolDownTimer.IN        := FALSE;
+            TransferState           := E_TransferState.LINE_LOST;
+        END_IF
+
+    E_TransferState.LINE_LOSS_PENDING:
+        LineLossConfirmTimer.PT := Config.LineLossConfirmDelay;
+        LineLossConfirmTimer.IN := TRUE;
+
+        IF MCM_Line.P_DataOut.VoltageStabilized THEN
+            LineLossConfirmTimer.IN := FALSE;
+            TransferState           := E_TransferState.LINE_NORMAL;
+
+        ELSIF LineLossConfirmTimer.Q THEN
+            LineLossConfirmTimer.IN := FALSE;
+            GenCoolDownActive       := FALSE;
+            CoolDownTimer.IN        := FALSE;
+            TransferState           := E_TransferState.LINE_LOST;
+        END_IF
+
+    E_TransferState.LINE_LOST:
+        THIS^.GenStartCommand := FALSE;
+        TransferState         := E_TransferState.OPENING_LINE_CB;
+
+    E_TransferState.OPENING_LINE_CB:
+        LineCB.M_Open();
+
+        BreakerFaultTimer.PT := Config.FaultTimeOut;
+        BreakerFaultTimer.IN := NOT LineCB.P_Status.CB_Opened.P_Status.P_Value;
+
+        IF MCM_Line.P_DataOut.VoltageStabilized AND Config.AutoReturnToLine THEN
+            BreakerFaultTimer.IN := FALSE;
+            TransferState        := E_TransferState.CLOSING_LINE_CB;
+
+        ELSIF LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
+            BreakerFaultTimer.IN := FALSE;
+            TransferState        := E_TransferState.GEN_START_DELAY;
+
+        ELSIF BreakerFaultTimer.Q THEN
+            BreakerFaultTimer.IN := FALSE;
+            TransferState        := E_TransferState.FAULT;
+        END_IF
+
+    E_TransferState.GEN_START_DELAY:
+        TransitionTimer.PT := Config.GenStartDelay;
+        TransitionTimer.IN := TRUE;
+
+        IF MCM_Line.P_DataOut.VoltageStabilized AND Config.AutoReturnToLine THEN
+            TransitionTimer.IN := FALSE;
+            TransferState      := E_TransferState.CLOSING_LINE_CB;
+
+        ELSIF TransitionTimer.Q THEN
+            TransitionTimer.IN := FALSE;
+            TransferState      := E_TransferState.GEN_START;
+        END_IF
+
+    E_TransferState.GEN_START:
+        THIS^.GenStartCommand := TRUE;
+
+        VoltageUnstableTimer.PT := Config.GenFaultTimeOut;
+        VoltageUnstableTimer.IN := NOT MCM_Gen.P_DataOut.VoltageStabilized;
+
+        IF MCM_Line.P_DataOut.VoltageStabilized AND Config.AutoReturnToLine THEN
+            VoltageUnstableTimer.IN := FALSE;
+            TransferState           := E_TransferState.LINE_RESTORED;
+
+        ELSIF MCM_Gen.P_DataOut.VoltageStabilized THEN
+            VoltageUnstableTimer.IN := FALSE;
+            TransferState           := E_TransferState.CLOSING_GEN_CB;
+
+        ELSIF VoltageUnstableTimer.Q THEN
+            VoltageUnstableTimer.IN := FALSE;
+            THIS^.GenStartCommand   := FALSE;
+            TransferState           := E_TransferState.FAULT;
+        END_IF
+
+    E_TransferState.CLOSING_GEN_CB:
+        IF LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
+            GenCB.M_Close();
+        END_IF
+
+        BreakerFaultTimer.PT := Config.FaultTimeOut;
+        BreakerFaultTimer.IN := NOT GenCB.P_Status.CB_Closed.P_Status.P_Value;
+
+        IF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
+            BreakerFaultTimer.IN := FALSE;
+            TransferState        := E_TransferState.ON_GENERATOR;
+
+        ELSIF BreakerFaultTimer.Q THEN
+            BreakerFaultTimer.IN := FALSE;
+            TransferState        := E_TransferState.FAULT;
+        END_IF
+
     E_TransferState.ON_GENERATOR:
-		ATSMessage:= 'System On Generator Power';
-        Status.OnGenerator := TRUE;
-        Status.OnLine      := FALSE;
-		RetransferTimer.PT := Config.ReturnToLineDelay;
+        RetransferTimer.PT := Config.ReturnToLineDelay;
+
         IF MCM_Line.P_DataOut.VoltageStabilized AND Config.AutoReturnToLine THEN
             RetransferTimer.IN := TRUE;
         ELSE
             RetransferTimer.IN := FALSE;
         END_IF
+
         IF RetransferTimer.Q THEN
-			RetransferTimer.IN := FALSE;
-            TransferState := E_TransferState.OPENING_GEN_CB;
+            RetransferTimer.IN := FALSE;
+            TransferState      := E_TransferState.OPENING_GEN_CB;
         END_IF
-		
+
+    E_TransferState.LINE_RESTORED:
+        IF Config.AutoReturnToLine THEN
+            GenCoolDownActive := TRUE;
+            TransferState     := E_TransferState.CLOSING_LINE_CB;
+        ELSE
+            TransferState := E_TransferState.CLOSING_GEN_CB;
+        END_IF
+
     E_TransferState.OPENING_GEN_CB:
-		ATSMessage:= 'Waiting for Generator CB to Open';
         GenCB.M_Open();
-		
-		BreakerFaultTimer.PT := Config.FaultTimeOut;
-		BreakerFaultTimer.IN := NOT GenCB.P_Status.CB_Opened.P_Status.P_Value;
-		
+
+        BreakerFaultTimer.PT := Config.FaultTimeOut;
+        BreakerFaultTimer.IN := NOT GenCB.P_Status.CB_Opened.P_Status.P_Value;
+
         IF GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
-			BreakerFaultTimer.IN := FALSE;
-			TransitionTimer.PT := Config.ToLineTransitionTime;
-            TransitionTimer.IN := FALSE;
-            TransferState := E_TransferState.RETRANSFER;
-		ELSIF BreakerFaultTimer.Q AND NOT GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
-			BreakerFaultTimer.IN := FALSE;
-			TransferState := E_TransferState.FAULT;
+            BreakerFaultTimer.IN := FALSE;
+            TransitionTimer.PT   := Config.ToLineTransitionTime;
+            TransitionTimer.IN   := FALSE;
+            TransferState        := E_TransferState.RETRANSFER_DELAY;
+
+        ELSIF BreakerFaultTimer.Q THEN
+            BreakerFaultTimer.IN := FALSE;
+            TransferState        := E_TransferState.FAULT;
         END_IF
-		
-    E_TransferState.RETRANSFER:
-		TransitionTimer.IN := TRUE;
+
+    E_TransferState.RETRANSFER_DELAY:
+        TransitionTimer.IN := TRUE;
+
         IF TransitionTimer.Q THEN
             TransitionTimer.IN := FALSE;
-            TransferState := E_TransferState.CLOSING_LINE_CB;
+            TransferState      := E_TransferState.CLOSING_LINE_CB;
         END_IF
-		
+
     E_TransferState.CLOSING_LINE_CB:
-		ATSMessage:= 'Waiting for Line CB to Close';
-		BreakerFaultTimer.PT := Config.FaultTimeOut;
-		BreakerFaultTimer.IN := NOT LineCB.P_Status.CB_Closed.P_Status.P_Value;
-		
-		IF GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
-			LineCB.M_Close();
-		END_IF
-        IF LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
-			GenCoolDown := TRUE;
-			BreakerFaultTimer.IN := FALSE;
-            TransferState := E_TransferState.LINE_NORMAL;
-		ELSIF BreakerFaultTimer.Q AND NOT LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
-			BreakerFaultTimer.IN := FALSE;
-			TransferState := E_TransferState.FAULT;
+        IF GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
+            LineCB.M_Close();
         END_IF
-		
+
+        BreakerFaultTimer.PT := Config.FaultTimeOut;
+        BreakerFaultTimer.IN := NOT LineCB.P_Status.CB_Closed.P_Status.P_Value;
+
+        IF LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
+            BreakerFaultTimer.IN := FALSE;
+            IF THIS^.GenStartCommand THEN
+                GenCoolDownActive := TRUE;
+            END_IF
+            TransferState := E_TransferState.GEN_COOLDOWN;
+
+        ELSIF BreakerFaultTimer.Q THEN
+            BreakerFaultTimer.IN := FALSE;
+            TransferState        := E_TransferState.FAULT;
+        END_IF
+
+    E_TransferState.GEN_COOLDOWN:
+        THIS^.GenStartCommand := TRUE;
+
+        CoolDownTimer.PT := Config.GenCoolDownDelay;
+        CoolDownTimer.IN := TRUE;
+
+        IF NOT MCM_Line.P_DataOut.VoltageStabilized THEN
+            CoolDownTimer.IN  := FALSE;
+            GenCoolDownActive := FALSE;
+            TransferState     := E_TransferState.LINE_LOSS_PENDING;
+
+        ELSIF CoolDownTimer.Q THEN
+            THIS^.GenStartCommand := FALSE;
+            GenCoolDownActive     := FALSE;
+            CoolDownTimer.IN      := FALSE;
+            TransferState         := E_TransferState.LINE_NORMAL;
+        END_IF
+
+    E_TransferState.FAULT:
+        LineCB.M_Open();
+        GenCB.M_Open();
+        THIS^.GenStartCommand := FALSE;
+        GenCoolDownActive     := FALSE;
+
+        TransitionTimer.IN      := FALSE;
+        RetransferTimer.IN      := FALSE;
+        CoolDownTimer.IN        := FALSE;
+        BreakerFaultTimer.IN    := FALSE;
+        VoltageUnstableTimer.IN := FALSE;
+        LineLossConfirmTimer.IN := FALSE;
+
+        IF ResetErrors AND NOT Status.BothClosed THEN
+            LineCB.M_ResetErrors();
+            GenCB.M_ResetErrors();
+            TransferState := E_TransferState.STARTUP_CHECK;
+        END_IF
+
 END_CASE
 
 TransitionTimer();
@@ -304,7 +377,9 @@ RetransferTimer();
 CoolDownTimer();
 BreakerFaultTimer();
 VoltageUnstableTimer();
-]]></ST>
+LineLossConfirmTimer();
+
+M_MessageUpdate();]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_GenCB" Id="{1b42c6b1-77a5-4799-a20f-060ab13156d7}" FolderPath="Devices\">
@@ -392,6 +467,170 @@ MCM_Line.P_Config.Enable:=TRUE;
 MCM_Gen.P_Config.Enable:=TRUE;
 
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_MessageUpdate" Id="{12106db3-e9db-433c-a0a8-8fa10b936fb7}">
+      <Declaration><![CDATA[METHOD PRIVATE M_MessageUpdate
+VAR_INST
+    LastState       : E_TransferState := E_TransferState.STARTUP_CHECK;
+    StateChanged    : BOOL;
+
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[StateChanged := TransferState <> LastState;
+
+CASE TransferState OF
+
+    E_TransferState.STARTUP_CHECK:
+        ATSMessage                   := 'ATS Starting - Checking System State';
+        Status.InStartupCheck        := TRUE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := FALSE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.LINE_NORMAL:
+        ATSMessage                   := 'System On Utility Power';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := LineCB.P_Status.CB_Closed.P_Status.P_Value;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := GenCoolDownActive;
+        Status.GeneratorCoolingDown  := GenCoolDownActive;
+
+    E_TransferState.LINE_LOSS_PENDING:
+        ATSMessage                   := 'Utility Voltage Unstable - Confirming Loss';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := TRUE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := TRUE;
+        Status.GeneratorRunning      := FALSE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.LINE_LOST:
+        ATSMessage                   := 'Utility Power Loss Confirmed';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := FALSE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.OPENING_LINE_CB:
+        ATSMessage                   := 'Opening Line Breaker';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := FALSE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.GEN_START_DELAY:
+        ATSMessage                   := 'Waiting Before Generator Start';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := FALSE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.GEN_START:
+        ATSMessage                   := 'Generator Starting - Waiting for Voltage';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := TRUE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.CLOSING_GEN_CB:
+        ATSMessage                   := 'Closing Generator Breaker';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := TRUE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.ON_GENERATOR:
+        IF Config.AutoReturnToLine THEN
+            ATSMessage               := 'On Generator Power - Will Return to Utility When Available';
+        ELSE
+            ATSMessage               := 'On Generator Power - Manual Return to Utility Required';
+        END_IF
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := GenCB.P_Status.CB_Closed.P_Status.P_Value;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := TRUE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.LINE_RESTORED:
+        IF Config.AutoReturnToLine THEN
+            ATSMessage               := 'Utility Restored - Returning to Utility Power';
+        ELSE
+            ATSMessage               := 'Utility Restored - Continuing on Generator (Auto Return Disabled)';
+        END_IF
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := TRUE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.OPENING_GEN_CB:
+        ATSMessage                   := 'Opening Generator Breaker - Retransferring to Utility';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := TRUE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.RETRANSFER_DELAY:
+        ATSMessage                   := 'Open Transition Dead Time - Waiting Before Closing Line Breaker';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := TRUE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.CLOSING_LINE_CB:
+        ATSMessage                   := 'Closing Line Breaker';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := TRUE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+    E_TransferState.GEN_COOLDOWN:
+        ATSMessage                   := 'On Utility Power - Generator Cooling Down';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := LineCB.P_Status.CB_Closed.P_Status.P_Value;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := TRUE;
+        Status.GeneratorCoolingDown  := TRUE;
+
+    E_TransferState.FAULT:
+        ATSMessage                   := 'ATS FAULT - Operator Action Required';
+        Status.InStartupCheck        := FALSE;
+        Status.OnLine                := FALSE;
+        Status.OnGenerator           := FALSE;
+        Status.LineLossPending       := FALSE;
+        Status.GeneratorRunning      := FALSE;
+        Status.GeneratorCoolingDown  := FALSE;
+
+END_CASE
+
+IF StateChanged THEN
+    //raise an event
+
+    LastState := TransferState;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_ResetErrors" Id="{f4d2a4f3-9b34-41a6-817c-038d452b2c81}">

@@ -6,20 +6,22 @@
 {attribute 'to_string'}
 TYPE E_TransferState :
 (
-	IDLE				:=0,
-    LINE_NORMAL			:=1,
-    LINE_LOST			:=2,
-    OPENING_LINE_CB		:=3,
-    WAITING_TO_GEN		:=4,
-    CLOSING_GEN_CB		:=5,
-    ON_GENERATOR		:=6,
-    OPENING_GEN_CB		:=7,
-    CLOSING_LINE_CB		:=8,
-    RETRANSFER			:=9,
-	GEN_START			:= 10,
-	FAULT 				:= 11
+    STARTUP_CHECK     := 0,   
+    LINE_NORMAL       := 1,   
+    LINE_LOSS_PENDING := 2,   
+    LINE_LOST         := 3,   
+    OPENING_LINE_CB   := 4,   
+    GEN_START_DELAY   := 5,   
+    GEN_START         := 6,   
+    CLOSING_GEN_CB    := 7,   
+    ON_GENERATOR      := 8,   
+    LINE_RESTORED     := 9,   
+    OPENING_GEN_CB    := 10,  
+    RETRANSFER_DELAY  := 11,  
+    CLOSING_LINE_CB   := 12,  
+    GEN_COOLDOWN      := 13,  
+    FAULT             := 14   
 );
-END_TYPE
-]]></Declaration>
+END_TYPE]]></Declaration>
   </DUT>
 </TcPlcObject>

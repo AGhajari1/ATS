@@ -8,6 +8,11 @@ STRUCT
 	BothOpened      : BOOL;     
 	BothClosed      : BOOL;    
 	TransferFault   : BOOL;  
+	
+	LineLossPending     	: BOOL;  
+	GeneratorRunning    	: BOOL;  
+	GeneratorCoolingDown	: BOOL;  
+	InStartupCheck      	: BOOL; 
 END_STRUCT
 END_TYPE
 ]]></Declaration>

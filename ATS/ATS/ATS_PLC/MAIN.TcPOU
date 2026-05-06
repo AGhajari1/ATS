@@ -46,7 +46,8 @@ END_VAR]]></Declaration>
 	ATS.P_Config.ToGenTransitionTime	:= T#2S;
 	ATS.P_Config.ToGenTransitionTime	:= T#2S;
 	ATS.P_Config.OffTransitionTime		:= T#2S;
-	
+	ATS.P_Config.LineLossConfirmDelay 	:= T#3S;
+
 END_IF]]></ST>
       </Implementation>
     </Method>
