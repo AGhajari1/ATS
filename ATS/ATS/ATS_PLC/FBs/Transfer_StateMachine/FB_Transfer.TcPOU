@@ -627,7 +627,16 @@ CASE TransferState OF
 END_CASE
 
 IF StateChanged THEN
-    //raise an event
+    CASE TransferState OF
+        E_TransferState.FAULT:
+            ADSLOGSTR(ADSLOG_MSGTYPE_ERROR OR ADSLOG_MSGTYPE_LOG, 'ATS | %s', ATSMessage);
+        E_TransferState.LINE_LOSS_PENDING,
+        E_TransferState.LINE_LOST,
+        E_TransferState.LINE_RESTORED:
+            ADSLOGSTR(ADSLOG_MSGTYPE_WARN OR ADSLOG_MSGTYPE_LOG, 'ATS | %s', ATSMessage);
+    ELSE
+        ADSLOGSTR(ADSLOG_MSGTYPE_HINT OR ADSLOG_MSGTYPE_LOG, 'ATS | %s', ATSMessage);
+    END_CASE
 
     LastState := TransferState;
 END_IF]]></ST>
