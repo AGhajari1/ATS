@@ -6,7 +6,6 @@ VAR
 	INIT 						: BOOL:=TRUE;
 	SystemTimeString			: STRING(255):='';
 	ATS							: FB_Transfer;
-	DelayStart					: TON;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -15,7 +14,6 @@ END_VAR
 M_Definition();
 
 ATS();
-
 INIT:= FALSE;]]></ST>
     </Implementation>
     <Method Name="M_Definition" Id="{a4727d6c-1b20-48b4-a9a9-be093d4163fe}">

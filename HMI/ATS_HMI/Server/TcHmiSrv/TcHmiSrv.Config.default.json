@@ -44,11 +44,11 @@
                 ],
                 "options": [
                     {
-                        "label": "Hz50",
+                        "label": "_50Hz",
                         "value": 50
                     },
                     {
-                        "label": "Hz60",
+                        "label": "_60Hz",
                         "value": 60
                     }
                 ],
@@ -554,7 +554,7 @@
                         "$ref": "tchmi:general#/definitions/REAL"
                     },
                     {
-                        "propertyOrder": 14
+                        "propertyOrder": 19
                     }
                 ]
             },
@@ -1217,7 +1217,7 @@
                         "$ref": "tchmi:server#/definitions/ADS-ATS_PLC.E_Frequencies"
                     },
                     {
-                        "propertyOrder": 15
+                        "propertyOrder": 17
                     }
                 ]
             },
@@ -1234,7 +1234,7 @@
                         "$ref": "tchmi:server#/definitions/ADS-ATS_PLC.E_Voltages"
                     },
                     {
-                        "propertyOrder": 15
+                        "propertyOrder": 16
                     }
                 ]
             },
@@ -1251,7 +1251,7 @@
                         "$ref": "tchmi:general#/definitions/REAL"
                     },
                     {
-                        "propertyOrder": 13
+                        "propertyOrder": 18
                     }
                 ]
             },

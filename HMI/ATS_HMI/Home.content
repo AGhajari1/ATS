@@ -902,25 +902,17 @@
 </div>
 <div id="VLabel" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="359" data-tchmi-left-unit="px" data-tchmi-text="System Voltage" data-tchmi-top="5" data-tchmi-top-unit="px" data-tchmi-width="83" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1" data-tchmi-creator-locked="True">
 </div>
-<div id="CBLine_Closed" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="183" data-tchmi-left-unit="px" data-tchmi-text="CLOSED" data-tchmi-top="243" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Closed.Status.P_Value%/s%" data-tchmi-text-position="Left" data-tchmi-text-horizontal-alignment="Right" data-tchmi-creator-locked="True">
+<div id="CBLine_Closed" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="183" data-tchmi-left-unit="px" data-tchmi-text="CLOSED" data-tchmi-top="194" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Closed.Status.P_Value%/s%" data-tchmi-text-position="Left" data-tchmi-text-horizontal-alignment="Right">
 </div>
-<div id="CBLine_Ready" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="183" data-tchmi-left-unit="px" data-tchmi-text="READY TO CLOSE" data-tchmi-top="217" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_ReadyToClose.P_Status.P_Value%/s%" data-tchmi-text-position="Left" data-tchmi-text-horizontal-alignment="Right" data-tchmi-creator-locked="True">
+<div id="CBLine_Ready" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="183" data-tchmi-left-unit="px" data-tchmi-text="READY TO CLOSE" data-tchmi-top="168" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_ReadyToClose.P_Status.P_Value%/s%" data-tchmi-text-position="Left" data-tchmi-text-horizontal-alignment="Right">
 </div>
-<div id="CBLine_OpenCommand" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="183" data-tchmi-left-unit="px" data-tchmi-text="OPEN COMMAND" data-tchmi-top="165" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Open.Status.P_Value%/s%" data-tchmi-text-position="Left" data-tchmi-text-horizontal-alignment="Right" data-tchmi-creator-locked="True">
+<div id="CBGen_Closed" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="479" data-tchmi-left-unit="px" data-tchmi-text="CLOSED" data-tchmi-top="194" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Closed.Status.P_Value%/s%" data-tchmi-text-position="Right" data-tchmi-text-horizontal-alignment="Left">
 </div>
-<div id="CBLine_CloseCommand" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="183" data-tchmi-left-unit="px" data-tchmi-text="CLOSE COMMAND" data-tchmi-top="191" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Close.Status.P_Value%/s%" data-tchmi-text-position="Left" data-tchmi-text-horizontal-alignment="Right" data-tchmi-creator-locked="True">
+<div id="CBGen_Ready" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="479" data-tchmi-left-unit="px" data-tchmi-text="READY TO CLOSE" data-tchmi-top="168" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_ReadyToClose.P_Status.P_Value%/s%" data-tchmi-text-position="Right" data-tchmi-text-horizontal-alignment="Left">
 </div>
-<div id="CBGen_Closed" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="479" data-tchmi-left-unit="px" data-tchmi-text="CLOSED" data-tchmi-top="243" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Closed.Status.P_Value%/s%" data-tchmi-text-position="Right" data-tchmi-text-horizontal-alignment="Left" data-tchmi-creator-locked="True">
+<div id="CBLine_Opened" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="183" data-tchmi-left-unit="px" data-tchmi-text="OPENED" data-tchmi-top="220" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Opened.P_Status.P_Value%/s%" data-tchmi-text-position="Left" data-tchmi-text-horizontal-alignment="Right">
 </div>
-<div id="CBGen_Ready" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="479" data-tchmi-left-unit="px" data-tchmi-text="READY TO CLOSE" data-tchmi-top="217" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_ReadyToClose.P_Status.P_Value%/s%" data-tchmi-text-position="Right" data-tchmi-text-horizontal-alignment="Left" data-tchmi-creator-locked="True">
-</div>
-<div id="CBGen_OpenCommand" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="479" data-tchmi-left-unit="px" data-tchmi-text="OPEN COMMAND" data-tchmi-top="165" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Open.Status.P_Value%/s%" data-tchmi-text-position="Right" data-tchmi-text-horizontal-alignment="Left" data-tchmi-creator-locked="True">
-</div>
-<div id="CBGen_CloseCommand" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="479" data-tchmi-left-unit="px" data-tchmi-text="CLOSE COMMAND" data-tchmi-top="191" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Close.Status.P_Value%/s%" data-tchmi-text-position="Right" data-tchmi-text-horizontal-alignment="Left" data-tchmi-creator-locked="True">
-</div>
-<div id="CBLine_Opened" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="183" data-tchmi-left-unit="px" data-tchmi-text="OPENED" data-tchmi-top="269" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Opened.P_Status.P_Value%/s%" data-tchmi-text-position="Left" data-tchmi-text-horizontal-alignment="Right" data-tchmi-creator-locked="True">
-</div>
-<div id="CBGen_Opened" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="479" data-tchmi-left-unit="px" data-tchmi-text="OPENED" data-tchmi-top="269" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Opened.P_Status.P_Value%/s%" data-tchmi-text-position="Right" data-tchmi-text-horizontal-alignment="Left" data-tchmi-creator-locked="True">
+<div id="CBGen_Opened" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiCheckbox" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="479" data-tchmi-left-unit="px" data-tchmi-text="OPENED" data-tchmi-top="220" data-tchmi-top-unit="px" data-tchmi-width="129" data-tchmi-width-unit="px" data-tchmi-is-read-only="True" data-tchmi-state-symbol="%s%ADS.ATS_PLC.MAIN.ATS.GenCB.Status.CB_Opened.P_Status.P_Value%/s%" data-tchmi-text-position="Right" data-tchmi-text-horizontal-alignment="Left">
 </div>
 <div id="LineCBError" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="1" data-tchmi-left-unit="px" data-tchmi-text="%s%ADS.ATS_PLC.MAIN.ATS.LineCB.Status.Error.Reason%/s%" data-tchmi-top="139" data-tchmi-top-unit="px" data-tchmi-width="311" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-horizontal-alignment="Right" data-tchmi-text-vertical-alignment="Center" data-tchmi-creator-locked="True">
 <script data-tchmi-target-attribute="data-tchmi-text-color" type="application/json">
@@ -1042,7 +1034,7 @@
         "value": {
           "objectType": "Symbol",
           "valueType": "tchmi:general#/definitions/REAL",
-          "symbolExpression": "%ctx%owner::Value%/ctx%"
+          "symbolExpression": "%f%%ctx%owner::Value%/ctx%%/f%"
         },
         "asyncWait": true
       }
@@ -1063,7 +1055,7 @@
 ]
 </script>
 </div>
-<div id="PTolInput" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiNumericInput" data-tchmi-auto-focus-out="True" data-tchmi-decimal-digits="2" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="114" data-tchmi-left-unit="px" data-tchmi-reset-to-last-valid-value="True" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-value="%s%ADS.ATS_PLC.MAIN.ATS.PhaseTolerange%/s%" data-tchmi-width="46" data-tchmi-width-unit="px" data-tchmi-decimal-precision-mode="Truncate" data-tchmi-input-processing-point="InteractionFinished" data-tchmi-min-value="0" data-tchmi-max-value="10">
+<div id="PTolInput" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiNumericInput" data-tchmi-auto-focus-out="True" data-tchmi-decimal-digits="2" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="114" data-tchmi-left-unit="px" data-tchmi-reset-to-last-valid-value="True" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-value="%s%ADS.ATS_PLC.MAIN.ATS.PhaseTolerange%/s%" data-tchmi-width="46" data-tchmi-width-unit="px" data-tchmi-decimal-precision-mode="Truncate" data-tchmi-input-processing-point="InteractionFinished" data-tchmi-min-value="0" data-tchmi-max-value="10" data-tchmi-visibility="Collapsed">
 <script data-tchmi-target-attribute="data-tchmi-content-padding" type="application/json">
 {
   "top": 3,
@@ -1189,13 +1181,13 @@
 </div>
 <div id="VTolUnit" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="161" data-tchmi-left-unit="px" data-tchmi-text="V" data-tchmi-top="55" data-tchmi-top-unit="px" data-tchmi-width="10" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1">
 </div>
-<div id="PTolUnit" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="160" data-tchmi-left-unit="px" data-tchmi-text="Deg" data-tchmi-top="105" data-tchmi-top-unit="px" data-tchmi-width="25" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1">
+<div id="PTolUnit" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="160" data-tchmi-left-unit="px" data-tchmi-text="Deg" data-tchmi-top="105" data-tchmi-top-unit="px" data-tchmi-width="25" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1" data-tchmi-visibility="Collapsed">
 </div>
 <div id="VTolText" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="23" data-tchmi-left-unit="px" data-tchmi-text="Voltage Tolerance" data-tchmi-top="55" data-tchmi-top-unit="px" data-tchmi-width="91" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1" data-tchmi-background-image-horizontal-alignment="Center" data-tchmi-text-horizontal-alignment="Right">
 </div>
 <div id="FTolText" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="11" data-tchmi-left-unit="px" data-tchmi-text="FrequencyTolerance" data-tchmi-top="80" data-tchmi-top-unit="px" data-tchmi-width="103" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1" data-tchmi-background-image-horizontal-alignment="Center" data-tchmi-text-horizontal-alignment="Right">
 </div>
-<div id="PTolText" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="1" data-tchmi-left-unit="px" data-tchmi-text="Phase Angle Tolerance" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="111" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1" data-tchmi-background-image-horizontal-alignment="Center" data-tchmi-text-horizontal-alignment="Right">
+<div id="PTolText" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="1" data-tchmi-left-unit="px" data-tchmi-text="Phase Angle Tolerance" data-tchmi-top="104" data-tchmi-top-unit="px" data-tchmi-width="111" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1" data-tchmi-background-image-horizontal-alignment="Center" data-tchmi-text-horizontal-alignment="Right" data-tchmi-visibility="Collapsed">
 </div>
 
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
@@ -1361,9 +1353,9 @@
         "active": true,
         "symbolExpression": "%s%ADS.ATS_PLC.MAIN.ATS.VoltageTolerance%/s%",
         "value": {
-          "objectType": "StaticValue",
+          "objectType": "Symbol",
           "valueType": "tchmi:general#/definitions/REAL",
-          "value": null
+          "symbolExpression": "%ctx%owner::Value%/ctx%"
         },
         "asyncWait": true
       }

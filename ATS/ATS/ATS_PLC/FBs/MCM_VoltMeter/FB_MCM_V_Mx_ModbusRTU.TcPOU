@@ -227,13 +227,14 @@ END_IF]]></ST>
     <Method Name="VoltageCheck" Id="{d12d065a-8f72-408c-9921-036420f737d9}">
       <Declaration><![CDATA[METHOD PRIVATE VoltageCheck
 VAR_INST
-	AverageVoltage	: REAL;
-	VoltageOK       : BOOL;
-	FrequencyOK		: BOOL;
-	PhaseAngleAB_OK	: BOOL;
-	PhaseAngleBC_OK	: BOOL;
-	PhaseAngleCA_OK	: BOOL;
-	StabilityTimer 	: TON;
+	AverageVoltage			: REAL;
+	VoltageOK       		: BOOL;
+	FrequencyOK				: BOOL;
+	PhaseAngleAB_OK			: BOOL;
+	PhaseAngleBC_OK			: BOOL;
+	PhaseAngleCA_OK			: BOOL;
+	StabilityTimerOn		: TON;
+	StabilityTimerOff		: TON;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[//VOLTAGE CHECK
@@ -247,16 +248,23 @@ VoltageOK := (AverageVoltage >= Config.NominalVoltage * (1.0 - Config.VoltageTol
 FrequencyOK := (DataOut.Frequency >= Config.NominalFrequency - Config.FrequencyTolerance) AND
                (DataOut.Frequency <= Config.NominalFrequency + Config.FrequencyTolerance);
 
-//PHASE ANGLE CHECKS
+//PHASE ANGLE CHECKS - IGNORED in stablity
 PhaseAngleAB_OK := ABS(DataOut.AngAB_16 - 0.0)   <= Config.AngleTolerance OR ABS(DataOut.AngAB_16 - 360.0)   <= Config.AngleTolerance;
 PhaseAngleBC_OK := ABS(DataOut.AngBC_16 - 120.0)  <= Config.AngleTolerance;
 PhaseAngleCA_OK := ABS(DataOut.AngAC_16 - 240.0)  <= Config.AngleTolerance;
 
 //WAIT TO STABLIZE
-StabilityTimer (IN  := VoltageOK AND FrequencyOK AND PhaseAngleAB_OK AND PhaseAngleBC_OK AND PhaseAngleCA_OK,
-           		PT  := Config.StableTime);
+StabilityTimerOn (IN  := VoltageOK AND FrequencyOK,	PT  := Config.StableTime);
+StabilityTimerOff (IN  := NOT VoltageOK OR NOT FrequencyOK,	PT  := Config.StableTime);
 
-DataOut.VoltageStabilized := StabilityTimer .Q;
+IF StabilityTimerOn.Q THEN
+	DataOut.VoltageStabilized := TRUE;
+END_IF
+
+IF StabilityTimerOff.Q THEN
+	DataOut.VoltageStabilized := FALSE;
+END_IF
+
 
 ]]></ST>
       </Implementation>

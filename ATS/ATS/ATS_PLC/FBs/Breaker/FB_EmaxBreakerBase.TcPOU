@@ -38,7 +38,7 @@ END_IF
 //reset opening and closing states
 IF Status.CB_Opened.P_Status.P_Value OR Status.CB_Closed.P_Status.P_Value OR Status.Error.Error THEN
 	Status.CB_Opening:= FALSE;
-	Status.CB_Opening:= FALSE;
+	Status.CB_Closing:= FALSE;
 END_IF
 
 

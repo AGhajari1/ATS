@@ -42,6 +42,7 @@ VAR
 	ResetErrors			: BOOL := FALSE;
 	
 	ATSMessage			: STRING:='';
+
 END_VAR
 
 VAR PERSISTENT
@@ -65,7 +66,6 @@ Config.ReturnToLineDelay:= TO_TIME(HMI_ReturnToLineDelay*1000); //Convert ms to 
 CASE ATSMode OF
 	E_Modes.Automatic:
 		M_AutoStateMachine();
-		
 	E_Modes.NonAutomatic:
 		IF HMI_NonAutoToGen THEN
 			M_TransferToGen();
@@ -86,6 +86,7 @@ END_IF
 IF ResetErrors THEN
 	M_ResetErrors();
 END_IF
+
 
 INIT:= FALSE;
 ]]></ST>
@@ -127,7 +128,8 @@ CASE TransferState OF
         IF Status.BothOpened AND MCM_Line.P_DataOut.VoltageStabilized THEN
             LineCB.M_Close();
             TransferState := E_TransferState.CLOSING_LINE_CB;
-
+		ELSIF Status.BothOpened AND MCM_Gen.P_DataOut.VoltageStabilized THEN
+            TransferState := E_TransferState.CLOSING_GEN_CB;
         ELSIF LineCB.P_Status.CB_Closed.P_Status.P_Value 
               AND MCM_Line.P_DataOut.VoltageStabilized THEN
             GenCoolDownActive := FALSE;
@@ -656,7 +658,9 @@ HMI_NonAutoToLine:= FALSE;]]></ST>
     </Method>
     <Method Name="M_TransferToGen" Id="{296e3694-7292-460a-af37-b303b864889e}">
       <Declaration><![CDATA[METHOD M_TransferToGen
-]]></Declaration>
+VAR_INST
+	CB_Delay		: TON;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF 	NOT GenCB.P_Status.Error.Error
 	AND NOT LineCB.P_Status.Error.Error 
@@ -664,11 +668,13 @@ HMI_NonAutoToLine:= FALSE;]]></ST>
 THEN
 	IF LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
 		LineCB.M_Open();
+		CB_Delay.IN:=TRUE;
 		Status.OnLine:= FALSE;
 	END_IF
 	IF LineCB.P_Status.CB_Opened.P_Status.P_Value AND NOT LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
-		IF NOT GenCB.P_Status.CB_Closing  AND MCM_Gen.P_DataOut.VoltageStabilized THEN //one shot
+		IF NOT GenCB.P_Status.CB_Closing  AND CB_Delay.Q THEN//AND MCM_Gen.P_DataOut.VoltageStabilized THEN //one shot
 			GenCB.M_Close();
+			CB_Delay.IN:=FALSE;
 		END_IF
 		Status.OnLine:= FALSE;
 		IF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
@@ -680,12 +686,15 @@ ELSE //TODO error handling
 	Status.OnGenerator:= TRUE;
 	HMI_NonAutoToGen:= FALSE;
 END_IF
-]]></ST>
+
+CB_Delay(PT:=T#1S);]]></ST>
       </Implementation>
     </Method>
     <Method Name="M_TransferToLine" Id="{25ba2139-f11f-4b85-a5a3-46eb64cd0748}">
       <Declaration><![CDATA[METHOD M_TransferToLine
-]]></Declaration>
+VAR_INST
+	CB_Delay		: TON;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF 	NOT GenCB.P_Status.Error.Error
 	AND NOT LineCB.P_Status.Error.Error 
@@ -693,11 +702,13 @@ END_IF
 THEN
 	IF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
 		GenCB.M_Open();
+		CB_Delay.IN:=TRUE;
 		Status.OnGenerator:= FALSE;
 	END_IF
 	IF GenCB.P_Status.CB_Opened.P_Status.P_Value AND NOT GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
-		IF NOT LineCB.P_Status.CB_Closing AND MCM_Line.P_DataOut.VoltageStabilized THEN //one shot
+		IF NOT LineCB.P_Status.CB_Closing AND CB_Delay.Q THEN//AND MCM_Line.P_DataOut.VoltageStabilized THEN //one shot
 			LineCB.M_Close();
+			CB_Delay.IN:=FALSE;
 		END_IF
 		Status.OnGenerator:= FALSE;
 		IF LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
@@ -709,7 +720,9 @@ ELSE //TODO Error handling
 	Status.OnLine		:= TRUE;
 	HMI_NonAutoToLine	:= FALSE;
 
-END_IF]]></ST>
+END_IF
+
+CB_Delay(PT:=T#1S);]]></ST>
       </Implementation>
     </Method>
     <Property Name="P_Config" Id="{c80d9a0c-3599-4a11-9022-6117c18866c2}">
