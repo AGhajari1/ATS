@@ -235,13 +235,22 @@ VAR_INST
 	PhaseAngleCA_OK			: BOOL;
 	StabilityTimerOn		: TON;
 	StabilityTimerOff		: TON;
+	VAB_OK					: BOOL;
+	VBC_OK					: BOOL;
+	VCA_OK					: BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[//VOLTAGE CHECK
-AverageVoltage := (DataOut.VAB_16 + DataOut.VBC_16 + DataOut.VCA_16) / 3.0;
+VAB_OK := (DataOut.VAB_16 >= Config.NominalVoltage * (1.0 - Config.VoltageTolerance/100.0)) AND
+          (DataOut.VAB_16 <= Config.NominalVoltage * (1.0 + Config.VoltageTolerance/100.0));
 
-VoltageOK := (AverageVoltage >= Config.NominalVoltage * (1.0 - Config.VoltageTolerance)) AND
-             (AverageVoltage <= Config.NominalVoltage * (1.0 + Config.VoltageTolerance));
+VBC_OK := (DataOut.VBC_16 >= Config.NominalVoltage * (1.0 - Config.VoltageTolerance/100.0)) AND
+          (DataOut.VBC_16 <= Config.NominalVoltage * (1.0 + Config.VoltageTolerance/100.0));
+
+VCA_OK := (DataOut.VCA_16 >= Config.NominalVoltage * (1.0 - Config.VoltageTolerance/100.0)) AND
+          (DataOut.VCA_16 <= Config.NominalVoltage * (1.0 + Config.VoltageTolerance/100.0));
+
+VoltageOK := VAB_OK AND VBC_OK AND VCA_OK;
 
 
 //FREQUENCY CHECK

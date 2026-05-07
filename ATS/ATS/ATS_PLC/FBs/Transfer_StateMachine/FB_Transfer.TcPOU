@@ -30,8 +30,10 @@ VAR
 	FrequencyTolerance	: REAL  := 0.3;
 	PhaseTolerange		: REAL 	:= 10;
 	
-	HMI_GenStartDelay	: INT	:= 5;
+	HMI_GenStartDelay		: INT	:= 5;
 	HMI_ReturnToLineDelay	: INT	:= 5;
+	HMI_GenCoolDownDelay	: INT	:= 5;
+	HMI_VoltageStabilityDelay	: INT := 10;
 	
 	ATSMode				: E_Modes := E_Modes.Automatic;
 	ATSModeString		: STRING := TO_STRING(E_Modes.Automatic);
@@ -69,6 +71,9 @@ ATSModeString := TO_STRING(ATSMode);
 
 Config.GenStartDelay     := TO_TIME(HMI_GenStartDelay * 1000);
 Config.ReturnToLineDelay := TO_TIME(HMI_ReturnToLineDelay * 1000);
+Config.GenCoolDownDelay  := TO_TIME(HMI_GenCoolDownDelay * 60000);
+MCM_Gen.P_Config.StableTime  	:= TO_TIME(HMI_VoltageStabilityDelay*1000);
+MCM_Line.P_Config.StableTime  	:= TO_TIME(HMI_VoltageStabilityDelay*1000);
 
 // Always evaluate CB positions regardless of mode
 Status.BothClosed := LineCB.P_Status.CB_Closed.P_Status.P_Value
@@ -199,7 +204,6 @@ CASE TransferState OF
         LineLossConfirmTimer.PT := Config.LineLossConfirmDelay;
         LineLossConfirmTimer.IN := NOT MCM_Line.P_DataOut.VoltageStabilized;
 
-        CoolDownTimer.PT := Config.GenCoolDownDelay;
         CoolDownTimer.IN := GenCoolDownActive;
 
         IF CoolDownTimer.Q THEN
@@ -373,7 +377,6 @@ CASE TransferState OF
     E_TransferState.GEN_COOLDOWN:
         THIS^.GenStartCommand := TRUE;
 
-        CoolDownTimer.PT := Config.GenCoolDownDelay;
         CoolDownTimer.IN := TRUE;
 
         IF NOT MCM_Line.P_DataOut.VoltageStabilized THEN
@@ -439,7 +442,7 @@ END_CASE
 
 TransitionTimer();
 RetransferTimer();
-CoolDownTimer();
+CoolDownTimer(PT:=Config.GenCoolDownDelay);
 
 HMICoolDownTime := LEFT(
     RIGHT(TO_STRING(CoolDownTimer.PT - CoolDownTimer.ET), 
@@ -836,16 +839,6 @@ CASE TransferState OF
             PreconditionViolated := TRUE;
         END_IF
 
-    E_TransferState.CLOSING_LINE_CB:
-        IF NOT GenCB.P_Status.CB_Opened.P_Status.P_Value THEN
-            PreconditionViolated := TRUE;
-        END_IF
-
-    E_TransferState.CLOSING_GEN_CB:
-        IF NOT LineCB.P_Status.CB_Opened.P_Status.P_Value THEN
-            PreconditionViolated := TRUE;
-        END_IF
-
     E_TransferState.RETRANSFER_DELAY:
         IF NOT Status.BothOpened THEN
             PreconditionViolated := TRUE;
@@ -853,17 +846,13 @@ CASE TransferState OF
 
 END_CASE
 
-StateValidationTimer.PT := Config.StateValidationDebounce;
-StateValidationTimer.IN := PreconditionViolated;
-
-IF StateValidationTimer.Q THEN
-    StateValidationTimer.IN := FALSE;
+IF PreconditionViolated THEN
+    ATSMode := E_Modes.Manual;
     ADSLOGSTR(
         ADSLOG_MSGTYPE_WARN OR ADSLOG_MSGTYPE_LOG,
-        'ATS | State validation failed in state: %s - returning to STARTUP_CHECK',
+        'ATS | Manual intervention detected in state %s - switching to Manual mode',
         TO_STRING(TransferState)
     );
-    TransferState := E_TransferState.STARTUP_CHECK;
 END_IF]]></ST>
       </Implementation>
     </Method>

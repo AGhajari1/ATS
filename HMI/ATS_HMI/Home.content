@@ -930,8 +930,8 @@
 </div>
 <div id="VLabel_1" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="359" data-tchmi-left-unit="px" data-tchmi-text="System Frequency" data-tchmi-top="48" data-tchmi-top-unit="px" data-tchmi-width="103" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1" data-tchmi-creator-locked="True">
 </div>
-<div id="ToleranceContainer" data-tchmi-type="TcHmi.Controls.System.TcHmiContainer" data-tchmi-height="143" data-tchmi-height-unit="px" data-tchmi-left="616" data-tchmi-left-unit="px" data-tchmi-top="180" data-tchmi-top-unit="px" data-tchmi-width="184" data-tchmi-width-unit="px" data-tchmi-visibility="Collapsed">
-<div id="FTolInput" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiNumericInput" data-tchmi-auto-focus-out="True" data-tchmi-decimal-digits="2" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="114" data-tchmi-left-unit="px" data-tchmi-reset-to-last-valid-value="True" data-tchmi-top="76" data-tchmi-top-unit="px" data-tchmi-value="%s%ADS.ATS_PLC.MAIN.ATS.FrequencyTolerance%/s%" data-tchmi-width="46" data-tchmi-width-unit="px" data-tchmi-decimal-precision-mode="Truncate" data-tchmi-input-processing-point="InteractionFinished" data-tchmi-min-value="0" data-tchmi-max-value="6">
+<div id="ToleranceContainer" data-tchmi-type="TcHmi.Controls.System.TcHmiContainer" data-tchmi-height="143" data-tchmi-height-unit="px" data-tchmi-left="616" data-tchmi-left-unit="px" data-tchmi-top="180" data-tchmi-top-unit="px" data-tchmi-width="184" data-tchmi-width-unit="px" data-tchmi-visibility="Visible" data-tchmi-creator-locked="True">
+<div id="FTolInput" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiNumericInput" data-tchmi-auto-focus-out="True" data-tchmi-decimal-digits="2" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="114" data-tchmi-left-unit="px" data-tchmi-reset-to-last-valid-value="True" data-tchmi-top="76" data-tchmi-top-unit="px" data-tchmi-value="%s%ADS.ATS_PLC.MAIN.ATS.FrequencyTolerance%/s%" data-tchmi-width="46" data-tchmi-width-unit="px" data-tchmi-decimal-precision-mode="Truncate" data-tchmi-input-processing-point="InteractionFinished" data-tchmi-min-value="0" data-tchmi-max-value="5">
 <script data-tchmi-target-attribute="data-tchmi-content-padding" type="application/json">
 {
   "top": 3,
@@ -1179,7 +1179,7 @@
 ]
 </script>
 </div>
-<div id="VTolUnit" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="161" data-tchmi-left-unit="px" data-tchmi-text="V" data-tchmi-top="55" data-tchmi-top-unit="px" data-tchmi-width="10" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1">
+<div id="VTolUnit" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="161" data-tchmi-left-unit="px" data-tchmi-text="%Vn" data-tchmi-top="55" data-tchmi-top-unit="px" data-tchmi-width="23" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1">
 </div>
 <div id="PTolUnit" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="160" data-tchmi-left-unit="px" data-tchmi-text="Deg" data-tchmi-top="105" data-tchmi-top-unit="px" data-tchmi-width="25" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1" data-tchmi-visibility="Collapsed">
 </div>
@@ -1252,7 +1252,7 @@
   }
 ]
 </script>
-<div id="VTolInput" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiNumericInput" data-tchmi-auto-focus-out="True" data-tchmi-decimal-digits="2" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="114" data-tchmi-left-unit="px" data-tchmi-reset-to-last-valid-value="True" data-tchmi-top="49" data-tchmi-top-unit="px" data-tchmi-value="%s%ADS.ATS_PLC.MAIN.ATS.VoltageTolerance%/s%" data-tchmi-width="46" data-tchmi-width-unit="px" data-tchmi-decimal-precision-mode="Truncate" data-tchmi-input-processing-point="InteractionFinished" data-tchmi-min-value="0" data-tchmi-max-value="100">
+<div id="VTolInput" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiNumericInput" data-tchmi-auto-focus-out="True" data-tchmi-decimal-digits="2" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="114" data-tchmi-left-unit="px" data-tchmi-reset-to-last-valid-value="True" data-tchmi-top="49" data-tchmi-top-unit="px" data-tchmi-value="%s%ADS.ATS_PLC.MAIN.ATS.VoltageTolerance%/s%" data-tchmi-width="46" data-tchmi-width-unit="px" data-tchmi-decimal-precision-mode="Truncate" data-tchmi-input-processing-point="InteractionFinished" data-tchmi-min-value="0" data-tchmi-max-value="10">
 <script data-tchmi-target-attribute="data-tchmi-content-padding" type="application/json">
 {
   "top": 3,
@@ -1379,7 +1379,7 @@
 <div id="FTolUnit" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="161" data-tchmi-left-unit="px" data-tchmi-text="Hz" data-tchmi-top="81" data-tchmi-top-unit="px" data-tchmi-width="24" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1">
 </div>
 </div>
-<div id="TimeContainer" data-tchmi-type="TcHmi.Controls.System.TcHmiContainer" data-tchmi-height="150" data-tchmi-height-unit="px" data-tchmi-left="0" data-tchmi-left-unit="px" data-tchmi-top="170" data-tchmi-top-unit="px" data-tchmi-width="183" data-tchmi-width-unit="px" data-tchmi-visibility="Collapsed">
+<div id="TimeContainer" data-tchmi-type="TcHmi.Controls.System.TcHmiContainer" data-tchmi-height="150" data-tchmi-height-unit="px" data-tchmi-left="0" data-tchmi-left-unit="px" data-tchmi-top="170" data-tchmi-top-unit="px" data-tchmi-width="183" data-tchmi-width-unit="px" data-tchmi-visibility="Collapsed" data-tchmi-creator-locked="True">
 
 <script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
 [
@@ -1548,7 +1548,7 @@
         "value": {
           "objectType": "Symbol",
           "valueType": "tchmi:general#/definitions/REAL",
-          "symbolExpression": "%ctx%owner::Value%/ctx%"
+          "symbolExpression": "%f%%ctx%owner::Value%/ctx%%/f%"
         },
         "asyncWait": true
       }
@@ -1676,7 +1676,7 @@
         "value": {
           "objectType": "Symbol",
           "valueType": "tchmi:general#/definitions/INT",
-          "symbolExpression": "%ctx%owner::Value%/ctx%"
+          "symbolExpression": "%f%%ctx%owner::Value%/ctx%%/f%"
         },
         "asyncWait": true
       }
@@ -1847,6 +1847,262 @@
   }
 ]
 </script>
+</div>
+<div id="GenDelayText_2" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="18" data-tchmi-height-unit="px" data-tchmi-left="0" data-tchmi-left-unit="px" data-tchmi-text="Generator Cooling Time" data-tchmi-top="38" data-tchmi-top-unit="px" data-tchmi-width="117" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1" data-tchmi-background-image-horizontal-alignment="Center" data-tchmi-text-horizontal-alignment="Right">
+</div>
+<div id="GenStartDelay_2" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiNumericInput" data-tchmi-auto-focus-out="True" data-tchmi-decimal-digits="2" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="117" data-tchmi-left-unit="px" data-tchmi-reset-to-last-valid-value="True" data-tchmi-top="34" data-tchmi-top-unit="px" data-tchmi-value="%s%ADS.ATS_PLC.MAIN.ATS.HMI_GenCoolDownDelay%/s%" data-tchmi-width="46" data-tchmi-width-unit="px" data-tchmi-decimal-precision-mode="Truncate" data-tchmi-input-processing-point="InteractionFinished">
+<script data-tchmi-target-attribute="data-tchmi-content-padding" type="application/json">
+{
+  "top": 3,
+  "right": 3,
+  "bottom": 3,
+  "left": 3
+}
+</script>
+
+
+<script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
+[
+  {
+    "event": "%i%PassOK%/i%",
+    "actions": [
+      {
+        "objectType": "Condition",
+        "active": true,
+        "parts": [
+          {
+            "if": [
+              {
+                "compare1": {
+                  "objectType": "Symbol",
+                  "valueType": "tchmi:general#/definitions/BOOL",
+                  "symbolExpression": "%i%PassOK%/i%"
+                },
+                "compare2": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/BOOL",
+                  "value": true
+                },
+                "compareOperator": "==",
+                "logic": null
+              }
+            ],
+            "then": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::IsReadOnly%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/Boolean",
+                  "value": false
+                },
+                "asyncWait": true
+              },
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::IsEnabled%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/Boolean",
+                  "value": true
+                },
+                "asyncWait": true
+              }
+            ]
+          },
+          {
+            "else": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::IsReadOnly%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/Boolean",
+                  "value": true
+                },
+                "asyncWait": true
+              },
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::IsEnabled%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/Boolean",
+                  "value": false
+                },
+                "asyncWait": true
+              }
+            ]
+          }
+        ],
+        "asyncWait": true
+      }
+    ]
+  },
+  {
+    "event": "%ctx%owner::Id|EventRegistrationMode=Resolve%/ctx%.onUserInteractionFinished",
+    "actions": [
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%s%ADS.ATS_PLC.MAIN.ATS.HMI_GenCoolDownDelay%/s%",
+        "value": {
+          "objectType": "Symbol",
+          "valueType": "tchmi:general#/definitions/INT",
+          "symbolExpression": "%ctx%owner::Value%/ctx%"
+        },
+        "asyncWait": true
+      }
+    ]
+  },
+  {
+    "event": "%ctx%owner::Id|EventRegistrationMode=Resolve%/ctx%.onPressed",
+    "actions": [
+      {
+        "objectType": "ControlApiFunction",
+        "active": true,
+        "control": "KeypadPopup",
+        "fn": "open",
+        "asyncWait": true
+      }
+    ]
+  }
+]
+</script>
+</div>
+<div id="Delayunittext_2" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="163" data-tchmi-left-unit="px" data-tchmi-text="Min" data-tchmi-top="40" data-tchmi-top-unit="px" data-tchmi-width="21" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1">
+</div>
+<div id="GenDelayText_3" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="18" data-tchmi-height-unit="px" data-tchmi-left="0" data-tchmi-left-unit="px" data-tchmi-text="Voltage Check Delay" data-tchmi-top="12" data-tchmi-top-unit="px" data-tchmi-width="117" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1" data-tchmi-background-image-horizontal-alignment="Center" data-tchmi-text-horizontal-alignment="Right">
+</div>
+<div id="GenStartDelay_3" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiNumericInput" data-tchmi-auto-focus-out="True" data-tchmi-decimal-digits="2" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="117" data-tchmi-left-unit="px" data-tchmi-reset-to-last-valid-value="True" data-tchmi-top="8" data-tchmi-top-unit="px" data-tchmi-value="%s%ADS.ATS_PLC.MAIN.ATS.HMI_VoltageStabilityDelay%/s%" data-tchmi-width="46" data-tchmi-width-unit="px" data-tchmi-decimal-precision-mode="Truncate" data-tchmi-input-processing-point="InteractionFinished">
+<script data-tchmi-target-attribute="data-tchmi-content-padding" type="application/json">
+{
+  "top": 3,
+  "right": 3,
+  "bottom": 3,
+  "left": 3
+}
+</script>
+
+
+<script data-tchmi-target-attribute="data-tchmi-trigger" type="application/json">
+[
+  {
+    "event": "%i%PassOK%/i%",
+    "actions": [
+      {
+        "objectType": "Condition",
+        "active": true,
+        "parts": [
+          {
+            "if": [
+              {
+                "compare1": {
+                  "objectType": "Symbol",
+                  "valueType": "tchmi:general#/definitions/BOOL",
+                  "symbolExpression": "%i%PassOK%/i%"
+                },
+                "compare2": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/BOOL",
+                  "value": true
+                },
+                "compareOperator": "==",
+                "logic": null
+              }
+            ],
+            "then": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::IsReadOnly%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/Boolean",
+                  "value": false
+                },
+                "asyncWait": true
+              },
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::IsEnabled%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/Boolean",
+                  "value": true
+                },
+                "asyncWait": true
+              }
+            ]
+          },
+          {
+            "else": [
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::IsReadOnly%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/Boolean",
+                  "value": true
+                },
+                "asyncWait": true
+              },
+              {
+                "objectType": "WriteToSymbol",
+                "active": true,
+                "symbolExpression": "%ctx%owner::IsEnabled%/ctx%",
+                "value": {
+                  "objectType": "StaticValue",
+                  "valueType": "tchmi:general#/definitions/Boolean",
+                  "value": false
+                },
+                "asyncWait": true
+              }
+            ]
+          }
+        ],
+        "asyncWait": true
+      }
+    ]
+  },
+  {
+    "event": "%ctx%owner::Id|EventRegistrationMode=Resolve%/ctx%.onUserInteractionFinished",
+    "actions": [
+      {
+        "objectType": "WriteToSymbol",
+        "active": true,
+        "symbolExpression": "%s%ADS.ATS_PLC.MAIN.ATS.HMI_VoltageStabilityDelay%/s%",
+        "value": {
+          "objectType": "Symbol",
+          "valueType": "tchmi:general#/definitions/INT",
+          "symbolExpression": "%f%%/f%"
+        },
+        "asyncWait": true
+      }
+    ]
+  },
+  {
+    "event": "%ctx%owner::Id|EventRegistrationMode=Resolve%/ctx%.onPressed",
+    "actions": [
+      {
+        "objectType": "ControlApiFunction",
+        "active": true,
+        "control": "KeypadPopup",
+        "fn": "open",
+        "asyncWait": true
+      }
+    ]
+  }
+]
+</script>
+</div>
+<div id="Delayunittext_3" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="15" data-tchmi-height-unit="px" data-tchmi-left="163" data-tchmi-left-unit="px" data-tchmi-text="Sec" data-tchmi-top="14" data-tchmi-top-unit="px" data-tchmi-width="21" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-zindex="1">
 </div>
 </div>
 <div id="VTCommsError" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiTextblock" data-tchmi-height="26" data-tchmi-height-unit="px" data-tchmi-left="616" data-tchmi-left-unit="px" data-tchmi-text="Voltage Sensor Error" data-tchmi-top="29" data-tchmi-top-unit="px" data-tchmi-width="163" data-tchmi-width-unit="px" data-tchmi-word-wrap="True" data-tchmi-text-horizontal-alignment="Left" data-tchmi-text-vertical-alignment="Center" data-tchmi-visibility="Collapsed">

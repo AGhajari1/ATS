@@ -10,10 +10,10 @@ STRUCT
 	SampleTime			: TIME 	:= T#200MS;
 	
 	NominalVoltage 		: REAL := 600.0;
-	VoltageTolerance	: REAL := 0.10;   
+	VoltageTolerance	: REAL := 5;   
 	NominalFrequency	: REAL := 60.0;    
-	FrequencyTolerance  : REAL := 0.3;    
-	AngleTolerance  	: REAL := 10;   
+	FrequencyTolerance  : REAL := 1;    
+	AngleTolerance  	: REAL := 10;  
 	StableTime		 	: TIME := T#10S; 
 END_STRUCT
 END_TYPE

@@ -543,6 +543,57 @@
             },
             "USEMAPPING": true
         },
+        "ADS.ATS_PLC.MAIN.ATS.Config.GenCoolDownDelay": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::Config::GenCoolDownDelay",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/TIME"
+                    },
+                    {
+                        "propertyOrder": 9
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.Config.GenStartDelay": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::Config::GenStartDelay",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/TIME"
+                    },
+                    {
+                        "propertyOrder": 1
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.Config.ReturnToLineDelay": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::Config::ReturnToLineDelay",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/TIME"
+                    },
+                    {
+                        "propertyOrder": 2
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.FrequencyTolerance": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -730,6 +781,23 @@
             },
             "USEMAPPING": true
         },
+        "ADS.ATS_PLC.MAIN.ATS.HMI_GenCoolDownDelay": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::HMI_GenCoolDownDelay",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/INT"
+                    },
+                    {
+                        "propertyOrder": 24
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.HMI_GenStartDelay": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -741,7 +809,7 @@
                         "$ref": "tchmi:general#/definitions/INT"
                     },
                     {
-                        "propertyOrder": 16
+                        "propertyOrder": 22
                     }
                 ]
             },
@@ -793,6 +861,23 @@
                     },
                     {
                         "propertyOrder": 17
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
+        "ADS.ATS_PLC.MAIN.ATS.HMI_VoltageStabilityDelay": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::HMI_VoltageStabilityDelay",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/INT"
+                    },
+                    {
+                        "propertyOrder": 25
                     }
                 ]
             },
@@ -6175,6 +6260,9 @@
                 "ADS.ATS_PLC.MAIN.ATS.ATSMode": 3,
                 "ADS.ATS_PLC.MAIN.ATS.ATSModeString": 3,
                 "ADS.ATS_PLC.MAIN.ATS.Config.AutoReturnToLine": 3,
+                "ADS.ATS_PLC.MAIN.ATS.Config.GenCoolDownDelay": 3,
+                "ADS.ATS_PLC.MAIN.ATS.Config.GenStartDelay": 3,
+                "ADS.ATS_PLC.MAIN.ATS.Config.ReturnToLineDelay": 3,
                 "ADS.ATS_PLC.MAIN.ATS.FrequencyTolerance": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Close.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.GenCB.Commands.Open.Status.P_Value": 3,
@@ -6186,10 +6274,12 @@
                 "ADS.ATS_PLC.MAIN.ATS.GenCoolDownActive": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMICoolDownTime": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMIPassword": 3,
+                "ADS.ATS_PLC.MAIN.ATS.HMI_GenCoolDownDelay": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_GenStartDelay": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_NonAutoToGen": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_NonAutoToLine": 3,
                 "ADS.ATS_PLC.MAIN.ATS.HMI_ReturnToLineDelay": 3,
+                "ADS.ATS_PLC.MAIN.ATS.HMI_VoltageStabilityDelay": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Close.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Commands.Open.Status.P_Value": 3,
                 "ADS.ATS_PLC.MAIN.ATS.LineCB.Status.CB_Closed.Status.P_Value": 3,
