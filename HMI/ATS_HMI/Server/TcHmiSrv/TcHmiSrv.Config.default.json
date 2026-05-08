@@ -1325,6 +1325,23 @@
             },
             "USEMAPPING": true
         },
+        "ADS.ATS_PLC.MAIN.ATS.SystemConfigured": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "ATS_PLC::MAIN::ATS::SystemConfigured",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/BOOL"
+                    },
+                    {
+                        "propertyOrder": 4
+                    }
+                ]
+            },
+            "USEMAPPING": true
+        },
         "ADS.ATS_PLC.MAIN.ATS.SystemFrequency": {
             "ACCESS": 3,
             "DOMAIN": "ADS",
@@ -6306,6 +6323,7 @@
                 "ADS.ATS_PLC.MAIN.ATS.MCM_Line.Error": 3,
                 "ADS.ATS_PLC.MAIN.ATS.PhaseTolerange": 3,
                 "ADS.ATS_PLC.MAIN.ATS.ResetErrors": 3,
+                "ADS.ATS_PLC.MAIN.ATS.SystemConfigured": 3,
                 "ADS.ATS_PLC.MAIN.ATS.SystemFrequency": 3,
                 "ADS.ATS_PLC.MAIN.ATS.SystemVoltage": 3,
                 "ADS.ATS_PLC.MAIN.ATS.VoltageTolerance": 3,

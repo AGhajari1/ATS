@@ -7,6 +7,8 @@ VAR
 	Definition			: ST_DefinitionATS;
 	Status	 			: ST_StatusATS;
 	                    
+	SystemConfigured 	: BOOL := FALSE;
+	
 	GenCB				: FB_EmaxBreakerBase;
 	LineCB				: FB_EmaxBreakerBase;
 	MCM_Line			: FB_MCM_V_Mx_ModbusRTU;
@@ -165,6 +167,10 @@ CASE TransferState OF
         BreakerFaultTimer.IN    := FALSE;
         VoltageUnstableTimer.IN := FALSE;
 
+		IF NOT SystemConfigured THEN
+			ATSMessage := 'Please Configure System Voltage and Frequency to Continue';
+			RETURN;
+		END_IF
         IF Status.BothOpened AND MCM_Line.P_DataOut.VoltageStabilized THEN
             LineCB.M_Close();
             TransferState := E_TransferState.CLOSING_LINE_CB;
