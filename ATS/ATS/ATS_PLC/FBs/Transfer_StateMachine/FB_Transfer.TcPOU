@@ -26,8 +26,8 @@ VAR
 	
 	SystemVoltage		: E_Voltages := E_Voltages._600V; 
 	SystemFrequency		: E_Frequencies := E_Frequencies._60Hz;
-	VoltageTolerance	: REAL	:= 0.1;
-	FrequencyTolerance	: REAL  := 0.3;
+	VoltageTolerance	: REAL	:= 5;
+	FrequencyTolerance	: REAL  := 1;
 	PhaseTolerange		: REAL 	:= 10;
 	
 	HMI_GenStartDelay		: INT	:= 5;
