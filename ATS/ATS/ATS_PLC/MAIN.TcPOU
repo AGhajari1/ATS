@@ -7,7 +7,8 @@ VAR
 	SystemTimeString			: STRING(255):='';
 	ATS							: FB_Transfer;
 END_VAR
-]]></Declaration>
+
+//PLC PASSWORD ADMINISTRATOR HAS CHANGED FROM '1' to ' Response "]]></Declaration>
     <Implementation>
       <ST><![CDATA[M_SystemTime();
 

@@ -37,8 +37,8 @@ VAR
 	HMI_GenCoolDownDelay	: INT	:= 5;
 	HMI_VoltageStabilityDelay	: INT := 10;
 	
-	ATSMode				: E_Modes := E_Modes.Automatic;
-	ATSModeString		: STRING := TO_STRING(E_Modes.Automatic);
+	ATSMode				: E_Modes := E_Modes.Manual;
+	ATSModeString		: STRING := TO_STRING(E_Modes.Manual);
 	
 	HMI_NonAutoToGen	: BOOL:= FALSE;
 	HMI_NonAutoToLine	: BOOL:= FALSE;
@@ -50,7 +50,8 @@ VAR
 	
 	FaultAutoRecoveryTimer  : TON;
 	StateValidationTimer    : TON;
-
+	
+	LastATSMode     	: E_Modes := E_Modes.Manual;
 END_VAR
 
 VAR PERSISTENT
@@ -59,7 +60,6 @@ VAR PERSISTENT
 	HMIPassword			: STRING:='2544'; //ALIG
 	GenCoolDownActive 	: BOOL;
 	HardFaultLatch		: BOOL;
-	LastATSMode     	: E_Modes := E_Modes.Automatic;
     ModeChanged     	: BOOL;
 END_VAR
 
@@ -118,6 +118,14 @@ CASE ATSMode OF
         END_IF
 
     E_Modes.Manual:
+		IF INIT THEN
+			IF LineCB.P_Status.CB_Closed.P_Status.P_Value THEN
+				LineCB.M_Open();
+			END_IF
+			IF GenCB.P_Status.CB_Closed.P_Status.P_Value THEN
+				GenCB.M_Open();
+			END_IF
+		END_IF
         // DO NOTHING - BREAKERS TO BE OPERATED MANUALLY
 
 END_CASE
