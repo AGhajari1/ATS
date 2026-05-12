@@ -51,14 +51,14 @@ VAR
 	FaultAutoRecoveryTimer  : TON;
 	StateValidationTimer    : TON;
 	
-	LastATSMode     	: E_Modes := E_Modes.Manual;
+	LastATSMode     		: E_Modes := E_Modes.Manual;
+	GenCoolDownActive 		: BOOL;	
 END_VAR
 
 VAR PERSISTENT
 	TransferState		: E_TransferState := E_TransferState.STARTUP_CHECK;
 	Config				: ST_ConfigATS;
 	HMIPassword			: STRING:='2544'; //ALIG
-	GenCoolDownActive 	: BOOL;
 	HardFaultLatch		: BOOL;
     ModeChanged     	: BOOL;
 END_VAR

@@ -2,9 +2,9 @@
 <TcLicenseInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2011/11/TcLicenseInfo">
 	<LicenseInfo>
 		<SystemId>{B3A7B0F7-571C-6D39-C068-55B03F834591}</SystemId>
-		<IssueTime>2026-05-08T23:45:00</IssueTime>
-		<ExpireTime>2026-05-16T00:00:00</ExpireTime>
-		<LicenseKey>cb0aedf35c1bcd45b3dbfb6f9891474a3b213f943a5e08f5d8ac4e22bc1186e90e501da08339cad0599ebab471cf85f274b35431a728775ce05f4aa4971b66c7872ce6af8ce5acbab1ffef529a18a3004572d4704e8440732f78da74f0e23c2f36b4f0954288aabe967c3d6ea05333760e189eef8c5ffb5e7199ca05259540b9f93a72bafed57ba842567288d2f7b11642f9f02c20bcc8537485b3e4aedfeb1f22fe596547290af2179bb1e25f97a88ab08fb410daab60079f49de9feb448c05bb5713d474fa5de92e196d7a374ba73177b55a9fec1ab6d9701d8b838947605819c825bb9fbb4dd96d643e7258abbb499c299fa4e02600ae6254438db2ee654d</LicenseKey>
+		<IssueTime>2026-05-11T20:57:00</IssueTime>
+		<ExpireTime>2026-05-19T00:00:00</ExpireTime>
+		<LicenseKey>baaceecd4eab6624d2512a44e18ac7010a9ddc1c4c8b1c910975bd79105d3620c633060fca2f565f7bea3e4acad4fb808e6f34357abf99bf5f391be4e9b17f1a207d99cfe0daca207ef147d99515202bfed887dc490da87a0430babfbab07be31e4f055c86c256712a6b69556fd69433f0818cc4d0157cccc5af7826eb80482f09e351452a5b916efb17928e342343037b48ff8fa13888dd1bf21b982ee08878b7dafe08b3898f313c3b1972af96a2e6fe487b13c913000f15ad311f1570827754f99a7be47e1644b9be4ec9f54b9e85223d3a1862d9a6ad56225d3121ffde760aff9d5700423c752557e90321ccdc38d96c8840fc888cd150bc0b762510dcbf</LicenseKey>
 		<License>
 			<LicenseId>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</LicenseId>
 			<Name>TC3 Modbus-RTU</Name>
@@ -24,6 +24,11 @@
 			<LicenseId>{66689887-CCBD-452C-AC9A-039D997C6E66}</LicenseId>
 			<Name>TC3 PLC</Name>
 			<OrderNo>TC1200</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{7BDC6702-5650-4187-BD0F-E83F232C2980}</LicenseId>
+			<Name>TwinCAT UI Client</Name>
+			<OrderNo>TF1200</OrderNo>
 		</License>
 		<License>
 			<LicenseId>{37E5160D-987B-4640-888D-0F97727B53E2}</LicenseId>

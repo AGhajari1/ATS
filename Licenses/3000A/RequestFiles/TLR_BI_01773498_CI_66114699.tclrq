@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<TcLicenseInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2011/11/TcLicenseInfo">
+	<TargetInfo>
+		<TcTargetDesc>
+			<TargetType IsUsermodeRuntime="true">LINUX-U-OS</TargetType>
+			<TargetVersion>
+				<Version>3</Version>
+				<Revision>1</Revision>
+				<Build>4026</Build>
+			</TargetVersion>
+			<TargetFeatures>
+				<NetId>192.168.1.100.1.1</NetId>
+			</TargetFeatures>
+			<Hardware>
+				<Model>CX9240-0215</Model>
+				<SerialNo>000trc24</SerialNo>
+				<CPUVersion>1.4</CPUVersion>
+				<Date>29.1.26</Date>
+				<CPUArchitecture>5</CPUArchitecture>
+			</Hardware>
+			<OsImage>
+				<ImageDevice>CX9240-0215</ImageDevice>
+				<OsName>Linux</OsName>
+				<OsVersion>6.19</OsVersion>
+			</OsImage>
+		</TcTargetDesc>
+	</TargetInfo>
+	<LicenseInfo>
+		<SystemId Level="30" SerialNo="000trc24" MacAddress="000105abf882">{C996A748-8EBF-AA2D-33D7-149934BC91B2}</SystemId>
+		<PurchaseOrder><![CDATA[01773498]]></PurchaseOrder>
+		<CustomOrder><![CDATA[66114699]]></CustomOrder>
+		<IssueTime>2026-05-11T20:18:00</IssueTime>
+		<License>
+			<LicenseId>{A1AF8A04-C08D-4853-A5A0-0E6C3A278A8C}</LicenseId>
+			<Name>TC3 Modbus-RTU</Name>
+			<OrderNo>TF6255</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{66689887-CCBD-452C-AC9A-039D997C6E66}</LicenseId>
+			<Name>TC3 PLC</Name>
+			<OrderNo>TC1200</OrderNo>
+		</License>
+		<License ManuallyAdded="true">
+			<LicenseId>{7BDC6702-5650-4187-BD0F-E83F232C2980}</LicenseId>
+			<Name>TwinCAT UI Client</Name>
+			<OrderNo>TF1200</OrderNo>
+		</License>
+		<License ManuallyAdded="true">
+			<LicenseId>{796D380F-D49E-4C0C-A05F-500052FAC883}</LicenseId>
+			<Name>TC3 HMI Server</Name>
+			<OrderNo>TF2000</OrderNo>
+		</License>
+	</LicenseInfo>
+</TcLicenseInfo>
